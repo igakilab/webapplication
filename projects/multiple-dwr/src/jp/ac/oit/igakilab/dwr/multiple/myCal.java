@@ -21,10 +21,8 @@ public class myCal {
 	}
 
 	public String toString(){
-		return year + "/" + month + "/" + day + " "
-				+ hour + ":" + minute + ":" + second;
+		return String.format("%4d/%02/%02d %02d:%02d:%02d",
+				year, month, day, hour, minute, second);
 	}
-
-
 
 }

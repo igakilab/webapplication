@@ -37,20 +37,21 @@ public class MultiplePrinter {
 
     }
 
-    public String logClear(){
+    public String log_clear(){
     	PrintWriter pw = null;
     	myCal cal = new myCal();
 
     	try {
     		pw = new PrintWriter(
     			new BufferedWriter(
-    				new FileWriter(LOG_FILE,false)
+    				new FileWriter(LOG_FILE, false)
     			)
     		);
 
     		cal.setCalendar(Calendar.getInstance());
-    		pw.println("Log file was cleaned. ([" + cal.toString() + "]<br>");
+    		pw.println("Log file was cleaned. ([" + cal.toString() + "])<br>");
     	}catch(Exception e){
+    		System.err.println("LOG CLEAR ERROR");
 
     	}finally{
     		pw.close();
