@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 
 public class MultiplePrinter {
-	static String LOG_DSTDIR = "../webapps/ROOT/";
+	static String LOG_FILE = "../webapps/ROOT/logs.txt";
 
     public String helloWorld(String name){
     	return name + ":HelloWorld";
@@ -21,7 +21,7 @@ public class MultiplePrinter {
     	try {
     		pw = new PrintWriter(
     			new BufferedWriter(
-    				new FileWriter(LOG_DSTDIR + "logs.txt", true)
+    				new FileWriter(LOG_FILE, true)
     			)
     		);
 
@@ -35,6 +35,28 @@ public class MultiplePrinter {
 
     	return "signined <" + name + ">";
 
+    }
+
+    public String logClear(){
+    	PrintWriter pw = null;
+    	myCal cal = new myCal();
+
+    	try {
+    		pw = new PrintWriter(
+    			new BufferedWriter(
+    				new FileWriter(LOG_FILE,false)
+    			)
+    		);
+
+    		cal.setCalendar(Calendar.getInstance());
+    		pw.println("Log file was cleaned. ([" + cal.toString() + "]<br>");
+    	}catch(Exception e){
+
+    	}finally{
+    		pw.close();
+    	}
+
+    	return "cleaned! (" + cal.toString() + ")";
     }
 
     /*
