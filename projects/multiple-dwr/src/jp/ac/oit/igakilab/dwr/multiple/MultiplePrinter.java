@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 
 public class MultiplePrinter {
+	static String LOG_DSTDIR = "../webapps/ROOT/";
 
     public String helloWorld(String name){
     	return name + ":HelloWorld";
@@ -14,16 +15,18 @@ public class MultiplePrinter {
 
     public String signin(String name){
     	PrintWriter pw = null;
-    	Calendar cal = Calendar.getInstance();
+    	myCal cal = new myCal();
+
 
     	try {
     		pw = new PrintWriter(
     			new BufferedWriter(
-    				new FileWriter("logs.txt", true)
+    				new FileWriter(LOG_DSTDIR + "logs.txt", true)
     			)
     		);
 
-    		pw.println("[" + calToStr(cal) + "]" + "signin : " + name);
+    		cal.setCalendar(Calendar.getInstance());
+    		pw.println("[" + cal.toString() + "] " + "signin : " + name + "<br>");
     	}catch (Exception e){
 
     	}finally {
@@ -34,6 +37,7 @@ public class MultiplePrinter {
 
     }
 
+    /*
     String calToStr(Calendar cal){
     	String str = "";
 
@@ -46,5 +50,6 @@ public class MultiplePrinter {
 
     	return str;
     }
+    */
 
 }
