@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 
 public class MultiplePrinter {
-	static String LOG_FILE = "..\\webapps\\ROOT\\logs.txt";
+	static String LOG_FILE = "../webapps/ROOT/logs.txt";
 
     public String helloWorld(String name){
     	return name + ":HelloWorld";
@@ -16,7 +16,6 @@ public class MultiplePrinter {
     public String signin(String name){
     	PrintWriter pw = null;
     	myCal cal = new myCal();
-
 
     	try {
     		pw = new PrintWriter(
@@ -50,7 +49,8 @@ public class MultiplePrinter {
     		);
 
     		cal.setCalendar(Calendar.getInstance());
-    		pw.println("Log file was cleaned. ([" + cal.toString() + "])<br>");
+    		pw.println("Log file was cleaned in [" + cal.toString() + "]<br>");
+    		pw.println("----------<br>");
     	}catch(Exception e){
     		System.err.println("LOG CLEAR ERROR");
 

@@ -15,7 +15,7 @@ public class myCal {
 		year = cal.get(Calendar.YEAR);
 		month = cal.get(Calendar.MONTH);
 		day = cal.get(Calendar.DATE);
-		hour = cal.get(Calendar.HOUR);
+		hour = cal.get(Calendar.HOUR_OF_DAY);
 		minute = cal.get(Calendar.MINUTE);
 		second = cal.get(Calendar.SECOND);
 	}
