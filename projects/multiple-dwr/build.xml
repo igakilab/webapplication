@@ -21,6 +21,10 @@
   <property name="dest.test.dir" value="${dest.dir}/test-classes" />
   <property name="dest.javadoc.dir" value="${dest.dir}/javadoc" />
 
+  <property name="src.htmlroot.dir" value="HTML_ROOT" />
+  <property name="dest.htmlroot.dir" value="webapps/ROOT/" />
+
+
 
   <property name="war.file"  value="${dest.dir}/${ant.project.name}.war" />
 
@@ -113,6 +117,9 @@
 
   <target name="deploy" depends="build without test">
     <copy file="${war.file}" todir="${tomcat.dir}/webapps" />
+  	<copy todir="${tomcat.dir}/${dest.htmlroot.dir}">
+  		<fileset dir="${src.htmlroot.dir}" />
+  	</copy>
   </target>
 
   <target name="clean">

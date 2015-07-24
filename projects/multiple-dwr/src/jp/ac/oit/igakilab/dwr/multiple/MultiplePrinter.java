@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 
 public class MultiplePrinter {
-	static String LOG_FILE = "../webapps/ROOT/logs.txt";
+	static String LOG_FILE = "..\\webapps\\ROOT\\logs.txt";
 
     public String helloWorld(String name){
     	return name + ":HelloWorld";
@@ -28,12 +28,13 @@ public class MultiplePrinter {
     		cal.setCalendar(Calendar.getInstance());
     		pw.println("[" + cal.toString() + "] " + "signin : " + name + "<br>");
     	}catch (Exception e){
+    		return "SIGNIN ERROR > " + e.toString();
 
     	}finally {
     		pw.close();
     	}
 
-    	return "signined <" + name + ">";
+    	return "signined <" + name + ", [" + cal.toString() + "]>";
 
     }
 

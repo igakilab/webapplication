@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>viewlog</title>
+
+  <style>
+    #show_area{
+      background-color:#eee;
+    }
+  </style>
+
+  <script type="text/javascript" src="lib/json2.js"></script>
+  <script>
+    function dispLog(address){
+      var httpObj = new XMLHttpRequest();
+      httpObj.open("GET", "logs.txt", true); //取得ファイル指定行
+      httpObj.onreadystatechange = function(){
+        if( httpObj.readyState == 4 ){
+          var log_str = httpObj.responseText;
+          document.getElementById("show_area").innerHTML = log_str; //出力領域指定行
+        }
+      }
+      httpObj.send(null);
+    }
+
+    function send_signin(){
+    	var httpObj = new XMLHttpRequest();
+    	var urlHead = "http://150.89.234.234:8080/multiple-dwr/dwr/jsonp/MultiplePrinter/signin/"
+    	var userName = document.forms.signin_property.signin_username.value;
+    	httpObj.open("GET", urlHead + userName, true);
+        httpObj.onreadystatechange = function(){
+            if( httpObj.readyState == 4 ){
+              var j_rsp = JSON.parse(httpObj.responseText);
+              document.getElementById("signin_log_area").innerHTML = j_rsp.reply; //出力領域指定行
+            }
+          }
+          httpObj.send(null);
+    }
+  </script>
+</head>
+
+<body>
+  <h3>材質管理システム</h3>
+  <p><i>by Marshmallow-warriors</i></p>
+  <hr>
+  <h4>サインイン情報を登録する</h4>
+  <p>下のテキストボックスにユーザ名を入力して、送信ボタンをクリックしてください</p>
+  <form id="signin_property">
+  	<input name="ユーザ名" id="signin_username" type="text" value="" />
+  </form>
+  <button type="button" onclick="send_signin();">送信</button>
+  <p id="signin_log_area"></p>
+  <hr>
+  <h4>ログを見る</h4>
+  <p>下の取得ボタンをクリックすると、ログを見れます</p>
+  <button type="button" onclick="dispLog();">取得</button>
+  <p id="show_area"></p>
+</body>
+</html>
