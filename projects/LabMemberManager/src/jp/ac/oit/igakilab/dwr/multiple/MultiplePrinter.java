@@ -40,7 +40,7 @@ public class MultiplePrinter {
 		int list_len;
 		MemberInfo inf;
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
+		
 		list.updateStateList();
 		list_len = list.getMemberNum();
 		for(int i=0; i<list_len; i++){
