@@ -11,38 +11,12 @@
   </style>
 
   <script type="text/javascript" src="lib/json2.js"></script>
+  <script type="text/javascript" src="accessLog.js"></script>
+  <script type="text/javascript" src="sendStateRequest.js"></script>
   <script>
-  /*URLの指定*/
-  var LOG_TXT_URL = "logs.txt";
-  var SIGNIN_URL_HEAD = "http://150.89.234.234:8080/multiple-dwr/dwr/jsonp/MultiplePrinter/signin/";
-
-    function dispLog(address){
-      var httpObj = new XMLHttpRequest();
-      httpObj.open("GET", LOG_TXT_URL, true); //取得ファイル指定行
-      httpObj.onreadystatechange = function(){
-        if( httpObj.readyState == 4 ){
-          var log_str = httpObj.responseText;
-          document.getElementById("show_area").innerHTML = log_str; //出力領域指定行
-        }else{
-          document.getElementById("show_area").innerHTML = "FAILED";
-        }
-      }
-      httpObj.send(null);
-    }
-
-    function send_signin(){
-    	var httpObj = new XMLHttpRequest();
-    	var userName = document.forms.signin_property.signin_username.value;
-    	httpObj.open("GET", SIGNIN_URL_HEAD + userName, true);
-        httpObj.onreadystatechange = function(){
-            if( httpObj.readyState == 4 ){
-              var j_rsp = JSON.parse(httpObj.responseText);
-              document.getElementById("signin_log_area").innerHTML = j_rsp.reply + "\n";
-            }else{
-              document.getElementById("signin_log_area").innerHTML = "FAILED";
-            }
-          }
-          httpObj.send(null);
+    function signin(){
+      var userName = document.forms.user_info.signin_username.value;
+      send_signin(userName, "signin_log_area");
     }
   </script>
 </head>
@@ -57,10 +31,10 @@
   <!-- サインインセクション -->
   <h4>サインイン情報を登録する</h4>
   <p>下のテキストボックスにユーザ名を入力して、送信ボタンをクリックしてください</p>
-  <form id="signin_property">
-  	<input name="ユーザ名" id="signin_username" type="text" value="" />
+  <form id="user_info">
+	  <input name="ユーザ名" id="signin_username" type="text" value="" />
   </form>
-  <button type="button" onclick="send_signin();">送信</button>
+  <button type="button" onclick="signin();">送信</button>
   <p id="signin_log_area"></p>
   <hr>
 
@@ -68,7 +42,7 @@
   <!-- ログビューワ -->
   <h4>ログを見る</h4>
   <p>下の取得ボタンをクリックすると、ログを見れます</p>
-  <button type="button" onclick="dispLog();">取得</button>
+  <button type="button" onclick="getLog();">取得</button>
   <p id="show_area"></p>
 </body>
 </html>

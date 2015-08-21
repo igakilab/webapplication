@@ -33,7 +33,7 @@ public class MultiplePrinter {
     		pw.close();
     	}
 
-    	return "signined <" + name + ", [" + cal.toString() + "]>";
+    	return name + " signined  [" + cal.toString() + "]";
 
     }
 
