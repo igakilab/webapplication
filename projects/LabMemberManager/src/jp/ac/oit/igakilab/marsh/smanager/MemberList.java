@@ -55,7 +55,7 @@ public class MemberList {
 	}
 
 	void deleteTimeoutMember(){
-		for(int i=(mlist.size() - 1); i>=0; i++){
+		for(int i=(mlist.size() - 1); i>=0; i--){
 			if( checkMemberTimeout(mlist.get(i)) ){
 				addLog(mlist.get(i).getName() + "is timeout");
 				deleteMemberInfo(i);

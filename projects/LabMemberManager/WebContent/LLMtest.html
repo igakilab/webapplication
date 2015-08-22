@@ -8,7 +8,7 @@
     <script type="text/javascript" src="dwr/util.js"></script>
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="js/jquery.serialize.js"></script>
-    <script type="text/javascript" src="dwr/interface/LmmManageer.js"></script>
+    <script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
     <script>
     	function sendLogin(){
     		var uname = $("#input_name").val();
@@ -21,20 +21,35 @@
 
     	function get_list(){
     		LmmManager.getMemberList({
-    			callback: function(list){
-    				show_list(list);
+    			callback: function(data){
+    				show_list(data);
     			}
     		});
     	}
 
     	function show_list(list){
-    		$("#memberlist_area").text("");
+    		var nrow;
+
+    		$("#MemberList").text("");
+
+    		nrow = $("<tr></tr>");
+    		nrow.append($("<td></td>").text("NAME"));
+    		nrow.append($("<td></td>").text("STATE"));
+    		nrow.append($("<td></td>").text("LOGIN"));
+    		nrow.append($("<td></td>").text("UPDATE"));
+    		$("#MemberList").append(nrow);
+
     		for(var i=0; i<list.length; i++){
-    			$("#memberlist_area").append(
-    				$("<li></li>").text(list[i])
-    			);
+    			nrow = $("<tr></tr>");
+    			nrow.append($("<td></td>").text(list[i].name));
+    			nrow.append($("<td></td>").text(list[i].stateStr));
+    			nrow.append($("<td></td>").text(list[i].loginDate));
+    			nrow.append($("<td></td>").text(list[i].updateDate));
+
+    			$("#MemberList").append(nrow);
     		}
     	}
+
     </script>
 </head>
 
@@ -48,6 +63,7 @@
 	<hr>
 	<p>現在のメンバーリストを確認する</p>
 	<button type="button" onclick="get_list()">取得</button>
-	<ol id="memberlist_area"></ol>
-</body>
+	<table id="MemberList" border="1"></table>
+	<div id="raw_data"></div>
+	</body>
 </html>

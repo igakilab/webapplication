@@ -26,8 +26,8 @@ public class MemberInfoBean {
 		name = n0;
 		stateCode = s0;
 		stateStr = s1;
-		updateDate= d0;
-		loginDate = d1;
+		loginDate= d0;
+		updateDate = d1;
 	}
 
 	public MemberInfoBean(String n0, int s0, String s1, Date d0, Date d1){

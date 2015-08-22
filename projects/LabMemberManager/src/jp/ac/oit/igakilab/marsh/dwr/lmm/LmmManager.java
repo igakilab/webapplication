@@ -7,6 +7,7 @@ import java.util.List;
 
 import jp.ac.oit.igakilab.marsh.smanager.LogRecorder;
 import jp.ac.oit.igakilab.marsh.smanager.MemberInfo;
+import jp.ac.oit.igakilab.marsh.smanager.MemberInfoBean;
 import jp.ac.oit.igakilab.marsh.smanager.MemberList;
 import jp.ac.oit.igakilab.marsh.smanager.StateList;
 
@@ -43,6 +44,8 @@ public class LmmManager {
 			addLog("<name:" + name + "> new member added");
 		}
 
+		list.updateMemberList();
+
 		return "<name:" + name + "> logined [number of member = " + list.getMemberListLength() + "]";
 	}
 
@@ -50,6 +53,8 @@ public class LmmManager {
 		List<String> ml = new ArrayList<String>();
 		StateList sl = list.getStateList();
 		MemberInfo tmp;
+
+		list.updateMemberList();
 
 		for(int i=0; i<list.getMemberListLength(); i++){
 			tmp = list.getMemberInfo(i);
@@ -62,6 +67,19 @@ public class LmmManager {
 					DF.format(tmp.getUpdateDate())
 				)
 			);
+		}
+
+		return ml;
+	}
+
+	public List<MemberInfoBean> getMemberList(){
+		List<MemberInfoBean> ml = new ArrayList<MemberInfoBean>();
+		StateList sl = list.getStateList();
+
+		list.updateMemberList();
+
+		for(int i=0; i<list.getMemberListLength(); i++){
+			ml.add(new MemberInfoBean(list.getMemberInfo(i), sl));
 		}
 
 		return ml;

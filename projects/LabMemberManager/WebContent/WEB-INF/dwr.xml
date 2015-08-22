@@ -8,7 +8,7 @@
       <param name="class" value="jp.ac.oit.igakilab.marsh.dwr.lmm.LmmManager"/>
     </create>
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
-    <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.*" />
+    <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.lmm.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.*" />
   </allow>
 </dwr>
