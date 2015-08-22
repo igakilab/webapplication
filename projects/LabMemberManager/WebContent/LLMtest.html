@@ -8,11 +8,11 @@
     <script type="text/javascript" src="dwr/util.js"></script>
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="js/jquery.serialize.js"></script>
-    <script type="text/javascript" src="dwr/interface/MultiplePrinter.js"></script>
+    <script type="text/javascript" src="dwr/interface/LmmManageer.js"></script>
     <script>
     	function sendLogin(){
     		var uname = $("#input_name").val();
-    		MultiplePrinter.login(uname, {
+    		LmmManager.login(uname, {
     			callback: function(resp){
     				$("#login_status").text(resp);
     			}
@@ -20,7 +20,7 @@
     	}
 
     	function get_list(){
-    		MultiplePrinter.getMemberList({
+    		LmmManager.getMemberList({
     			callback: function(list){
     				show_list(list);
     			}
