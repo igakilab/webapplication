@@ -3,70 +3,75 @@ package jp.ac.oit.igakilab.marsh.smanager;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MemberInfo{
-	/*定数*/
-	public static final int STATE_IN = 101;
-	public static final int STATE_OUT = 102;
-
-
 	/*インスタンス変数*/
 	String name;
-	Calendar update_date;
-	int state;
+	int stateCode;
+	Date loginDate;
+	Date updateDate;
 
 
 	/*コンストラクタ*/
-	MemberInfo(String n0, int s0, Calendar d0){
-		name = n0;
-		state = s0;
-		update_date = d0;
+	public MemberInfo(String n0, int s0, Date d0, Date d1){
+		setName(n0);
+		setStateCode(s0);
+		setLoginDate(d0);
+		setUpdateDate(d1);
 	}
 
-	MemberInfo(String n0, int s0){
-		this(n0, s0, Calendar.getInstance());
+	public MemberInfo(String n0, int s0){
+		Date now = Calendar.getInstance().getTime();
+
+		setName(n0);
+		setStateCode(s0);
+		setLoginDate(now);
+		setUpdateDate(now);
 	}
 
-	MemberInfo(String n0){
-		this(n0, STATE_IN, Calendar.getInstance());
-	}
 
-
-	/*メソッド*/
+	/*メソッド(get/set)*/
 	public String getName(){
-		return new String(name);
+		return name;
 	}
-
 	public void setName(String n0){
 		name = n0;
 	}
 
-	public int getState(){
-		return state;
+	public int getStateCode(){
+		return stateCode;
+	}
+	public void setStateCode(int s0){
+		stateCode = s0;
 	}
 
-	public void setState(int s0){
-		state = s0;
+	public Date getLoginDate(){
+		return loginDate;
+	}
+	public void setLoginDate(Date d0){
+		loginDate = d0;
 	}
 
-	public Calendar getUpdateDate(){
-		return update_date;
+	public Date getUpdateDate(){
+		return updateDate;
+	}
+	public void setUpdateDate(Date d0){
+		updateDate = d0;
 	}
 
-	public void setUpdateDate(Calendar c0){
-		update_date = c0;
+
+	/*メソッド*/
+	public void updateDate(){
+		updateDate = Calendar.getInstance().getTime();
 	}
 
-	public void setUpdateDateNow(){
-		update_date = Calendar.getInstance();
-	}
 
+	/*デバッグ用等メソッド*/
 	public String toString(){
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		return String.format("%s (%d, %s)",
-			name,
-			state,
-			df.format(update_date)
-		);
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		return String.format("[MI name:%s, state:%d, update:%s]",
+				name, stateCode, df.format(updateDate));
 	}
 }

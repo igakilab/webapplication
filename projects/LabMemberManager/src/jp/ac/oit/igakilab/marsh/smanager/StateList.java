@@ -1,28 +1,36 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StateList {
-	public static final int STATE_IN = MemberInfo.STATE_IN;
-	public static final int STATE_OUT = MemberInfo.STATE_OUT;
-
+	/*定数*/
+	public static final int STATE_NOTFOUND = 8001;
 
 	/*インスタンス変数*/
-	ArrayList<MemberInfo> list;
+	List<StateInfo> list;
 
 
 	/*コンストラクタ*/
 	StateList(){
-		list = new ArrayList<MemberInfo>();
+		list = new ArrayList<StateInfo>();
 	}
 
 
-	/*内部メソッド*/
-	int searchIndexByName(String n0){
+	/*メソッド*/
+	public void addState(StateInfo si){
 		for(int i=0; i<list.size(); i++){
-			if( list.get(i).getName().equals(n0) ){
+			if( si.getName().equals(list.get(i).getName()) ){
+				return;
+			}
+		}
+
+		list.add(si);
+	}
+
+	public int searchStateInfo(int code){
+		for(int i=0; i<list.size(); i++){
+			if( list.get(i).getCode() == code){
 				return i;
 			}
 		}
@@ -30,85 +38,44 @@ public class StateList {
 		return -1;
 	}
 
-
-	/*メソッド*/
-	public void addMember(String name, int state){
-		int idx = searchIndexByName(name);
-		MemberInfo tmp;
-
-		if( idx < 0 ){
-			list.add(new MemberInfo(name, state));
-		}else{
-			tmp = list.get(idx);
-			tmp.setState(state);
-			tmp.setUpdateDateNow();
-		}
-	}
-
-
-	public void deleteMember(String name){
-		int idx = searchIndexByName(name);
+	public String getStateName(int code){
+		int idx = searchStateInfo(code);
 
 		if( idx >= 0 ){
-			list.remove(idx);
+			return list.get(idx).getName();
+		}else{
+			return null;
+		}
+	}
+
+	public int getStateTimeout(int code){
+		int idx = searchStateInfo(code);
+
+		if( idx >= 0){
+			return list.get(idx).getTimeout();
+		}else{
+			return -1;
 		}
 	}
 
 
-	public void deleteMember(int idx){
-		if( idx >= 0 || idx < list.size() ){
-			list.remove(idx);
-		}
+	/*デバッグ等用メソッド*/
+	void clearStateList(){
+		list.clear();
 	}
 
-
-	public int getMemberNum(){
+	int getStateListLength(){
 		return list.size();
 	}
 
+	String[] getStateListString(){
+		int len = list.size();
+		String slist[] = new String[len];
 
-	public MemberInfo getMemberInfo(int idx){
-		if( idx < 0 || idx >= list.size() ){
-			return null;
-		}else{
-			return list.get(idx);
+		for(int i=0; i<len; i++){
+			slist[i] = list.get(i).toString();
 		}
-	}
 
-
-	public MemberInfo getMemberInfoByName(String name){
-		int idx = searchIndexByName(name);
-
-		if( idx < 0 ){
-			return null;
-		}else{
-			return list.get(idx);
-		}
-	}
-
-
-	public void printList(){
-		MemberInfo inf;
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-
-		System.out.format("SIZE = %d\n", list.size());
-		System.out.format("NAME\tSTATE\tDATE\n");
-
-		for(int i=0; i<list.size(); i++){
-			inf = list.get(i);
-
-			System.out.print(inf.getName() + "\t");
-
-			switch( inf.getState() ){
-				case MemberInfo.STATE_IN:
-					System.out.print("SIGNIN");
-					break;
-				default:
-					System.out.print("UNDEFINED");
-					break;
-			}
-			System.out.print("\t");
-			System.out.println(df.format(inf.getUpdateDate().getTime()));
-		}
+		return slist;
 	}
 }

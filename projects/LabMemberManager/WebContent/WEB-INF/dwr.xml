@@ -4,10 +4,11 @@
     "http://getahead.org/dwr//dwr30.dtd">
 <dwr>
   <allow>
-    <create creator="new" javascript="MultiplePrinter" scope="application">
-      <param name="class" value="jp.ac.oit.igakilab.dwr.multiple.MultiplePrinter"/>
+    <create creator="new" javascript="LmmManager" scope="application">
+      <param name="class" value="jp.ac.oit.igakilab.marsh.dwr.LmmManager"/>
     </create>
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
+    <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.*" />
   </allow>
 </dwr>
