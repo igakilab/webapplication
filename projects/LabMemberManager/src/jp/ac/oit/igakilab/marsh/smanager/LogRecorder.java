@@ -42,6 +42,7 @@ public class LogRecorder{
 
 	public void closeFile(){
 		writer.close();
+		writer = null;
 	}
 
 	public void addLog(String msg, boolean timestamp) throws IOException {

@@ -17,7 +17,7 @@ public class LmmManager {
 	LogRecorder logrec;
 
 	/*コンストラクター*/
-	LmmManager(){
+	public LmmManager(){
 		logrec = new LogRecorder("logs.txt", true);
 		addLog("Lmmマネージャが開始しました");
 		list = new MemberList(logrec);
@@ -43,7 +43,7 @@ public class LmmManager {
 			addLog("<name:" + name + "> new member added");
 		}
 
-		return "<name:" + name + "> logined";
+		return "<name:" + name + "> logined [number of member = " + list.getMemberListLength() + "]";
 	}
 
 	public List<String> getMemberListInStringList(){
