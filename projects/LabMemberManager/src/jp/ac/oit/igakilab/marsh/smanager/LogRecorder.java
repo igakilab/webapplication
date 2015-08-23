@@ -45,6 +45,10 @@ public class LogRecorder{
 		writer = null;
 	}
 
+	public boolean isFileOpened(){
+		return writer != null;
+	}
+
 	public void addLog(String msg, boolean timestamp) throws IOException {
 		String str = "";
 

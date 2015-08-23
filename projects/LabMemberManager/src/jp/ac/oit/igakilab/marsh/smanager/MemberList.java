@@ -51,7 +51,7 @@ public class MemberList {
 		long t_update = mi.getUpdateDate().getTime();
 		long timeout_inmillis = slist.getStateTimeout(mi.getStateCode()) * 1000;
 
-		return (t_now - t_update) > timeout_inmillis;
+		return (timeout_inmillis > 0) && ((t_now - t_update) > timeout_inmillis);
 	}
 
 	void deleteTimeoutMember(){
