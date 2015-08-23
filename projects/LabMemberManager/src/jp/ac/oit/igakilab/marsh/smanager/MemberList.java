@@ -1,32 +1,17 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class MemberList {
-	/*スタティック定数*/
-	public static final int STATE_LOGIN = 101;
-
-	/*スタティックメソッド*/
-	static StateList initStateList(){
-		StateList slist = new StateList();
-		slist.addState(new StateInfo(STATE_LOGIN, "LOGIN", 300));
-
-		return slist;
-	}
-
-
 	/*インスタンス変数*/
 	List <MemberInfo> mlist;
-	StateList slist;
 	LogRecorder logrec;
 
 
 	/*コンストラクタ*/
 	public MemberList(){
 		mlist = new ArrayList<MemberInfo>();
-		slist = initStateList();
 	}
 
 	public MemberList(LogRecorder rec){
@@ -46,23 +31,6 @@ public class MemberList {
 		return -1;
 	}
 
-	boolean checkMemberTimeout(MemberInfo mi){
-		long t_now = Calendar.getInstance().getTimeInMillis();
-		long t_update = mi.getUpdateDate().getTime();
-		long timeout_inmillis = slist.getStateTimeout(mi.getStateCode()) * 1000;
-
-		return (timeout_inmillis > 0) && ((t_now - t_update) > timeout_inmillis);
-	}
-
-	void deleteTimeoutMember(){
-		for(int i=(mlist.size() - 1); i>=0; i--){
-			if( checkMemberTimeout(mlist.get(i)) ){
-				addLog(mlist.get(i).getName() + "is timeout");
-				deleteMemberInfo(i);
-			}
-		}
-	}
-
 	void addLog(String msg){
 		if( logrec != null ){
 			logrec.addSingleLog("MemberList: " + msg, true);
@@ -72,36 +40,51 @@ public class MemberList {
 	/*操作メソッド*/
 	public void addMemberInfo(MemberInfo mi){
 		if( searchMemberInfoByName(mi.getName()) < 0 ){
-			addLog("<name:" + mi.getName() + "> added");
 			mlist.add(mi);
+			addLog(String.format("<name:%s> added", mi.getName()));
+		}
+	}
+
+	public void setMemberInfo(MemberInfo mi){
+		int idx = searchMemberInfoByName(mi.getName());
+
+		if( idx >= 0 ){
+			mlist.get(idx).setMemberInfo(mi);
+			mlist.get(idx).updateDate();
+			addLog(String.format("<name:%s> updated", mi.getName()));
+		}else{
+			addMemberInfo(mi);
 		}
 	}
 
 	public void deleteMemberInfo(int idx){
-		if( !(idx < 0 || idx >= mlist.size()) ){
-			addLog("<name:" + mlist.get(idx).getName() + "> deleted");
+		if( idx >= 0 && idx < mlist.size() ){
+			addLog(String.format("<name:%s> deleted", mlist.get(idx).getName()));
 			mlist.remove(idx);
 		}
 	}
 
 	public void deleteMemberInfo(String name){
 		int idx = searchMemberInfoByName(name);
+
 		if( idx >= 0 ){
 			deleteMemberInfo(idx);
 		}
 	}
 
 	public MemberInfo getMemberInfo(int idx){
-		if( !(idx < 0 || idx >= mlist.size()) ){
+		if( idx >= 0 && idx < mlist.size() ){
 			return mlist.get(idx);
+		}else{
+			return null;
 		}
-		return null;
 	}
 
 	public MemberInfo getMemberInfo(String name){
 		int idx = searchMemberInfoByName(name);
+
 		if( idx >= 0 ){
-			return mlist.get(idx);
+			return getMemberInfo(idx);
 		}else{
 			return null;
 		}
@@ -111,18 +94,6 @@ public class MemberList {
 		return searchMemberInfoByName(name) >= 0;
 	}
 
-	public boolean isMemberInfoRegisted(MemberInfo mi){
-		return isMemberInfoRegisted(mi.getName());
-	}
-
-	public String getStateName(int state_code){
-		return slist.getStateName(state_code);
-	}
-
-	public void updateMemberList(){
-		addLog("MemberList update");
-		deleteTimeoutMember();
-	}
 
 	/*情報取得メソッド*/
 	public void setLogRecorder(LogRecorder recorder){
@@ -131,9 +102,5 @@ public class MemberList {
 
 	public int getMemberListLength(){
 		return mlist.size();
-	}
-
-	public StateList getStateList(){
-		return slist;
 	}
 }

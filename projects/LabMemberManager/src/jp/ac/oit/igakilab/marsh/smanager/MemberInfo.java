@@ -21,13 +21,22 @@ public class MemberInfo{
 		setUpdateDate(d1);
 	}
 
-	public MemberInfo(String n0, int s0){
-		Date now = Calendar.getInstance().getTime();
-
+	public MemberInfo(String n0, int s0, Date d0){
 		setName(n0);
 		setStateCode(s0);
-		setLoginDate(now);
-		setUpdateDate(now);
+		setLoginDate(d0);
+		setUpdateDate(Calendar.getInstance().getTime());
+	}
+
+	public MemberInfo(String n0, int s0){
+		setName(n0);
+		setStateCode(s0);
+		setLoginDate(Calendar.getInstance().getTime());
+		setUpdateDate(Calendar.getInstance().getTime());
+	}
+
+	public MemberInfo(){
+		initMemberInfo();
 	}
 
 
@@ -62,6 +71,34 @@ public class MemberInfo{
 
 
 	/*メソッド*/
+	public void initMemberInfo(){
+		name = "";
+		stateCode = 0;
+		loginDate = null;
+		updateDate = null;
+	}
+
+	public boolean setMemberInfo(MemberInfo mi){
+		boolean set = false;
+
+		if( this.name.equals(mi.name) ){
+			if( mi.stateCode != 0 ){
+				this.stateCode = mi.stateCode;
+				set = true;
+			}
+			if( mi.loginDate != null ){
+				this.loginDate = mi.loginDate;
+				set = true;
+			}
+			if( mi.updateDate != null ){
+				this.updateDate = mi.updateDate;
+				set = true;
+			}
+		}
+
+		return set;
+	}
+
 	public void updateDate(){
 		updateDate = Calendar.getInstance().getTime();
 	}
