@@ -1,4 +1,4 @@
-## MultiplePrinterの呼び出し方
+﻿## MultiplePrinterの呼び出し方
 
 JavaScriptの例を以下に示します。
 
