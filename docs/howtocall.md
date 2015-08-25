@@ -1,4 +1,4 @@
-## MultiplePrinterの呼び出し方
+﻿## MultiplePrinterの呼び出し方
 
 JavaScriptの例を以下に示します。
 
@@ -21,3 +21,5 @@ callback: の後には、呼び出したメソッドが終了した際に実行�
   }
 });
 ```
+
+2015/08/23
