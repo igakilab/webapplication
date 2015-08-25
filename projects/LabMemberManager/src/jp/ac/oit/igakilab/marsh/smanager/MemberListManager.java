@@ -4,8 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MemberListManager {
-	static final int STATE_LOGOUT = 101;
-	static final int STATE_LOGIN = 102;
+	public static final int STATE_LOGOUT = 101;
+	public static final int STATE_LOGIN = 102;
 
 	static StateList createStateList(){
 		StateList sl = new StateList();
@@ -58,7 +58,7 @@ public class MemberListManager {
 	public void setMemberState(String name, int state_code){
 		MemberInfo mi;
 
-		if( mlist.isMemberInfoRegisted(name) ){
+		if( !mlist.isMemberInfoRegisted(name) ){
 			addMember(name, state_code);
 		}else{
 			mi = mlist.getMemberInfo(name);
@@ -97,6 +97,10 @@ public class MemberListManager {
 		}
 
 		return mil;
+	}
+
+	public int getMemberCount(){
+		return mlist.getMemberListLength();
 	}
 
 

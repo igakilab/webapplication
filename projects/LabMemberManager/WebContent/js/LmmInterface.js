@@ -25,7 +25,9 @@ function LmmAddMemberListToTable(id){
 				$("#" + id).append(
 					$("<tr></tr>").append(
 						$("<td></td>").text(list[i].name),
-						$("<td></td>").text(list[i].stateStr)
+						$("<td></td>").text(list[i].stateStr),
+						$("<td></td>").text(list[i].loginDate),
+						$("<td></td>").text(list[i].updateDate)
 					)
 				);
 			}
