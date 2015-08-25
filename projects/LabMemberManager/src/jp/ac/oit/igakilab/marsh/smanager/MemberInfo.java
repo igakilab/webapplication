@@ -1,77 +1,95 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class MemberInfo{
+	/*スタティック変数*/
+	public static final int STATE_UNDEFINED = 8101;
+
+
+	/*スタティックメソッド*/
+	static boolean checkStateTimeout(StateList slist, int code, Date tstamp){
+		long t_out = slist.getStateTimeout(code) * 1000;
+		long t_now = Calendar.getInstance().getTimeInMillis();
+		long t_stp = tstamp.getTime();
+
+		return (
+			(t_out > 0) &&
+			((t_now - t_stp) > t_out)
+		);
+	}
+
+
 	/*インスタンス変数*/
-	String name;
-	int stateCode;
-	Date loginDate;
-	Date updateDate;
+	private String name;
+	private ActionRecord[] records;
 
-
-	/*コンストラクタ*/
-	public MemberInfo(String n0, int s0, Date d0, Date d1){
-		setName(n0);
-		setStateCode(s0);
-		setLoginDate(d0);
-		setUpdateDate(d1);
-	}
-
-	public MemberInfo(String n0, int s0){
-		Date now = Calendar.getInstance().getTime();
-
-		setName(n0);
-		setStateCode(s0);
-		setLoginDate(now);
-		setUpdateDate(now);
+	public MemberInfo(String n0, RecordList l0){
+		name = n0;
+		updateRecordList(l0);
 	}
 
 
-	/*メソッド(get/set)*/
+	/*情報取得(基本)メソッド*/
 	public String getName(){
 		return name;
 	}
-	public void setName(String n0){
-		name = n0;
+
+
+	public int getStateCode(StateList slist){
+		int tmp;
+
+		for(int i=0; i<records.length; i++){
+			tmp = records[i].getStateCode();
+			if( slist.isStateRegisted(tmp) ){
+				if( !checkStateTimeout(slist, tmp, records[i].getTimeStamp()) ){
+					return tmp;
+				}
+			}
+		}
+
+		return STATE_UNDEFINED;
 	}
 
-	public int getStateCode(){
-		return stateCode;
-	}
-	public void setStateCode(int s0){
-		stateCode = s0;
-	}
-
-	public Date getLoginDate(){
-		return loginDate;
-	}
-	public void setLoginDate(Date d0){
-		loginDate = d0;
-	}
 
 	public Date getUpdateDate(){
-		return updateDate;
-	}
-	public void setUpdateDate(Date d0){
-		updateDate = d0;
-	}
-
-
-	/*メソッド*/
-	public void updateDate(){
-		updateDate = Calendar.getInstance().getTime();
+		if( records.length > 0 ){
+			return records[0].getTimeStamp();
+		}else{
+			return null;
+		}
 	}
 
 
-	/*デバッグ用等メソッド*/
-	public String toString(){
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	/*情報取得(応用)メソッド*/
+	public Date getStateUpdateDate(int code){
+		int i;
 
-		return String.format("[MI name:%s, state:%d, update:%s]",
-				name, stateCode, df.format(updateDate));
+		i = 0;
+		while( (i < records.length) && (records[i].getStateCode() != code) ){
+			i++;
+		}
+
+		/*最終まで到達したためアウト*/
+		if( i >= records.length ) return null;
+
+		while( (i < records.length) && (records[i].getStateCode() == code) ){
+			i++;
+		}
+
+		return records[i-1].getTimeStamp();
+	}
+
+
+	/*パラメータ更新*/
+	public void updateRecordList(RecordList list){
+		records = list.getRecordListByName(name);
+	}
+
+
+	/*情報取得(内部的)メソッド*/
+	public ActionRecord[] getRecordList(){
+		return records;
 	}
 }

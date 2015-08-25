@@ -58,6 +58,10 @@ public class StateList {
 		}
 	}
 
+	public boolean isStateRegisted(int code){
+		return searchStateInfo(code) >= 0;
+	}
+
 
 	/*デバッグ等用メソッド*/
 	void clearStateList(){
