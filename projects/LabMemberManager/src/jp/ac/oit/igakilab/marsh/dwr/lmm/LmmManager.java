@@ -2,23 +2,25 @@ package jp.ac.oit.igakilab.marsh.dwr.lmm;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import jp.ac.oit.igakilab.marsh.smanager.LogRecorder;
 import jp.ac.oit.igakilab.marsh.smanager.MemberInfo;
 import jp.ac.oit.igakilab.marsh.smanager.MemberInfoBean;
-import jp.ac.oit.igakilab.marsh.smanager.MemberListManager;
+import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
+import jp.ac.oit.igakilab.marsh.smanager.StateList;
 
 public class LmmManager {
 	static DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	MemberListManager list;
+	MemberStateManager manager;
 	LogRecorder logrec;
 
 	/*コンストラクター*/
 	public LmmManager(){
 		logrec = new LogRecorder("logs.txt", true);
 		addLog("Lmmマネージャが開始しました");
-		list = new MemberListManager();
+		manager = new MemberStateManager();
 	}
 
 
@@ -27,28 +29,34 @@ public class LmmManager {
 	}
 
 
-	public String login(String name){
-		list.setMemberState(name, MemberListManager.STATE_LOGIN);
 
-		return String.format("[%s] logined (now login %d)",
-			name, list.getMemberCount()
-		);
+	/*操作*/
+	public String login(String name){
+		manager.addMemberState(name, MemberStateManager.STATE_LOGIN);
+
+		return "[" + name + "] login (" + DF.format(Calendar.getInstance().getTime()) + ")";
 	}
 
 
-	public MemberInfoBean[] getMemberList(){
-		MemberInfo[] mlist;
-		MemberInfoBean[] bean;
-		int len;
+	public String logout(String name){
+		manager.addMemberState(name, MemberStateManager.STATE_LOGOUT);
 
-		mlist = list.getMemberInfoList();
-		len = mlist.length;
-		bean = new MemberInfoBean[len];
+		return "[" + name + "] logout(" + DF.format(Calendar.getInstance().getTime()) + ")";
+	}
+
+
+	public MemberInfoBean[] getMemberInfo(){
+		MemberInfo[] info = manager.getMemberInfoList();
+		MemberInfoBean[] bean = new MemberInfoBean[info.length];
+		StateList slist = manager.getStateList();
+		int len = info.length;
 
 		for(int i=0; i<len; i++){
-			bean[i] = new MemberInfoBean(mlist[i], list.getStateList());
+			bean[i] = new MemberInfoBean(info[i], slist);
 		}
 
 		return bean;
 	}
+
+
 }

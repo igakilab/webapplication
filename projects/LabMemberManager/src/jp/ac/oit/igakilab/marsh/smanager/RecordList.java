@@ -15,6 +15,11 @@ public class RecordList {
 	}
 
 
+	public RecordList(List<ActionRecord> l0){
+		list = l0;
+	}
+
+
 	/*メソッド*/
 	public void addRecord(ActionRecord rec){
 		int i;
@@ -56,7 +61,7 @@ public class RecordList {
 	}
 
 
-	public ActionRecord[] getRecordListByName(String name){
+	public List<ActionRecord> getRecordListByName(String name){
 		List<ActionRecord> hit = new ArrayList<ActionRecord>();
 
 		for(int i=0; i<list.size(); i++){
@@ -65,11 +70,11 @@ public class RecordList {
 			}
 		}
 
-		return hit.toArray(new ActionRecord[0]);
+		return hit;
 	}
 
 
-	public ActionRecord[] getRecordListByRecentTime(Date time){
+	public List<ActionRecord> getRecordListByRecentTime(Date time){
 		List<ActionRecord> hit = new ArrayList<ActionRecord>();
 
 		for(int i=0; i<list.size(); i++){
@@ -78,6 +83,6 @@ public class RecordList {
 			}
 		}
 
-		return hit.toArray(new ActionRecord[0]);
+		return hit;
 	}
 }

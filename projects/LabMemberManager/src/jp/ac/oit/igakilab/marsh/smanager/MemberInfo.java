@@ -84,7 +84,8 @@ public class MemberInfo{
 
 	/*パラメータ更新*/
 	public void updateRecordList(RecordList list){
-		records = list.getRecordListByName(name);
+		RecordList tmp = new RecordList(list.getRecordListByName(name));
+		records = tmp.getRecordListArray();
 	}
 
 
