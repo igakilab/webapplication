@@ -1,0 +1,14 @@
+ƒƒ\ƒbƒhˆê——
+
+public void addMember(String name, int state_code);
+public void setMemberState(String name, int state_code);
+
+
+public MemberInfo getMemberInfo(int idx);
+public MemberInfo getMemberInfo(String name);
+public MemberInfo[] getMemberList();
+
+
+public StateList getStateList();
+public String getStateName(int code);
+
