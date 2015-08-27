@@ -11,33 +11,73 @@
     <script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
     <script type="text/javascript" src="js/LmmInterface.js"></script>
     <script>
-    	function sendLogin(){
-    		var uname = $("#input_name").val();
+    	//アクションを登録する
+    	function action_login(){
+    		var uname = $("#name_input").val();
     		LmmLogin(uname, function(rep){
-    			alert(rep);
+    			$("#action_reply").text(rep);
     		});
     	}
 
-    	function get_list(){
-    		LmmAddMemberListToTable("MemberList");
+    	function action_logout(){
+    		var uname = $("#name_input").val();
+    		LmmLogout(uname, function(rep){
+    			$("#action_reply").text(rep);
+    		});
     	}
 
+    	//レコードを確認する
+    	function updateRecordTable(){
+    		$("#MemList").empty();
+    		$("#RecordList").empty();
+    		$("#MemberRecordList").empty();
+
+    		LmmAddMemberListToTable("MemList");
+
+    		LmmGetActionRecordList(function(data){
+    			addRecordTable($("#RecordList"), data);
+    		});
+
+    		addMemberRecordTable($("MemberRecordList"));
+    	}
+
+    	function addRecordTable(element, recobj){
+    		var tmp = $("<table></table>");
+    		tmp.attr("border", "1");
+    		LmmAddRecordObjectToTable(tmp, recobj);
+    		element.append(tmp);
+    	}
+
+    	function addMemberRecordTable(element){
+    		LmmGetMemberList(function(member_list){
+    			var rectmp;
+    			for(var i=0; i<member_list.length; i++){
+    				LmmGetActionRecordListByName(member_list[i].name, function(rec){
+    					addRecordTable(element, rec);
+    				});
+    			}
+    		});
+    	}
     </script>
 </head>
 
 <body>
 	<h3>LabMemberManagerテストページ</h3>
+	<i>Version: record-system</i>
+
 	<hr>
-	<p>サインイン情報を登録する</p>
-	<input id="input_name" type="text"></input>
-	<button type="button" onclick="sendLogin()">送信</button>
-	<div id="login_status"></div>
+
+	<h4>アクションを登録する</h4>
+	名前: <input id="name_input" type="text"></input><br>
+	<button type="button" onclick="action_login()">LOGIN</button>
+	<button type="button" onclick="action_logout()">LOGOUT</button>
+	<p id="action_reply"></p>
+
 	<hr>
-	<p>現在のメンバーリストを確認する</p>
-	<button type="button" onclick="get_list()">取得</button>
-	<table id="MemberList" border="1">
-		<tr><td>Name</td><td>State</td><td>LoginDate</td><td>Update</td></tr>
-	</table>
-	<div id="raw_data"></div>
-	</body>
+
+	<h4>レコードを確認する</h4>
+	<button type="button" onclick="updateRecordTable()">更新</button>
+	<table id="MemList" border="1"></table>
+	<div id="RecordList"></div>
+	<div id="MemberRecordList"></div>
 </html>

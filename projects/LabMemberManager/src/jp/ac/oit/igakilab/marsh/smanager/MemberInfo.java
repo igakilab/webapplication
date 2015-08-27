@@ -28,6 +28,11 @@ public class MemberInfo{
 		}
 	}
 
+	public static StateList getStateList(){
+		initStateList();
+		return STATE_LIST;
+	}
+
 
 	/*インスタンス変数*/
 	private String name;
@@ -38,6 +43,7 @@ public class MemberInfo{
 	public MemberInfo(String n0, RecordList l0){
 		name = n0;
 		updateRecordList(l0);
+		initStateList();
 	}
 
 
@@ -104,10 +110,5 @@ public class MemberInfo{
 	/*情報取得(内部的)メソッド*/
 	public ActionRecord[] getRecordList(){
 		return records;
-	}
-
-
-	public StateList getStateList(){
-		return STATE_LIST;
 	}
 }

@@ -15,7 +15,7 @@ class FilteredRecordList extends RecordList {
 
 	/*メソッド*/
 	public void takeRecordByName(String name){
-		for(int i=(recs.size() - 1); i>=0; i++){
+		for(int i=(recs.size() - 1); i>=0; i--){
 			if( !(recs.get(i).getName().equals(name)) ){
 				recs.remove(i);
 			}
