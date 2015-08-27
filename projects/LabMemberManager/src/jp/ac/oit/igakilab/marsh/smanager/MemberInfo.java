@@ -5,19 +5,27 @@ import java.util.Date;
 
 public class MemberInfo{
 	/*スタティック変数*/
-	public static final int STATE_UNDEFINED = 8101;
+	public static final int STATE_LOGIN = 101;
+	public static final int STATE_LOGOUT = 102;
+	public static final int STATE_UNDEF = 191;
 
+	static StateList STATE_LIST = null;
 
 	/*スタティックメソッド*/
-	static boolean checkStateTimeout(StateList slist, int code, Date tstamp){
-		long t_out = slist.getStateTimeout(code) * 1000;
+	static boolean checkStateTimeout(Date tstamp, int timeout){
 		long t_now = Calendar.getInstance().getTimeInMillis();
 		long t_stp = tstamp.getTime();
+		long t_out = timeout * 1000;
 
-		return (
-			(t_out > 0) &&
-			((t_now - t_stp) > t_out)
-		);
+		return (t_out > 0) && ((t_now - t_stp) > t_out);
+	}
+
+	static void initStateList(){
+		if( STATE_LIST == null ){
+			STATE_LIST = new StateList();
+			STATE_LIST.addState(new StateInfo(STATE_LOGIN, "LOGIN", 300));
+			STATE_LIST.addState(new StateInfo(STATE_LOGOUT, "LOGOUT", 0));
+		}
 	}
 
 
@@ -25,6 +33,8 @@ public class MemberInfo{
 	private String name;
 	private ActionRecord[] records;
 
+
+	/*コンストラクタ*/
 	public MemberInfo(String n0, RecordList l0){
 		name = n0;
 		updateRecordList(l0);
@@ -37,19 +47,20 @@ public class MemberInfo{
 	}
 
 
-	public int getStateCode(StateList slist){
-		int tmp;
+	public int getStateCode(){
+		int state_code = STATE_UNDEF;
 
-		for(int i=0; i<records.length; i++){
-			tmp = records[i].getStateCode();
-			if( slist.isStateRegisted(tmp) ){
-				if( !checkStateTimeout(slist, tmp, records[i].getTimeStamp()) ){
-					return tmp;
-				}
+		if( records.length > 0 ){
+			state_code = records[0].getStateCode();
+		}
+
+		if( STATE_LIST.isStateRegisted(state_code) ){
+			if( !checkStateTimeout(records[0].getTimeStamp(), STATE_LIST.getStateTimeout(state_code)) ){
+				return state_code;
 			}
 		}
 
-		return STATE_UNDEFINED;
+		return STATE_UNDEF;
 	}
 
 
@@ -84,13 +95,19 @@ public class MemberInfo{
 
 	/*パラメータ更新*/
 	public void updateRecordList(RecordList list){
-		RecordList tmp = new RecordList(list.getRecordListByName(name));
-		records = tmp.getRecordListArray();
+		FilteredRecordList frl = new FilteredRecordList(list);
+		frl.takeRecordByName(name);
+		records = frl.toArray();
 	}
 
 
 	/*情報取得(内部的)メソッド*/
 	public ActionRecord[] getRecordList(){
 		return records;
+	}
+
+
+	public StateList getStateList(){
+		return STATE_LIST;
 	}
 }

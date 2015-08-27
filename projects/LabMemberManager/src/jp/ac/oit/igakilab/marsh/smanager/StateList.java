@@ -44,7 +44,7 @@ public class StateList {
 		if( idx >= 0 ){
 			return list.get(idx).getName();
 		}else{
-			return null;
+			return "UNDEFINED";
 		}
 	}
 

@@ -37,9 +37,9 @@ public class MemberInfoBean {
 	public MemberInfoBean(MemberInfo mi, StateList sl){
 		this(
 			mi.getName(),
-			mi.getStateCode(sl),
-			sl.getStateName(mi.getStateCode(sl)),
-			gdf.format(mi.getStateUpdateDate(mi.getStateCode(sl))),
+			mi.getStateCode(),
+			sl.getStateName(mi.getStateCode()),
+			gdf.format(mi.getStateUpdateDate(mi.getStateCode())),
 			gdf.format(mi.getUpdateDate())
 		);
 	}
@@ -55,7 +55,7 @@ public class MemberInfoBean {
 	public MemberInfoBean(MemberInfo mi){
 		this(
 			mi.getName(),
-			MemberInfo.STATE_UNDEFINED,
+			MemberInfo.STATE_UNDEF,
 			"",
 			"",
 			gdf.format(mi.getUpdateDate())
