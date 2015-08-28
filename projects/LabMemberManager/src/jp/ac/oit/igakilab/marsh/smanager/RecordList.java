@@ -29,7 +29,7 @@ public class RecordList{
 
 		while(
 			(i < recs.size()) &&
-			(recs.get(i).getTimeStamp().compareTo(ar.getTimeStamp()) < 0)
+			(recs.get(i).getTimeStamp().compareTo(ar.getTimeStamp()) > 0)
 		){
 			i++;
 		}

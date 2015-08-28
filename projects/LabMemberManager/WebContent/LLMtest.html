@@ -38,7 +38,7 @@
     			addRecordTable($("#RecordList"), data);
     		});
 
-    		addMemberRecordTable($("MemberRecordList"));
+    		addMemberRecordTable($("#MemberRecordList"));
     	}
 
     	function addRecordTable(element, recobj){
@@ -49,10 +49,10 @@
     	}
 
     	function addMemberRecordTable(element){
-    		LmmGetMemberList(function(member_list){
-    			var rectmp;
+    		LmmGetMemberList(function (member_list){
     			for(var i=0; i<member_list.length; i++){
     				LmmGetActionRecordListByName(member_list[i].name, function(rec){
+    					element.append($("<tr></tr>").append($("<td></td>").text(rec[0].name)));
     					addRecordTable(element, rec);
     				});
     			}

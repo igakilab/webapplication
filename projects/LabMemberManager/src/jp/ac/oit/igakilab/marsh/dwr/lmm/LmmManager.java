@@ -65,7 +65,7 @@ public class LmmManager {
 	}
 
 
-	public ActionRecordBean[] getActionRecordList(String name){
+	public ActionRecordBean[] getMemberActionRecordList(String name){
 		ActionRecord[] raw = manager.getMemberInfo(name).getRecordList();
 		ActionRecordBean[] bean = new ActionRecordBean[raw.length];
 

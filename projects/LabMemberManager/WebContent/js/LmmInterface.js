@@ -64,7 +64,7 @@ function LmmGetActionRecordList(cbf){
 //ActionRecordBean型配列で取得する関数
 //name: 名前(文字列), cbf: コールバック関数(関数)
 function LmmGetActionRecordListByName(name, cbf){
-	LmmManager.getActionRecordList(name, {
+	LmmManager.getMemberActionRecordList(name, {
 		callback: cbf
 	});
 }
