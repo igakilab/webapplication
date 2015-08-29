@@ -56,8 +56,8 @@ public class MemberInfoBean {
 		this(
 			mi.getName(),
 			mi.getStateCode(),
-			"",
 			MemberInfo.getStateList().getStateName(mi.getStateCode()),
+			"",
 			gdf.format(mi.getUpdateDate())
 		);
 	}

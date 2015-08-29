@@ -44,6 +44,14 @@ public class LmmManager {
 	}
 
 
+	public MemberInfoBean getMemberInfo(String name){
+		MemberInfo minf = manager.getMemberInfo(name);
+		MemberInfoBean bean = new MemberInfoBean(minf);
+
+		return bean;
+	}
+
+
 	public MemberInfoBean[] getMemberList(){
 		MemberInfo[] mlist = manager.getMemberInfoList();
 		MemberInfoBean[] bean = new MemberInfoBean[mlist.length];
