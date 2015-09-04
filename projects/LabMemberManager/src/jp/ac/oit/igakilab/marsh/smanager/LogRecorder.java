@@ -67,7 +67,6 @@ public class LogRecorder{
 			try {
 				addLog(msg, timestamp);
 			}catch(IOException e){
-				closeFile();
 			}
 		}else{
 			try {

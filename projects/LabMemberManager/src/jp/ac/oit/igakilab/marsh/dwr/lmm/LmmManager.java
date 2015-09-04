@@ -2,86 +2,84 @@ package jp.ac.oit.igakilab.marsh.dwr.lmm;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 
+import jp.ac.oit.igakilab.marsh.smanager.ActionRecord;
+import jp.ac.oit.igakilab.marsh.smanager.ActionRecordBean;
 import jp.ac.oit.igakilab.marsh.smanager.LogRecorder;
 import jp.ac.oit.igakilab.marsh.smanager.MemberInfo;
 import jp.ac.oit.igakilab.marsh.smanager.MemberInfoBean;
-import jp.ac.oit.igakilab.marsh.smanager.MemberList;
-import jp.ac.oit.igakilab.marsh.smanager.StateList;
+import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
 
 public class LmmManager {
 	static DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	MemberList list;
+	MemberStateManager manager;
 	LogRecorder logrec;
 
 	/*コンストラクター*/
 	public LmmManager(){
 		logrec = new LogRecorder("logs.txt", true);
 		addLog("Lmmマネージャが開始しました");
-		list = new MemberList(logrec);
+		manager = new MemberStateManager();
 	}
+
 
 	void addLog(String msg){
-		if( logrec != null ){
-			logrec.addSingleLog("LMMM: " + msg, true);
-		}
+		logrec.addSingleLog("Lmm: " + msg, true);
 	}
 
+
+
+	/*操作*/
 	public String login(String name){
-		MemberInfo inf;
-
-		if( list.isMemberInfoRegisted(name) ){
-			inf = list.getMemberInfo(name);
-			inf.setStateCode(MemberList.STATE_LOGIN);
-			inf.updateDate();
-			addLog("<name:" + name + "> state updated");
-		}else{
-			inf = new MemberInfo(name, MemberList.STATE_LOGIN);
-			list.addMemberInfo(inf);
-			addLog("<name:" + name + "> new member added");
-		}
-
-		list.updateMemberList();
-
-		return "<name:" + name + "> logined [number of member = " + list.getMemberListLength() + "]";
+		manager.addMemberState(name, MemberStateManager.STATE_LOGIN);
+		return "[" + name + "] login (" + DF.format(Calendar.getInstance().getTime()) + ")";
 	}
 
-	public List<String> getMemberListInStringList(){
-		List<String> ml = new ArrayList<String>();
-		StateList sl = list.getStateList();
-		MemberInfo tmp;
 
-		list.updateMemberList();
-
-		for(int i=0; i<list.getMemberListLength(); i++){
-			tmp = list.getMemberInfo(i);
-			ml.add(
-				String.format("[%2d] NAME:%s, STATE:%s, LOGIN:%s, UPDATE:%s",
-					i,
-					tmp.getName(),
-					sl.getStateName(tmp.getStateCode()),
-					DF.format(tmp.getLoginDate()),
-					DF.format(tmp.getUpdateDate())
-				)
-			);
-		}
-
-		return ml;
+	public String logout(String name){
+		manager.addMemberState(name, MemberStateManager.STATE_LOGOUT);
+		return "[" + name + "] logout(" + DF.format(Calendar.getInstance().getTime()) + ")";
 	}
 
-	public List<MemberInfoBean> getMemberList(){
-		List<MemberInfoBean> ml = new ArrayList<MemberInfoBean>();
-		StateList sl = list.getStateList();
 
-		list.updateMemberList();
+	public MemberInfoBean getMemberInfo(String name){
+		MemberInfo minf = manager.getMemberInfo(name);
+		MemberInfoBean bean = new MemberInfoBean(minf);
 
-		for(int i=0; i<list.getMemberListLength(); i++){
-			ml.add(new MemberInfoBean(list.getMemberInfo(i), sl));
+		return bean;
+	}
+
+
+	public MemberInfoBean[] getMemberList(){
+		MemberInfo[] mlist = manager.getMemberInfoList();
+		MemberInfoBean[] bean = new MemberInfoBean[mlist.length];
+		for(int i=0; i<mlist.length; i++){
+			bean[i] = new MemberInfoBean(mlist[i]);
 		}
+		return bean;
+	}
 
-		return ml;
+
+	public ActionRecordBean[] getActionRecordList(){
+		ActionRecord[] raw = manager.getRecordListObject().toArray();
+		ActionRecordBean[] bean = new ActionRecordBean[raw.length];
+
+		for(int i=0; i<raw.length; i++){
+			bean[i] = new ActionRecordBean(raw[i], MemberInfo.getStateList());
+		}
+		return bean;
+	}
+
+
+	public ActionRecordBean[] getMemberActionRecordList(String name){
+		ActionRecord[] raw = manager.getMemberInfo(name).getRecordList();
+		ActionRecordBean[] bean = new ActionRecordBean[raw.length];
+
+		for(int i=0; i<raw.length; i++){
+			bean[i] = new ActionRecordBean(raw[i], MemberInfo.getStateList());
+		}
+		return bean;
 	}
 }

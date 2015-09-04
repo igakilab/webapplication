@@ -44,7 +44,7 @@ public class StateList {
 		if( idx >= 0 ){
 			return list.get(idx).getName();
 		}else{
-			return null;
+			return "UNDEFINED";
 		}
 	}
 
@@ -56,6 +56,10 @@ public class StateList {
 		}else{
 			return -1;
 		}
+	}
+
+	public boolean isStateRegisted(int code){
+		return searchStateInfo(code) >= 0;
 	}
 
 

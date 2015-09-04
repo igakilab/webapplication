@@ -9,61 +9,75 @@
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="js/jquery.serialize.js"></script>
     <script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="js/LmmInterface.js"></script>
     <script>
-    	function sendLogin(){
-    		var uname = $("#input_name").val();
-    		LmmManager.login(uname, {
-    			callback: function(resp){
-    				$("#login_status").text(resp);
-    			}
+    	//アクションを登録する
+    	function action_login(){
+    		var uname = $("#name_input").val();
+    		LmmLogin(uname, function(rep){
+    			$("#action_reply").text(rep);
     		});
     	}
 
-    	function get_list(){
-    		LmmManager.getMemberList({
-    			callback: function(data){
-    				show_list(data);
-    			}
+    	function action_logout(){
+    		var uname = $("#name_input").val();
+    		LmmLogout(uname, function(rep){
+    			$("#action_reply").text(rep);
     		});
     	}
 
-    	function show_list(list){
-    		var nrow;
+    	//レコードを確認する
+    	function updateRecordTable(){
+    		$("#MemList").empty();
+    		$("#RecordList").empty();
+    		$("#MemberRecordList").empty();
 
-    		$("#MemberList").text("");
+    		LmmAddMemberListToTable("MemList");
 
-    		nrow = $("<tr></tr>");
-    		nrow.append($("<td></td>").text("NAME"));
-    		nrow.append($("<td></td>").text("STATE"));
-    		nrow.append($("<td></td>").text("LOGIN"));
-    		nrow.append($("<td></td>").text("UPDATE"));
-    		$("#MemberList").append(nrow);
+    		LmmGetActionRecordList(function(data){
+    			addRecordTable($("#RecordList"), data);
+    		});
 
-    		for(var i=0; i<list.length; i++){
-    			nrow = $("<tr></tr>");
-    			nrow.append($("<td></td>").text(list[i].name));
-    			nrow.append($("<td></td>").text(list[i].stateStr));
-    			nrow.append($("<td></td>").text(list[i].loginDate));
-    			nrow.append($("<td></td>").text(list[i].updateDate));
-
-    			$("#MemberList").append(nrow);
-    		}
+    		addMemberRecordTable($("#MemberRecordList"));
     	}
 
+    	function addRecordTable(element, recobj){
+    		var tmp = $("<table></table>");
+    		tmp.attr("border", "1");
+    		LmmAddRecordObjectToTable(tmp, recobj);
+    		element.append(tmp);
+    	}
+
+    	function addMemberRecordTable(element){
+    		LmmGetMemberList(function (member_list){
+    			for(var i=0; i<member_list.length; i++){
+    				LmmGetActionRecordListByName(member_list[i].name, function(rec){
+    					element.append($("<tr></tr>").append($("<td></td>").text(rec[0].name)));
+    					addRecordTable(element, rec);
+    				});
+    			}
+    		});
+    	}
     </script>
 </head>
 
 <body>
 	<h3>LabMemberManagerテストページ</h3>
+	<i>Version: record-system</i>
+
 	<hr>
-	<p>サインイン情報を登録する</p>
-	<input id="input_name" type="text"></input>
-	<button type="button" onclick="sendLogin()">送信</button>
-	<div id="login_status"></div>
+
+	<h4>アクションを登録する</h4>
+	名前: <input id="name_input" type="text"></input><br>
+	<button type="button" onclick="action_login()">LOGIN</button>
+	<button type="button" onclick="action_logout()">LOGOUT</button>
+	<p id="action_reply"></p>
+
 	<hr>
-	<p>現在のメンバーリストを確認する</p>
-	<button type="button" onclick="get_list()">取得</button>
-	<table id="MemberList" border="1"></table>
-	<div id="raw_data"></div>
-	</body>
+
+	<h4>レコードを確認する</h4>
+	<button type="button" onclick="updateRecordTable()">更新</button>
+	<table id="MemList" border="1"></table>
+	<div id="RecordList"></div>
+	<div id="MemberRecordList"></div>
 </html>

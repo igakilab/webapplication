@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>LabMemberManagerテストページ</title>
+
+	<script type="text/javascript" src="dwr/engine.js"></script>
+    <script type="text/javascript" src="dwr/util.js"></script>
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="js/Lmmifc.js"></script>
+    <script type="text/javascript" src="js/Lmmutil.js"></script>
+    <script>
+	function action_login(){
+		var uname = $("#name_input").val();
+		Lmmifc.login(uname, function(rep){
+			$("#action_reply").text(rep);
+			updateRecordTable();
+		});
+	}
+
+	function action_logout(){
+		var uname = $("#name_input").val();
+		Lmmifc.logout(uname, function(rep){
+			$("#action_reply").text(rep);
+			updateRecordTable();
+		});
+	}
+
+	function updateRecordTable(){
+		$("#MemList").empty();
+		$("#RecordList").empty();
+		$("#MemberRecordList").empty();
+
+		addTableLabel($("#MemList"), "Name", "Code", "State", "LastUpdate");
+		Lmmifc.getMemberInfoList(function(inf){
+			Lmmutil.addMemberInfoToTable($("#MemList"), inf);
+		});
+
+		var ar_tbl = $("<table></table>").attr("border", "1");
+		addTableLabel(ar_tbl, "TimeStamp", "Name", "Code", "Action");
+		$("#RecordList").append(ar_tbl);
+		Lmmifc.getActionRecord(function(rec){
+			Lmmutil.addActionRecordListToTable(ar_tbl, rec);
+		});
+
+		updateMemberRecordTable($("#MemberRecordList"));
+	}
+
+	function updateMemberRecordTable(elem){
+		var n_tmp = new Array();
+		var t_tmp = new Array();
+		Lmmifc.getMemberInfoList(function(inf){
+			for(var i=0; i<inf.length; i++){
+				n_tmp[i] = inf[i].name;
+				t_tmp[i] = $("<table></table>");
+				t_tmp[i].attr("border", "1");
+				t_tmp[i].attr("style", "margin:10px");
+				t_tmp[i].append($("<caption></caption>").text("MemberName: <" + n_tmp[i] + ">"));
+				addTableLabel(t_tmp[i], "TimeStamp", "Name", "Code", "Action");
+				elem.append(t_tmp[i]);
+
+				addMemberRecordTable(n_tmp[i], t_tmp[i]);
+			}
+		});
+	}
+
+	function addMemberRecordTable(name, t_elem){
+		Lmmifc.getMemberActionRecord(name, function(rec){
+			Lmmutil.addActionRecordListToTable(t_elem, rec);
+		});
+	}
+
+
+	function addTableLabel(jq_elem, args){
+		var nrow = $("<tr></tr>");
+		for(var i=1; i<arguments.length; i++){
+			nrow.append($("<td></td>").text(arguments[i]));
+		}
+		jq_elem.append(nrow);
+	}
+
+
+
+    </script>
+</head>
+
+<body>
+	<h3>LabMemberManagerテストページ</h3>
+	<i>Version: record-system</i>
+
+	<hr>
+
+	<h4>アクションを登録する</h4>
+	名前: <input id="name_input" type="text"></input><br>
+	<button type="button" onclick="action_login()">LOGIN</button>
+	<button type="button" onclick="action_logout()">LOGOUT</button>
+	<p id="action_reply"></p>
+
+	<hr>
+
+	<h4>レコードを確認する</h4>
+	<button type="button" onclick="updateRecordTable()">更新</button>
+	<h5>メンバーの状態</h5>
+	<table id="MemList" border="1"></table>
+	<h5>すべてのアクションレコード</h5>
+	<div id="RecordList"></div>
+	<h5>メンバー別のアクションレコード</h5>
+	<div id="MemberRecordList"></div>
+</html>

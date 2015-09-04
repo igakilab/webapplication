@@ -39,7 +39,7 @@ public class MemberInfoBean {
 			mi.getName(),
 			mi.getStateCode(),
 			sl.getStateName(mi.getStateCode()),
-			gdf.format(mi.getLoginDate()),
+			gdf.format(mi.getStateUpdateDate(mi.getStateCode())),
 			gdf.format(mi.getUpdateDate())
 		);
 	}
@@ -56,8 +56,8 @@ public class MemberInfoBean {
 		this(
 			mi.getName(),
 			mi.getStateCode(),
+			MemberInfo.getStateList().getStateName(mi.getStateCode()),
 			"",
-			gdf.format(mi.getLoginDate()),
 			gdf.format(mi.getUpdateDate())
 		);
 	}
