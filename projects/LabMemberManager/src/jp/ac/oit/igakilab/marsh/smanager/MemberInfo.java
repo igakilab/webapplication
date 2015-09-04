@@ -1,114 +1,114 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class MemberInfo{
+	/*スタティック変数*/
+	public static final int STATE_LOGIN = 101;
+	public static final int STATE_LOGOUT = 102;
+	public static final int STATE_UNDEF = 191;
+
+	static StateList STATE_LIST = null;
+
+	/*スタティックメソッド*/
+	static boolean checkStateTimeout(Date tstamp, int timeout){
+		long t_now = Calendar.getInstance().getTimeInMillis();
+		long t_stp = tstamp.getTime();
+		long t_out = timeout * 1000;
+
+		return (t_out > 0) && ((t_now - t_stp) > t_out);
+	}
+
+	static void initStateList(){
+		if( STATE_LIST == null ){
+			STATE_LIST = new StateList();
+			STATE_LIST.addState(new StateInfo(STATE_LOGIN, "LOGIN", 300));
+			STATE_LIST.addState(new StateInfo(STATE_LOGOUT, "LOGOUT", 0));
+		}
+	}
+
+	public static StateList getStateList(){
+		initStateList();
+		return STATE_LIST;
+	}
+
+
 	/*インスタンス変数*/
-	String name;
-	int stateCode;
-	Date loginDate;
-	Date updateDate;
+	private String name;
+	private ActionRecord[] records;
 
 
 	/*コンストラクタ*/
-	public MemberInfo(String n0, int s0, Date d0, Date d1){
-		setName(n0);
-		setStateCode(s0);
-		setLoginDate(d0);
-		setUpdateDate(d1);
-	}
-
-	public MemberInfo(String n0, int s0, Date d0){
-		setName(n0);
-		setStateCode(s0);
-		setLoginDate(d0);
-		setUpdateDate(Calendar.getInstance().getTime());
-	}
-
-	public MemberInfo(String n0, int s0){
-		setName(n0);
-		setStateCode(s0);
-		setLoginDate(Calendar.getInstance().getTime());
-		setUpdateDate(Calendar.getInstance().getTime());
-	}
-
-	public MemberInfo(){
-		initMemberInfo();
+	public MemberInfo(String n0, RecordList l0){
+		name = n0;
+		updateRecordList(l0);
+		initStateList();
 	}
 
 
-	/*メソッド(get/set)*/
+	/*情報取得(基本)メソッド*/
 	public String getName(){
 		return name;
 	}
-	public void setName(String n0){
-		name = n0;
-	}
+
 
 	public int getStateCode(){
-		return stateCode;
-	}
-	public void setStateCode(int s0){
-		stateCode = s0;
-	}
+		int state_code = STATE_UNDEF;
 
-	public Date getLoginDate(){
-		return loginDate;
-	}
-	public void setLoginDate(Date d0){
-		loginDate = d0;
-	}
+		if( records.length > 0 ){
+			state_code = records[0].getStateCode();
+		}
 
-	public Date getUpdateDate(){
-		return updateDate;
-	}
-	public void setUpdateDate(Date d0){
-		updateDate = d0;
-	}
-
-
-	/*メソッド*/
-	public void initMemberInfo(){
-		name = "";
-		stateCode = 0;
-		loginDate = null;
-		updateDate = null;
-	}
-
-	public boolean setMemberInfo(MemberInfo mi){
-		boolean set = false;
-
-		if( this.name.equals(mi.name) ){
-			if( mi.stateCode != 0 ){
-				this.stateCode = mi.stateCode;
-				set = true;
-			}
-			if( mi.loginDate != null ){
-				this.loginDate = mi.loginDate;
-				set = true;
-			}
-			if( mi.updateDate != null ){
-				this.updateDate = mi.updateDate;
-				set = true;
+		if( STATE_LIST.isStateRegisted(state_code) ){
+			if( !checkStateTimeout(records[0].getTimeStamp(), STATE_LIST.getStateTimeout(state_code)) ){
+				return state_code;
 			}
 		}
 
-		return set;
-	}
-
-	public void updateDate(){
-		updateDate = Calendar.getInstance().getTime();
+		return STATE_UNDEF;
 	}
 
 
-	/*デバッグ用等メソッド*/
-	public String toString(){
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public Date getUpdateDate(){
+		if( records.length > 0 ){
+			return records[0].getTimeStamp();
+		}else{
+			return null;
+		}
+	}
 
-		return String.format("[MI name:%s, state:%d, update:%s]",
-				name, stateCode, df.format(updateDate));
+
+	/*情報取得(応用)メソッド*/
+	public Date getStateUpdateDate(int code){
+		int i;
+
+		i = 0;
+		while( (i < records.length) && (records[i].getStateCode() != code) ){
+			i++;
+		}
+
+		/*最終まで到達したためアウト*/
+		if( i >= records.length ) return null;
+
+		while( (i < records.length) && (records[i].getStateCode() == code) ){
+			i++;
+		}
+
+		return records[i-1].getTimeStamp();
+	}
+
+
+	/*パラメータ更新*/
+	public void updateRecordList(RecordList list){
+		FilteredRecordList frl = new FilteredRecordList(list);
+		frl.takeRecordByName(name);
+		records = frl.toArray();
+	}
+
+
+	/*情報取得(内部的)メソッド*/
+	public ActionRecord[] getRecordList(){
+		return records;
 	}
 }
