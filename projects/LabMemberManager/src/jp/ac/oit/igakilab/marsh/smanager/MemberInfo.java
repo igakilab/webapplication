@@ -62,12 +62,9 @@ public class MemberInfo{
 
 		if( STATE_LIST.isStateRegisted(state_code) ){
 			if( !checkStateTimeout(records[0].getTimeStamp(), STATE_LIST.getStateTimeout(state_code)) ){
-				DebugLog.out("getStateCode", "accept - " + state_code + name);
 				return state_code;
 			}
-			DebugLog.out("getStateCode", "timeouted - " + state_code + name);
 		}
-		DebugLog.out("getStateCode", "notRegisted" + state_code);
 
 		return STATE_UNDEF;
 	}
