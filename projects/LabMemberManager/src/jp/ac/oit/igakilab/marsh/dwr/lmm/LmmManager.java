@@ -46,6 +46,9 @@ public class LmmManager {
 
 	public MemberInfoBean getMemberInfo(String name){
 		MemberInfo minf = manager.getMemberInfo(name);
+		if( minf == null ){
+			return null;
+		}
 		MemberInfoBean bean = new MemberInfoBean(minf);
 
 		return bean;
