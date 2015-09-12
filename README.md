@@ -1,5 +1,5 @@
 ﻿# webapprication
 サーバサイドのウェブアプリケーション
 
-##はじめての編集
-テストなので次回以降ここは削除してください。
+##LabMemberManager
+Marshmallow-Warriorsの作っているゼミ在室管理システム

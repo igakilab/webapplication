@@ -1,12 +1,32 @@
 @echo off
-echo tomcatを再起動させます...
-echo -----
-echo tomcatをシャットダウンします
+
+rem tomcatを再起動するバッチファイル
+rem 引数を指定すると"..\webapps"に格納されたフォルダを削除する
+rem tomcatのbinディレクトリに配置する必要がある
+
+set apphome=..\webapps\
+set appdir=%1
+
+echo APPHOME=%apphome%
+echo APPDIR=%appdir%
+
+rem tomcatのシャットダウン
+echo -- tomcatをシャットダウンします...
 call shutdown.bat
-echo -----
-echo tomcatを再起動させるには何かキーを押してください
-pause
-echo tomcatを起動します
+
+rem ディレクトリのクリーン
+if {%appdir%} NEQ {} (
+	echo --ディレクトリを削除します
+	rmdir /s %apphome%%appdir%
+) else (
+	pause
+)
+
+rem tomcatのスタート
+echo --tomcatを再開します...
 call startup.bat
+
+
+
 
 
