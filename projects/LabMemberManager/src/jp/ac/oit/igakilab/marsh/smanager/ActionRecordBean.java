@@ -6,14 +6,14 @@ import java.util.Date;
 
 public class ActionRecordBean {
 	private String timeStamp;
-	private String name;
+	private String id;
 	private int stateCode;
 	private String stateStr;
 
 
 	public ActionRecordBean(){
 		timeStamp = "";
-		name = "";
+		id = "";
 		stateCode = 0;
 		stateStr = "";
 	}
@@ -21,7 +21,7 @@ public class ActionRecordBean {
 	public ActionRecordBean(ActionRecord r0, StateList l0){
 		this();
 		setTimeStampInDate(r0.getTimeStamp());
-		setName(r0.getName());
+		setId(r0.getId());
 		setStateCode(r0.getStateCode());
 		if( l0 != null ) setStateUseStateList(r0.getStateCode(), l0);
 	}
@@ -35,11 +35,11 @@ public class ActionRecordBean {
 		timeStamp = s0;
 	}
 
-	public String getName(){
-		return name;
+	public String getId(){
+		return id;
 	}
-	public void setName(String n0){
-		name = n0;
+	public void setId(String n0){
+		id = n0;
 	}
 
 	public int getStateCode(){

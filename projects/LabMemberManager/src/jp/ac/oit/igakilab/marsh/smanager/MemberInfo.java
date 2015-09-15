@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MemberInfo {
-
-
 	private String name;
 	private List<String> identifers;
 
