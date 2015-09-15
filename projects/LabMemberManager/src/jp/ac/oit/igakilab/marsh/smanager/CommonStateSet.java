@@ -7,6 +7,8 @@ public class CommonStateSet {
 	public static final int TOILET_1 = 104;
 	public static final int TOILET_2 = 105;
 
+	public static final int UNDEFINED = 191;
+
 	public static StateList LIST = createStateList();
 
 

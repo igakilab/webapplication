@@ -1,6 +1,7 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class StateList {
@@ -60,6 +61,14 @@ public class StateList {
 
 	public boolean isStateRegisted(int code){
 		return searchStateInfo(code) >= 0;
+	}
+
+	public boolean checkStateTimeout(int code, Date ts, Date tn){
+		long t_out = getStateTimeout(code) * 1000;
+		long t_stp = ts.getTime();
+		long t_now = tn.getTime();
+
+		return (t_out > 0) && (t_now - t_stp > t_out);
 	}
 
 

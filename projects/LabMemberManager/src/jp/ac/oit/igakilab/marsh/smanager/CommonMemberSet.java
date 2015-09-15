@@ -6,11 +6,11 @@ public class CommonMemberSet {
 			{"りょうくん", "Ryokun"}
 	};
 
-	public static MemberInfoList LIST = createMemberInfoList();
+	public static MemberIdList LIST = createMemberIdList();
 
 
-	public static MemberInfoList createMemberInfoList(){
-		MemberInfoList new_list = new MemberInfoList();
+	public static MemberIdList createMemberIdList(){
+		MemberIdList new_list = new MemberIdList();
 
 		for(int i=0; i<PAIRS.length; i++){
 			new_list.addId(PAIRS[i][0], PAIRS[i][1]);
