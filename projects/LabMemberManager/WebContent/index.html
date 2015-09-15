@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>北林</title>
+	<title>井垣lab在室管理だぉ！</title>
 
 	<script type="text/javascript" src="dwr/engine.js"></script>
 	<script type="text/javascript" src="dwr/util.js"></script>
@@ -28,18 +28,32 @@
 </head>
 
 <body>
-	<h3>北林ですよぉ～</h3>
+	<h3>在室管理しまっせ！</h3>
 	<i>Version: record-system</i>
 
 	<hr>
 
-	<h4>レコード確認</h4>
-	<button type="button" onclick="yt()">更新</button>
+	<h2>ここから選べよ！</h2>
+	<br>
+	<br>
+
+	<select name="kanri">
+	<option value="zaisitu" selected>在室</option>
+	<option value="zyugyo" selected>授業</option>
+	<option value="taisitu" selected>退室</option>
+	<option value="dai" selected>トイレ（大）</option>
+	<option value="syo" selected>トイレ（小）</option>
+    </select>
+    <input type="submit" value="送信">
 
 	<hr>
 
 	<table class="table2" border=1>
-	<tr><th>なまえ</th><th>腰痛コード</th><th>状態</th><th>最終更新</th></tr>
+	<col span="1" style="width:5cm" style="height:2cm">
+	<col span="6" style="width:2cm" style="height:2cm">
+	<tr>
+	<th>なまえ</th><th>在室</th><th>授業</th><th>退室</th><th>トイレ(大)</th><th>トイレ（小）</th>
+	</tr>
 	</table>
 </body>
 </html>
