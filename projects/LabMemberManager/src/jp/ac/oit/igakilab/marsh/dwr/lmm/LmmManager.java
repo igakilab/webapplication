@@ -6,10 +6,10 @@ import java.util.Calendar;
 
 import jp.ac.oit.igakilab.marsh.smanager.ActionRecord;
 import jp.ac.oit.igakilab.marsh.smanager.ActionRecordBean;
-import jp.ac.oit.igakilab.marsh.smanager.LogRecorder;
 import jp.ac.oit.igakilab.marsh.smanager.MemberInfo;
 import jp.ac.oit.igakilab.marsh.smanager.MemberInfoBean;
 import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
+import jp.ac.oit.igakilab.marsh.util.LogRecorder;
 
 public class LmmManager {
 	static DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

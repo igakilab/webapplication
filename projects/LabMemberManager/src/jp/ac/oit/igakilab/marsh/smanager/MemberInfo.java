@@ -23,7 +23,7 @@ public class MemberInfo {
 	}
 
 
-
+	/*id操作*/
 	public void addId(String id){
 		identifers.add(id);
 	}

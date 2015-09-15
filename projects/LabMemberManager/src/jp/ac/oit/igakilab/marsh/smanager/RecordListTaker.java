@@ -13,8 +13,11 @@ public class RecordListTaker extends RecordList {
 
 	/*サーチ用*/
 	public void addRecordById(RecordList l0, String id){
-
+		int len = l0.getRecordCount();
+		for(int i=0; i<len; i++){
+			if( l0.getRecord(i).getId() == id ){
+				addRecord(l0.getRecord(i));
+			}
+		}
 	}
-
-
 }
