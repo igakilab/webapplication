@@ -23,6 +23,12 @@
 			Lmmutil.addMemberInfoToTable($(".table2"), info);
 		});
 	}
+
+	function update(){
+		Lmmutil.setStateToTable("りょーくん","ryo");
+		Lmmutil.setStateToTable("しにゃ","shinya");
+		Lmmutil.setStateToTable("きたば","kitaba");
+	}
 	</script>
 
 </head>
@@ -33,27 +39,29 @@
 
 	<hr>
 
-	<h2>ここから選べよ！</h2>
+<!--  	<h2>ここから選べよ！</h2>
 	<br>
 	<br>
-
+-->
+<!--
 	<select name="kanri">
-	<option value="zaisitu" selected>在室</option>
+	<option value="in" selected>在室</option>
 	<option value="zyugyo" selected>授業</option>
-	<option value="taisitu" selected>退室</option>
-	<option value="dai" selected>トイレ（大）</option>
-	<option value="syo" selected>トイレ（小）</option>
+	<option value="shop" selected>コンビニ・買い物</option>
+	<option value="out" selected>帰宅</option>
     </select>
     <input type="submit" value="送信">
-
+-->
 	<hr>
 
 	<table class="table2" border=1>
-	<col span="1" style="width:5cm" style="height:2cm">
-	<col span="6" style="width:2cm" style="height:2cm">
-	<tr>
-	<th>なまえ</th><th>在室</th><th>授業</th><th>退室</th><th>トイレ(大)</th><th>トイレ（小）</th>
-	</tr>
+	<col span="1" style="width:2cm;height:2cm">
+	<col span="6" style="width:2cm;height:2cm">
+	<tr><th>なまえ</th><th>在室</th><th>授業</th><th>コンビニ 買い物</th><th>帰宅</th></tr>
+	<tr id=ryo><td>りょーくん</td><td></td><td></td><td></td><td></td></tr>
+	<tr id=shinya><td>しにゃ</td><td></td><td></td><td></td><td></td></tr>
+	<tr id=kitaba><td>きたば</td><td></td><td></td><td></td><td></td></tr>
+
 	</table>
 </body>
 </html>
