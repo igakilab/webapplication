@@ -16,25 +16,31 @@ public class MemberStateManager {
 
 	/*デフォルト状態リスト*/
 	public static StateList DEFAULT_SLIST= CommonStateSet.LIST;
-	public static MemberInfoList DEFAULT_MLIST = CommonMemberSet.LIST;
 
 
 	/*インスタンス変数*/
 	private RecordList recs;
 	private StateList slist;
-	private MemberInfoList mlist;
 
 
 	/*コンストラクタ*/
 	public MemberStateManager(){
 		recs = new RecordList();
 		slist = DEFAULT_SLIST;
-		mlist = DEFAULT_MLIST;
 	}
 
 	/*メソッド*/
-	
-	
+	public void addMemberState(String id, int code){
+		recs.addRecord(new ActionRecord(id, code));
+	}
+
+
+	public MemberState getMemberState(String id){
+		return new MemberState()
+	}
+
+
+
 
 
 
