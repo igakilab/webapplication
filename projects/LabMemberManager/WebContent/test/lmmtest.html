@@ -1,0 +1,83 @@
+<DOCTYPE! html>
+<html>
+<head>
+	<title>LMMTEST</title>
+	<meta charset="UTF-8">
+
+	<script type="text/javascript" src="dwr/engine.js"></script>
+    <script type="text/javascript" src="dwr/util.js"></script>
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="js/Lmmifc.js"></script>
+    <script type="text/javascript" src="js/Lmmutil.js"></script>
+
+    <script>
+    	function act_login(){
+    		var name = $("#name_input").val();
+    		Lmmifc.login(name, function(rep){
+    			$("#action_reply").text(rep);
+    		});
+    	}
+
+    	function act_logout(){
+    		var name = $("#name_input").val();
+    		Lmmifc.logout(name, function(rep){
+    			$("#action_reply").text(rep);
+    		});
+    	}
+
+
+    	function updateMemberTable(){
+    		const TABLE_ID = "#member_state";
+    		const TABLE_LABEL = ["NAME", "CODE", "STATE", "UPDATE"];
+
+    		$(TABLE_ID).empty;
+
+    		var head = $("<tr></tr>");
+    		for(var i=0; i<TABLE_LABEL.length; i++){
+    			head.append($("<th></th>").text(TABLE_LABEL[i]));
+    		}
+    		$(TABLE_ID).append(head);
+
+    		Lmmifc.getRegistedId(function(id_list){
+    			for(var i=0; i<id_list.length; i++){
+    				Lmmifc.getMemberState(id_list[i], function(info){
+    					Lmmutil.addMemberInfoToTable($("TABLE_ID"), info);
+    				});
+    			}
+    		});
+    	}
+    </script>
+
+</head>
+
+
+<body>
+<body>
+	<h3>LabMemberManagerテストページ</h3>
+	<i>Version: record-system</i>
+
+	<hr>
+
+	<h4>アクションを登録する</h4>
+	名前: <input id="name_input" type="text"></input><br>
+	<button type="button" onclick="act_login()">LOGIN</button>
+	<button type="button" onclick="act_logout()">LOGOUT</button>
+	<p id="action_reply"></p>
+
+	<hr>
+<!--
+	<h4>レコードを確認する</h4>
+	<button type="button" onclick="updateRecordTable()">更新</button>
+	<h5>メンバーの状態</h5>
+	<table id="member_state" border="1"></table>
+	<h5>すべてのアクションレコード</h5>
+	<div id="RecordList"></div>
+	<h5>メンバー別のアクションレコード</h5>
+	<div id="MemberRecordList"></div>
+
+-->
+</body>
+
+</html>

@@ -18,21 +18,26 @@ Lmmifc.logout = function(name, cbf){
 }
 
 
-Lmmifc.getMemberInfo = function(name, cbf){
-	LmmManager.getMemberInfo(name, {callback: cbf});
+Lmmifc.getMemberState = function(name, cbf){
+	LmmManager.getMemberState(name, {callback: cbf});
 }
 
 
-Lmmifc.getMemberInfoList = function(cbf){
-	LmmManager.getMemberList({callback: cbf});
+Lmmifc.getRegistedId = function(cbf){
+	LmmManager.getRegistedId({callback: cbf});
 }
 
 
-Lmmifc.getActionRecord = function(cbf){
-	LmmManager.getActionRecordList({callback: cbf});
+Lmmifc.getMemberNameList= function(cbf){
+	LmmManager.getMemberNameList({callback: cbf});
 }
 
 
-Lmmifc.getMemberActionRecord = function(name, cbf){
-	LmmManager.getMemberActionRecordList(name, {callback: cbf});
+Lmmifc.getRecordList = function(cbf){
+	LmmManager.getRecordList({callback: cbf});
+}
+
+
+Lmmifc.getMemberRecordList = function(cbf){
+	LmmManager.getMemberRecordList(name, {callback:cbf});
 }
