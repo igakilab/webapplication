@@ -9,7 +9,7 @@ public class MemberState {
 
 	/*インスタンス変数*/
 	private String id;
-	RecordList records;
+	protected RecordList records;
 
 	public MemberState(String i0){
 		id = i0;
@@ -70,5 +70,9 @@ public class MemberState {
 	/*プロパティ取得*/
 	public ActionRecord[] getRecordList(){
 		return records.getListObject().toArray(new ActionRecord[0]);
+	}
+
+	public int getRecordCount(){
+		return records.getRecordCount();
 	}
 }

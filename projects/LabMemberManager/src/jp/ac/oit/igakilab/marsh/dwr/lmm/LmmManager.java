@@ -5,81 +5,93 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import jp.ac.oit.igakilab.marsh.smanager.ActionRecord;
-import jp.ac.oit.igakilab.marsh.smanager.ActionRecordBean;
-import jp.ac.oit.igakilab.marsh.smanager.MemberInfo;
-import jp.ac.oit.igakilab.marsh.smanager.MemberInfoBean;
+import jp.ac.oit.igakilab.marsh.smanager.MemberState;
 import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
-import jp.ac.oit.igakilab.marsh.util.LogRecorder;
+import jp.ac.oit.igakilab.marsh.smanager.beans.ActionRecordBean;
+import jp.ac.oit.igakilab.marsh.smanager.beans.MemberStateBean;
 
 public class LmmManager {
 	static DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	MemberStateManager manager;
-	LogRecorder logrec;
 
 	/*コンストラクター*/
 	public LmmManager(){
-		logrec = new LogRecorder("logs.txt", true);
-		addLog("Lmmマネージャが開始しました");
 		manager = new MemberStateManager();
 	}
 
-
-	void addLog(String msg){
-		logrec.addSingleLog("Lmm: " + msg, true);
-	}
 
 
 
 	/*操作*/
 	public String login(String name){
-		manager.addMemberState(name, MemberStateManager.STATE_LOGIN);
+		manager.addMemberState(name, MemberStateManager.LOGIN);
 		return "[" + name + "] login (" + DF.format(Calendar.getInstance().getTime()) + ")";
 	}
 
 
 	public String logout(String name){
-		manager.addMemberState(name, MemberStateManager.STATE_LOGOUT);
+		manager.addMemberState(name, MemberStateManager.LOGOUT);
 		return "[" + name + "] logout(" + DF.format(Calendar.getInstance().getTime()) + ")";
 	}
 
 
-	public MemberInfoBean getMemberInfo(String name){
-		MemberInfo minf = manager.getMemberInfo(name);
-		MemberInfoBean bean = new MemberInfoBean(minf);
 
-		return bean;
+	public MemberStateBean getMemberState(String name){
+		MemberState ms;
+
+		if( manager.checkNameRegisted(name) ){
+			ms = manager.getMemberStateByName(name);
+		}else{
+			ms = manager.getMemberState(name);
+		}
+
+		return new MemberStateBean(ms, manager.getStateListObject());
 	}
 
 
-	public MemberInfoBean[] getMemberList(){
-		MemberInfo[] mlist = manager.getMemberInfoList();
-		MemberInfoBean[] bean = new MemberInfoBean[mlist.length];
-		for(int i=0; i<mlist.length; i++){
-			bean[i] = new MemberInfoBean(mlist[i]);
-		}
-		return bean;
+
+	public String[] getRegistedId(){
+		return manager.getRegistedIdList();
 	}
 
 
-	public ActionRecordBean[] getActionRecordList(){
-		ActionRecord[] raw = manager.getRecordListObject().toArray();
-		ActionRecordBean[] bean = new ActionRecordBean[raw.length];
-
-		for(int i=0; i<raw.length; i++){
-			bean[i] = new ActionRecordBean(raw[i], MemberInfo.getStateList());
-		}
-		return bean;
+	public String[] getMemberNameList(){
+		return manager.getMemberIdListObject().getRegistedNameList();
 	}
 
 
-	public ActionRecordBean[] getMemberActionRecordList(String name){
-		ActionRecord[] raw = manager.getMemberInfo(name).getRecordList();
-		ActionRecordBean[] bean = new ActionRecordBean[raw.length];
 
-		for(int i=0; i<raw.length; i++){
-			bean[i] = new ActionRecordBean(raw[i], MemberInfo.getStateList());
+	public ActionRecordBean[] getRecordList(){
+		ActionRecord[] recs = manager.getRecordListObject().toArray();
+		ActionRecordBean[] beans = new ActionRecordBean[recs.length];
+
+		for(int i=0; i<recs.length; i++){
+			beans[i] = new ActionRecordBean(recs[i]);
 		}
-		return bean;
+
+		return beans;
+	}
+
+
+	public ActionRecordBean[] getMemberRecordList(String name){
+		MemberState ms;
+		ActionRecord[] recs;
+		ActionRecordBean[] beans;
+
+		if( manager.checkNameRegisted(name) ){
+			ms = manager.getMemberStateByName(name);
+		}else{
+			ms = manager.getMemberState(name);
+		}
+
+		recs = ms.getRecordList();
+		beans = new ActionRecordBean[recs.length];
+
+		for(int i=0; i<recs.length; i++){
+			beans[i] = new ActionRecordBean(recs[i]);
+		}
+
+		return beans;
 	}
 }

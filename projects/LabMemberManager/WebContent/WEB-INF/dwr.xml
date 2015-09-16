@@ -10,5 +10,6 @@
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.lmm.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.*" />
+    <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.beans.*"/>
   </allow>
 </dwr>

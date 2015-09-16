@@ -40,4 +40,18 @@ public class MemberIdList {
 		}
 		return tmp.toArray(new String[0]);
 	}
+
+
+	public String[] getRegistedNameList(){
+		List<String> name_list = new ArrayList<String>();
+
+		for(int i=0; i<names.size(); i++){
+			if( name_list.indexOf(names.get(i)) < 0 ){
+				name_list.add(names.get(i));
+			}
+		}
+
+		return name_list.toArray(new String[0]);
+	}
+
 }

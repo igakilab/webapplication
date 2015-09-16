@@ -2,8 +2,12 @@ package jp.ac.oit.igakilab.marsh.smanager;
 
 public class CommonMemberSet {
 	public static String[][] PAIRS = {
-			{"りょうくん", "ryokun"},
-			{"りょうくん", "Ryokun"}
+			{"りょーくん", "ryokun"},
+			{"りょーくん", "Ryokun"},
+			{"しにゃ", "Shinya"},
+			{"しにゃ", "shinya"},
+			{"きたば", "Kitaba"},
+			{"きたば", "kitaba"}
 	};
 
 	public static MemberIdList LIST = createMemberIdList();

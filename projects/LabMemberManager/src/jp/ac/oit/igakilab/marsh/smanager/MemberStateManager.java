@@ -16,33 +16,74 @@ public class MemberStateManager {
 
 	/*デフォルト状態リスト*/
 	public static StateList DEFAULT_SLIST= CommonStateSet.LIST;
+	public static MemberIdList DEFAULT_MLIST = CommonMemberSet.LIST;
 
 
 	/*インスタンス変数*/
 	private RecordList recs;
 	private StateList slist;
+	private MemberIdList mlist;
 
 
 	/*コンストラクタ*/
 	public MemberStateManager(){
 		recs = new RecordList();
 		slist = DEFAULT_SLIST;
+		mlist = DEFAULT_MLIST;
 	}
 
-	/*メソッド*/
+	/*レコード追加*/
 	public void addMemberState(String id, int code){
 		recs.addRecord(new ActionRecord(id, code));
 	}
 
 
+
+	/* メンバー状態取得 */
 	public MemberState getMemberState(String id){
-		return new MemberState()
+		return new MemberState(id, recs);
+	}
+
+	/* メンバー状態取得(ユーザ名) */
+	public MemberStateByname getMemberStateByName(String name){
+		return new MemberStateByname(name, mlist, recs);
+	}
+
+
+	/* id一覧取得 */
+	public String[] getRegistedIdList(){
+		return recs.getIdList();
 	}
 
 
 
+	/* 記録チェック */
+	public boolean checkIdRegisted(String id){
+		return recs.isIdRegisted(id);
+	}
+
+	/* 記録チェック */
+	public boolean checkNameRegisted(String name){
+		String[] ids = mlist.getIdByName(name);
+		boolean flg = true;
+
+		for(int i=0; i<ids.length; i++){
+			flg = flg && recs.isIdRegisted(ids[i]);
+		}
+
+		return flg;
+	}
 
 
-
+	/* オブジェクト返し */
+	public RecordList getRecordListObject(){
+		return recs;
+	}
+	public StateList getStateListObject(){
+		return slist;
+	}
+	public MemberIdList getMemberIdListObject(){
+		return mlist;
+	}
 
 }
