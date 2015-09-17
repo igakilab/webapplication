@@ -48,7 +48,7 @@ public class MemberStateBean {
 		id = ms.getId();
 		stateCode = ms.getStateCode(sl);
 		stateStr = sl.getStateName(stateCode);
-		lastUpdate = df.format(ms.getUpdateDate());
+		lastUpdate = (ms.getUpdateDate() != null) ? df.format(ms.getUpdateDate()) : "";
 	}
 
 

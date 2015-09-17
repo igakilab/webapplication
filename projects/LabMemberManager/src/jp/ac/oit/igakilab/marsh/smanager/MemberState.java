@@ -35,6 +35,7 @@ public class MemberState {
 	public void updateActionRecord(RecordList l0){
 		RecordListTaker taker = new RecordListTaker();
 		taker.addRecordById(l0, id);
+		System.out.println("TAKER:" + taker.getRecordCount());
 		records = taker;
 	}
 

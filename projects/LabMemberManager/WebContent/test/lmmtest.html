@@ -37,21 +37,21 @@
     		nrow.append($("<td></td>").text(info.stateCode));
     		nrow.append($("<td></td>").text(info.stateStr));
     		nrow.append($("<td></td>").text(info.update));
-    		MEMBER_TABLE.append(nrow);
+    		$("#member_state").append(nrow);
     	}
 
     	function addRecordRow(rec){
-    		alert(rec);
     		var nrow = $("<tr></tr>");
     		nrow.append($("<td></td>").text(rec.timeStamp));
     		nrow.append($("<td></td>").text(rec.id));
     		nrow.append($("<td></td>").text(rec.stateCode));
-    		RECORD_TABLE.append(nrow);
+    		$("#record_table").append(nrow);
     	}
 
     	function updateMemberState(){
     		const labels = ["NAME", "CODE", "STATE", "UPDATE"];
-    		MEMBER_TABLE.append(Lmmutil.createLabelRow(labels));
+    		$("#member_state").empty();
+    		$("#member_state").append(Lmmutil.createLabelRow(labels));
     		Lmmifc.getRegistedId(function(member_list){
     			for(var i=0; i<member_list.length; i++){
     				Lmmifc.getMemberState(member_list[i], addMemberRow);
@@ -61,7 +61,8 @@
 
     	function updateRecordList(){
     		const labels = ["TIMESTAMP", "ID", "CODE"];
-    		RECORD_TABLE.append(Lmmutil.createLabelRow(labels));
+    		$("#record_table").empty();
+    		$("#record_table").append(Lmmutil.createLabelRow(labels));
     		Lmmifc.getRecordList(function(record_list){
     			for(var i=0; i<record_list.length; i++){
     				addRecordRow(record_list[i]);
@@ -91,13 +92,18 @@
 	<hr>
 
 	<h4>メンバーの状態表示</h4>
-	<button onclick="updateRecordList()">Excute1</button>
+	<button onclick="updateMemberState()">Excute1</button>
+	<button onclick="updateRecordList()">Excute2</button>
 	<table><tr>
 		<td>
-			<table id="member_state" border="1"></table>
+			<table id="member_state" border="1" style="width:300px">
+			<tr><th>NAME</th><th>CODE</th><th>STATE</th><th>UPDATE</th>
+			</table>
 		</td>
 		<td>
-			<table id="record_table" border="1"></table>
+			<table id="record_table" border="1" style="width:300px">
+			<tr><th>TIMESTAMP</th><th>ID</th><th>CODE</th>
+			</table>
 		</td>
 	</tr></table>
 
