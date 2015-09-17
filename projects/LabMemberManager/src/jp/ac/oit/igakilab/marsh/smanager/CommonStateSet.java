@@ -13,7 +13,7 @@ public class CommonStateSet {
 
 
 	public static StateList createStateList(){
-		StateList new_list = createStateList();
+		StateList new_list = new StateList();
 
 		new_list.addState(new StateInfo(LOGIN, "LOGIN", 360));
 		new_list.addState(new StateInfo(LOGOUT, "LOGOUT", 0));

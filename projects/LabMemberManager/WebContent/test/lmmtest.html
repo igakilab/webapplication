@@ -4,13 +4,13 @@
 	<title>LMMTEST</title>
 	<meta charset="UTF-8">
 
-	<script type="text/javascript" src="dwr/engine.js"></script>
-    <script type="text/javascript" src="dwr/util.js"></script>
-    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="js/jquery.serialize.js"></script>
-    <script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
-    <script type="text/javascript" src="js/Lmmifc.js"></script>
-    <script type="text/javascript" src="js/Lmmutil.js"></script>
+	<script type="text/javascript" src="../dwr/engine.js"></script>
+    <script type="text/javascript" src="../dwr/util.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="../js/Lmmifc.js"></script>
+    <script type="text/javascript" src="../js/Lmmutil.js"></script>
 
     <script>
     	function act_login(){
@@ -28,26 +28,43 @@
     	}
 
 
-    	function updateMemberTable(){
-    		const TABLE_ID = "#member_state";
-    		const TABLE_LABEL = ["NAME", "CODE", "STATE", "UPDATE"];
+    	const MEMBER_TABLE = $("#member_state");
+    	const RECORD_TABLE = $("#record_table");
 
-    		$(TABLE_ID).empty;
+    	function addMemberRow(info){
+    		var nrow = $("<tr></tr>");
+    		nrow.append($("<td></td>").text(info.id));
+    		nrow.append($("<td></td>").text(info.stateCode));
+    		nrow.append($("<td></td>").text(info.stateStr));
+    		nrow.append($("<td></td>").text(info.update));
+    		MEMBER_TABLE.append(nrow);
+    	}
 
-    		var head = $("<tr></tr>");
-    		for(var i=0; i<TABLE_LABEL.length; i++){
-    			head.append($("<th></th>").text(TABLE_LABEL[i]));
-    		}
-    		$(TABLE_ID).append(head);
+    	function addRecordRow(rec){
+    		var nrow = $("<tr></tr>");
+    		nrow.append($("<td></td>").text(rec.timeStamp));
+    		nrow.append($("<td></td>").text(rec.id));
+    		nrow.append($("<td></td>").text(rec.stateCode));
+    		RECORD_TABLE.append(nrow);
+    	}
 
-    		Lmmifc.getRegistedId(function(id_list){
-    			for(var i=0; i<id_list.length; i++){
-    				Lmmifc.getMemberState(id_list[i], function(info){
-    					Lmmutil.addMemberInfoToTable($("TABLE_ID"), info);
-    				});
+    	function updateMemberState(){
+    		Lmmifc.getRegistedId(function(member_list){
+    			for(var i=0; i<member_list.length; i++){
+    				Lmmifc.getMemberState(member_list[i], addMemberRow);
     			}
     		});
     	}
+
+    	function updateRecordList(){
+    		Lmmifc.getRecordList(function(record_list){
+    			for(var i=0; i<record_list.length; i++){
+    				addRecordRow(record_list[i]);
+    			}
+    		});
+    	}
+
+
     </script>
 
 </head>
