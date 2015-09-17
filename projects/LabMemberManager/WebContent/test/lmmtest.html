@@ -28,8 +28,8 @@
     	}
 
 
-    	const MEMBER_TABLE = $("#member_state");
-    	const RECORD_TABLE = $("#record_table");
+    	var MEMBER_TABLE = $("#member_state");
+    	var RECORD_TABLE = $("#record_table");
 
     	function addMemberRow(info){
     		var nrow = $("<tr></tr>");
@@ -41,6 +41,7 @@
     	}
 
     	function addRecordRow(rec){
+    		alert(rec);
     		var nrow = $("<tr></tr>");
     		nrow.append($("<td></td>").text(rec.timeStamp));
     		nrow.append($("<td></td>").text(rec.id));
@@ -49,6 +50,8 @@
     	}
 
     	function updateMemberState(){
+    		const labels = ["NAME", "CODE", "STATE", "UPDATE"];
+    		MEMBER_TABLE.append(Lmmutil.createLabelRow(labels));
     		Lmmifc.getRegistedId(function(member_list){
     			for(var i=0; i<member_list.length; i++){
     				Lmmifc.getMemberState(member_list[i], addMemberRow);
@@ -57,6 +60,8 @@
     	}
 
     	function updateRecordList(){
+    		const labels = ["TIMESTAMP", "ID", "CODE"];
+    		RECORD_TABLE.append(Lmmutil.createLabelRow(labels));
     		Lmmifc.getRecordList(function(record_list){
     			for(var i=0; i<record_list.length; i++){
     				addRecordRow(record_list[i]);
@@ -84,17 +89,19 @@
 	<p id="action_reply"></p>
 
 	<hr>
-<!--
-	<h4>レコードを確認する</h4>
-	<button type="button" onclick="updateRecordTable()">更新</button>
-	<h5>メンバーの状態</h5>
-	<table id="member_state" border="1"></table>
-	<h5>すべてのアクションレコード</h5>
-	<div id="RecordList"></div>
-	<h5>メンバー別のアクションレコード</h5>
-	<div id="MemberRecordList"></div>
 
--->
+	<h4>メンバーの状態表示</h4>
+	<button onclick="updateRecordList()">Excute1</button>
+	<table><tr>
+		<td>
+			<table id="member_state" border="1"></table>
+		</td>
+		<td>
+			<table id="record_table" border="1"></table>
+		</td>
+	</tr></table>
+
+
 </body>
 
 </html>
