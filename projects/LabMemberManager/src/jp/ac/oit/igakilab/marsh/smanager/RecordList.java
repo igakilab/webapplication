@@ -45,14 +45,18 @@ public class RecordList{
 		}
 	}
 
+	public void clear(){
+		recs.clear();
+	}
+
 
 	/*リスト取得系メソッド*/
-	public String[] getNameList(){
+	public String[] getIdList(){
 		List<String> name_list = new ArrayList<String>();
 		String tmp;
 
 		for(int i=0; i<recs.size(); i++){
-			tmp = recs.get(i).getName();
+			tmp = recs.get(i).getId();
 			if( name_list.indexOf(tmp) < 0 ){
 				name_list.add(tmp);
 			}
@@ -61,9 +65,9 @@ public class RecordList{
 		return name_list.toArray(new String[0]);
 	}
 
-	public boolean isNameRegisted(String name){
+	public boolean isIdRegisted(String name){
 		for(int i=0; i<recs.size(); i++){
-			if( recs.get(i).getName().equals(name) ){
+			if( recs.get(i).getId().equals(name) ){
 				return true;
 			}
 		}
