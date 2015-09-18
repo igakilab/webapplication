@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>STATETABLE</title>
+	<meta charset="UTF-8">
+
+	<script type="text/javascript" src="../dwr/engine.js"></script>
+    <script type="text/javascript" src="../dwr/util.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="../js/Lmmifc.js"></script>
+    <script type="text/javascript" src="../js/stateTable.js"></script>
+
+    <script>
+		function pressUpdateButton(){
+			StateTable.setStateRow("りょーくん", "ryo");
+			StateTable.setStateRow("しにゃ", "shin");
+			StateTable.setStateRow("ばーきた", "kitab");
+		}
+
+    </script>
+
+</head>
+
+
+<body>
+	<h3>StateTableテストページ</h3>
+	<i>marshmallow-warriors/ryokun</i>
+
+	<hr>
+
+	<button onclick="pressUpdateButton()">update</button>
+
+	<table border="1">
+		<col span="6" style="width:120px">
+		<tr><th>name</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+		<tr id="ryo"><td>りょーくん</td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr id="shin"><td>しにゃ</td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr id="kitab"><td>ばーきた</td><td></td><td></td><td></td><td></td><td></td></tr>
+	</table>
+
+
+</body>
+</html>
