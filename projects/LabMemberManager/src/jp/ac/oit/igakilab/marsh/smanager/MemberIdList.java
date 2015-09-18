@@ -16,7 +16,7 @@ public class MemberIdList {
 	public void addId(String name, String id){
 		if( identifers.indexOf(id) < 0 ){
 			identifers.add(id);
-			names.add(id);
+			names.add(name);
 		}
 	}
 

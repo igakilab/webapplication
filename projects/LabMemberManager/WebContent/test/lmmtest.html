@@ -36,7 +36,7 @@
     		nrow.append($("<td></td>").text(info.id));
     		nrow.append($("<td></td>").text(info.stateCode));
     		nrow.append($("<td></td>").text(info.stateStr));
-    		nrow.append($("<td></td>").text(info.update));
+    		nrow.append($("<td></td>").text(info.lastUpdate));
     		$("#member_state").append(nrow);
     	}
 
@@ -51,6 +51,7 @@
     	function updateMemberState(){
     		const labels = ["NAME", "CODE", "STATE", "UPDATE"];
     		$("#member_state").empty();
+    		$("#member_state").append($("<caption></caption>").text("MEMBER LIST"));
     		$("#member_state").append(Lmmutil.createLabelRow(labels));
     		Lmmifc.getRegistedId(function(member_list){
     			for(var i=0; i<member_list.length; i++){
@@ -62,12 +63,41 @@
     	function updateRecordList(){
     		const labels = ["TIMESTAMP", "ID", "CODE"];
     		$("#record_table").empty();
+    		$("#record_table").append($("<caption></caption>").text("RECORD LIST"));
     		$("#record_table").append(Lmmutil.createLabelRow(labels));
     		Lmmifc.getRecordList(function(record_list){
     			for(var i=0; i<record_list.length; i++){
     				addRecordRow(record_list[i]);
     			}
     		});
+    	}
+
+    	function updateNameState(){
+    		const labels = ["NAME", "CODE", "STATE", "UPDATE"];
+    		$("#name_state").empty();
+    		$("#name_state").append($("<caption></caption>").text("NAME LIST"));
+    		$("#name_state").append(Lmmutil.createLabelRow(labels));
+    		Lmmifc.getMemberNameList(function(name_list){
+    			for(var i=0; i<name_list.length; i++){
+    				Lmmifc.getMemberState(name_list[i], addNameRow);
+    			}
+    		});
+    	}
+
+    	function addNameRow(info){
+    		var nrow = $("<tr></tr>");
+    		nrow.append($("<td></td>").text(info.id));
+    		nrow.append($("<td></td>").text(info.stateCode));
+    		nrow.append($("<td></td>").text(info.stateStr));
+    		nrow.append($("<td></td>").text(info.lastUpdate));
+    		$("#name_state").append(nrow);
+    	}
+
+
+    	function pressUpdateButton(){
+    		updateMemberState();
+    		updateRecordList();
+    		updateNameState();
     	}
 
 
@@ -92,11 +122,11 @@
 	<hr>
 
 	<h4>メンバーの状態表示</h4>
-	<button onclick="updateMemberState()">Excute1</button>
-	<button onclick="updateRecordList()">Excute2</button>
+	<button onclick="pressUpdateButton()">update</button>
 	<table><tr>
 		<td style="vertical-align:top">
-			<table id="member_state" border="1" style="width:300px">
+
+			<table id="member_state" border="1" style="width:400px">
 			<tr><th>NAME</th><th>CODE</th><th>STATE</th><th>UPDATE</th>
 			</table>
 		</td>
@@ -106,6 +136,10 @@
 			</table>
 		</td>
 	</tr></table>
+
+	<h4>名前問い合わせ</h4>
+
+	<table id="name_state" border="1" style="width:500px"></table>
 
 
 </body>
