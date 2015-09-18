@@ -24,10 +24,37 @@
 		});
 	}
 
+	function gozaru(){
+		var members = Lmmifc.getRegistedId();
+		for(var i = 0; i<members.length; i++){
+			Lmmutil.md(members[i],"table3");
+		}
+	}
+
 	function update(){
+		/*marshmallow*/
 		Lmmutil.setStateToTable("りょーくん","ryo");
 		Lmmutil.setStateToTable("しにゃ","shinya");
 		Lmmutil.setStateToTable("きたば","kitaba");
+		/*mst*/
+		/*
+		Lmmutil.setStateToTable("林修","ueda");
+		Lmmutil.setStateToTable("上山","ueyama");
+		Lmmutil.setStateToTable("三井","mitui");
+		/*パッツアン
+		Lmmutil.setStateToTable("ギダ","");
+		Lmmutil.setStateToTable("めがね","");
+		Lmmutil.setStateToTable("清水","");
+		/*thallium
+		Lmmutil.setStateToTable("でこぽん","でこぽん");
+		Lmmutil.setStateToTable("きーち","きーち");
+		Lmmutil.setStateToTable("うっちー","うっちー");
+		*/
+	}
+
+
+	var gozagoza = function(){
+		alert("鼻毛真拳奥義\n「お・す・ぎ」とみせかけて「ピーコ」！！");
 	}
 	</script>
 
@@ -38,6 +65,8 @@
 	<i>Version: record-system</i>
 
 	<hr>
+	<a href="http://www.jra.go.jp">絶対押すな！</a>
+	<span id="osugi"></span>
 
 <!--  	<h2>ここから選べよ！</h2>
 	<br>
@@ -54,6 +83,8 @@
 -->
 	<hr>
 
+	<button onclick="gozagoza()">趣があるなぁ</button>
+
 	<table class="table2" border=1>
 	<col span="1" style="width:2cm;height:2cm">
 	<col span="6" style="width:2cm;height:2cm">
@@ -62,6 +93,14 @@
 	<tr id=shinya><td>しにゃ</td><td></td><td></td><td></td><td></td></tr>
 	<tr id=kitaba><td>きたば</td><td></td><td></td><td></td><td></td></tr>
 
+	</table>
+
+	<hr>
+
+	<table id="table3"class="table2" border=1>
+	<col span="1" style="width:2cm;height:2cm">
+	<col span="6" style="width:2cm;height:2cm">
+	<tr><th>なまえ</th><th>在室</th><th>授業</th><th>コンビニ 買い物</th><th>帰宅</th></tr>
 	</table>
 </body>
 </html>
