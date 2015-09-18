@@ -15,7 +15,7 @@ public class RecordListTaker extends RecordList {
 	public void addRecordById(RecordList l0, String id){
 		int len = l0.getRecordCount();
 		for(int i=0; i<len; i++){
-			if( l0.getRecord(i).getId() == id ){
+			if( l0.getRecord(i).getId().equals(id) ){
 				addRecord(l0.getRecord(i));
 			}
 		}

@@ -65,10 +65,10 @@ public class MemberStateManager {
 	/* 記録チェック */
 	public boolean checkNameRegisted(String name){
 		String[] ids = mlist.getIdByName(name);
-		boolean flg = true;
+		boolean flg = false;
 
 		for(int i=0; i<ids.length; i++){
-			flg = flg && recs.isIdRegisted(ids[i]);
+			flg = flg || recs.isIdRegisted(ids[i]);
 		}
 
 		return flg;

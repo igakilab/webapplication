@@ -14,6 +14,8 @@ public class MemberStateBean {
 	private int stateCode;
 	private String stateStr;
 	private String lastUpdate;
+	/*debugs*/
+	// private int recCount;
 
 	public MemberStateBean(){
 		clear();
@@ -32,6 +34,8 @@ public class MemberStateBean {
 	public void setStateStr(String s0){ stateStr = s0; }
 	public String getLastUpdate(){ return lastUpdate; }
 	public void setLastUpdate(String s0){ lastUpdate = s0; }
+	//public int getRecCount(){ return recCount; }
+	//public void setRecCount(int c0){ recCount = c0; }
 
 
 	public void clear(){
@@ -49,6 +53,7 @@ public class MemberStateBean {
 		stateCode = ms.getStateCode(sl);
 		stateStr = sl.getStateName(stateCode);
 		lastUpdate = (ms.getUpdateDate() != null) ? df.format(ms.getUpdateDate()) : "";
+		//recCount = ms.getRecordList().length;
 	}
 
 

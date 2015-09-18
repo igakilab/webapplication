@@ -35,7 +35,6 @@ public class MemberState {
 	public void updateActionRecord(RecordList l0){
 		RecordListTaker taker = new RecordListTaker();
 		taker.addRecordById(l0, id);
-		System.out.println("TAKER:" + taker.getRecordCount());
 		records = taker;
 	}
 
@@ -47,7 +46,7 @@ public class MemberState {
 		if( !records.isListEmpty() ){
 			last = records.getRecord(0);
 
-			if( sl.checkStateTimeout(
+			if( !sl.checkStateTimeout(
 				last.getStateCode(),
 				last.getTimeStamp(),
 				Calendar.getInstance().getTime()
