@@ -1,28 +1,41 @@
 package jp.ac.oit.igakilab.marsh.dwr;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import jp.sf.orangesignal.csv.Csv;
-import jp.sf.orangesignal.csv.CsvConfig;
-import jp.sf.orangesignal.csv.handlers.StringArrayListHandler;
+import jp.ac.oit.igakilab.marsh.smanager.CommonMemberSet;
+import jp.ac.oit.igakilab.marsh.smanager.CommonStateSet;
+import jp.ac.oit.igakilab.marsh.smanager.MemberIdList;
+import jp.ac.oit.igakilab.marsh.smanager.StateList;
 
 public class TestCsv {
 	public void testOut(){
-		List<String[]> lst = new ArrayList<String[]>();
-		String[] a1 = {"りょうくん", "ryokn"}, a2 = {"しにゃ", "shiya"},
-				a3 = {"きたば", "kitab"};
-
-		lst.add(a1);
-		lst.add(a2);
-		lst.add(a3);
+		StateList slist = CommonStateSet.LIST;
+		MemberIdList mlist = CommonMemberSet.LIST;
 
 		try{
-			Csv.save(lst, new File("test_export.csv"), new CsvConfig(), new StringArrayListHandler());
-		}catch (IOException e){
+			slist.exportCsvFile("export_state.csv");
+			mlist.exportCsvFile("export_memid.csv");
+		}catch(IOException e){}
+	}
 
-		}
+	public String[] testInState(){
+		StateList slist = new StateList();
+
+		try{
+			slist.importCsvFile("export_state.csv");
+		}catch(IOException e){}
+
+		return slist.getStateListString();
+	}
+
+
+	public String[] testInMemid(){
+		MemberIdList mlist = new MemberIdList();
+
+		try{
+			mlist.importCsvFile("export_memid.csv");
+		}catch(IOException e){}
+
+		return mlist.getIdListString();
 	}
 }
