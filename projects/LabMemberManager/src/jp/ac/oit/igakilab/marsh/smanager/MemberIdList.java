@@ -60,6 +60,26 @@ public class MemberIdList {
 		return name_list.toArray(new String[0]);
 	}
 
+	public String getNameByIndex(int idx){
+		if( idx >= 0 && idx < names.size() ){
+			return names.get(idx);
+		}else{
+			return null;
+		}
+	}
+
+	public String getIdByIndex(int idx){
+		if( idx >= 0 && idx < identifers.size() ){
+			return identifers.get(idx);
+		}else{
+			return null;
+		}
+	}
+
+	public int getListLength(){
+		return names.size();
+	}
+
 	public String[] getIdListString(){
 		List<String> tmp = new ArrayList<String>();
 
