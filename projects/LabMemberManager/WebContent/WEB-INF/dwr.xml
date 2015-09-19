@@ -7,6 +7,9 @@
     <create creator="new" javascript="LmmManager" scope="application">
       <param name="class" value="jp.ac.oit.igakilab.marsh.dwr.lmm.LmmManager"/>
     </create>
+    <create creator="new" javascript="TestCsv">
+    	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.TestCsv" />
+    </create>
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.lmm.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.*" />
