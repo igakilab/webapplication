@@ -49,6 +49,10 @@
 			table.append(Lmmutil.createLabelRow(labels));
 
 			IdlistConfig.getIdList(function(id_list){
+				if( SELECTED >= id_list.length ){
+					SELECTED = 0;
+					$("#view_selected").text("");
+				}
 				for(var i=0; i<id_list.length; i++){
 					addIdListRow($("#id_table"), id_list[i], i + 1);
 				}
@@ -62,10 +66,8 @@
 
 			ret = confirm("[" + name + ", " + id + "] で追加します");
 			if( ret == true ){
-				IdlistConfig.addId(name, id);
+				IdlistConfig.addId(name, id, updateIdList);
 			}
-
-			updateIdList();
 		}
 
 		function change(){
@@ -79,7 +81,7 @@
 					var ret = confirm(str_pre + "を" + str_new + "に変更します");
 
 					if( ret == true ){
-						IdlistConfig.setId(SELECTED - 1, name, id);
+						IdlistConfig.setId(SELECTED - 1, name, id, updateIdList);
 					}
 				});
 			}else{
@@ -97,12 +99,20 @@
 					var ret = confirm(str_pre + "を削除します");
 
 					if( ret == true ){
-						IdlistConfig.deleteId(SELECTED - 1);
+						IdlistConfig.deleteId(SELECTED - 1, updateIdList);
 					}
 				});
 			}else{
 				alert("削除対象を選択して下さい");
 			}
+		}
+
+		function save(){
+			IdlistConfig.exportConfig();
+		}
+
+		function reboot(){
+			LmmManager.init();
 		}
     </script>
 
@@ -118,6 +128,13 @@
 <body>
 <body>
 	<h3>ID変換リスト設定ページ</h3>
+
+	<hr>
+
+	<button onclick="save()">保存</button>
+	:現在のIDリストを保存します。適用にはMemberStateManagerの再起動が必要です。<br>
+	<button onclick="reboot()">マネージャ再起動</button>
+	:MemberStateManagerを再起動（初期化）します。<br>
 
 	<hr>
 

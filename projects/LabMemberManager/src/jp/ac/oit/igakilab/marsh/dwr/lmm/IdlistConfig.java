@@ -52,7 +52,7 @@ public class IdlistConfig {
 		list.deleteIdByIndex(idx);
 	}
 
-	public void export(){
+	public void exportConfig(){
 		try{
 			list.exportCsvFile(CONF_IDLIST_FILE);
 		}catch(IOException e0){}
