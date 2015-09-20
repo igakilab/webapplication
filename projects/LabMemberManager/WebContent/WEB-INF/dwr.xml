@@ -10,11 +10,14 @@
     <create creator="new" javascript="TestCsv">
     	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.TestCsv" />
     </create>
+    <create creator="new" javascript="IdlistConfig" scope="session">
+    	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.lmm.IdlistConfig" />
+    </create>
 
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.lmm.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.beans.*"/>
-    <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.beans" />
+    <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.beans.*" />
   </allow>
 </dwr>

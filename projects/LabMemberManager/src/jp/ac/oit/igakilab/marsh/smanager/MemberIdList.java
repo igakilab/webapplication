@@ -76,6 +76,20 @@ public class MemberIdList {
 		}
 	}
 
+	public void setIdByIndex(int idx, String name, String id){
+		if( idx >= 0 && idx < identifers.size() ){
+			names.set(idx , name);
+			identifers.set(idx, id);
+		}
+	}
+
+	public void deleteIdByIndex(int idx){
+		if( idx >= 0 && idx < identifers.size() ){
+			names.remove(idx);
+			identifers.remove(idx);
+		}
+	}
+
 	public int getListLength(){
 		return names.size();
 	}

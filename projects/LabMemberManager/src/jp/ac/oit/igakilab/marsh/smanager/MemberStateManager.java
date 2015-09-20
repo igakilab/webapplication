@@ -19,6 +19,10 @@ public class MemberStateManager {
 
 	/*デフォルト状態リスト*/
 	public static StateList DEFAULT_SLIST= CommonStateSet.LIST;
+	public static MemberIdList DEFAULT_MLIST = CommonMemberSet.LIST;
+
+	/*設定ファイル*/
+	public static String CONF_IDLIST_FILE = "config_idlist.csv";
 
 
 	/*インスタンス変数*/
@@ -29,17 +33,17 @@ public class MemberStateManager {
 
 	/*コンストラクタ*/
 	public MemberStateManager(){
+		init();
+	}
+
+	public void init(){
 		recs = new RecordList();
-
 		slist = DEFAULT_SLIST;
-
 		mlist = new MemberIdList();
 		try{
-			mlist.importCsvFile("config_idlist.csv");
+			mlist.importCsvFile(CONF_IDLIST_FILE);
 		}catch( FileNotFoundException e0 ){
-			try{
-				CommonMemberSet.LIST.exportCsvFile("config_idlist.csv");
-			}catch( IOException e01 ){}
+			mlist = DEFAULT_MLIST;
 		}catch( IOException e1 ){}
 	}
 
