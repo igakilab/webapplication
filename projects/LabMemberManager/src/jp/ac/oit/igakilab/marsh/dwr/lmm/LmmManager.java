@@ -17,11 +17,12 @@ public class LmmManager {
 
 	/*コンストラクター*/
 	public LmmManager(){
-		manager = new MemberStateManager();
+		init();
 	}
 
-
-
+	public void init(){
+		manager = new MemberStateManager();
+	}
 
 	/*操作*/
 	public String login(String name){

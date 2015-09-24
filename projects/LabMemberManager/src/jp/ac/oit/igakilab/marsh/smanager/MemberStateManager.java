@@ -1,5 +1,8 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /*このクラスの機能
  * ・名前とidの参照を管理する
  * ・名前による状態問い合わせについて応答を返却する
@@ -18,6 +21,9 @@ public class MemberStateManager {
 	public static StateList DEFAULT_SLIST= CommonStateSet.LIST;
 	public static MemberIdList DEFAULT_MLIST = CommonMemberSet.LIST;
 
+	/*設定ファイル*/
+	public static String CONF_IDLIST_FILE = "config_idlist.csv";
+
 
 	/*インスタンス変数*/
 	private RecordList recs;
@@ -27,9 +33,18 @@ public class MemberStateManager {
 
 	/*コンストラクタ*/
 	public MemberStateManager(){
+		init();
+	}
+
+	public void init(){
 		recs = new RecordList();
 		slist = DEFAULT_SLIST;
-		mlist = DEFAULT_MLIST;
+		mlist = new MemberIdList();
+		try{
+			mlist.importCsvFile(CONF_IDLIST_FILE);
+		}catch( FileNotFoundException e0 ){
+			mlist = DEFAULT_MLIST;
+		}catch( IOException e1 ){}
 	}
 
 	/*レコード追加*/

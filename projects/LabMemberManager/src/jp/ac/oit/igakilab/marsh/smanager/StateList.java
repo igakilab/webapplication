@@ -1,8 +1,14 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import jp.sf.orangesignal.csv.Csv;
+import jp.sf.orangesignal.csv.CsvConfig;
+import jp.sf.orangesignal.csv.handlers.StringArrayListHandler;
 
 public class StateList {
 	/*定数*/
@@ -13,7 +19,7 @@ public class StateList {
 
 
 	/*コンストラクタ*/
-	StateList(){
+	public StateList(){
 		list = new ArrayList<StateInfo>();
 	}
 
@@ -73,15 +79,15 @@ public class StateList {
 
 
 	/*デバッグ等用メソッド*/
-	void clearStateList(){
+	public void clearStateList(){
 		list.clear();
 	}
 
-	int getStateListLength(){
+	public int getStateListLength(){
 		return list.size();
 	}
 
-	String[] getStateListString(){
+	public String[] getStateListString(){
 		int len = list.size();
 		String slist[] = new String[len];
 
@@ -90,5 +96,53 @@ public class StateList {
 		}
 
 		return slist;
+	}
+
+
+	/*ファイル操作*/
+	public void importCsvFile(String file_name)
+	throws IOException {
+		List<String[]> buffer;
+		String[] row;
+		int code, timeout;
+
+		buffer = Csv.load(new File(file_name),  new CsvConfig(), new StringArrayListHandler());
+
+		if( buffer.size() < 2 ) return;
+		if( !buffer.get(0)[0].equals("state_list") ) return;
+
+		for(int i=2; i<buffer.size(); i++){
+			row = buffer.get(i);
+			if( row.length >= 3 ){
+				try{
+					code = Integer.parseInt(row[0]);
+					timeout = Integer.parseInt(row[2]);
+					addState(new StateInfo(code, row[1], timeout));
+				}catch( NumberFormatException e){}
+			}
+		}
+	}
+
+	public void exportCsvFile(String file_name)
+	throws IOException {
+		List<String[]> buffer = new ArrayList<String[]>();
+		List<String> tmp = new ArrayList<String>();
+		StateInfo s_tmp;
+		String[] header = {"state_list"};
+		String[] labels = {"#code", "#name", "#timeout"};
+
+		buffer.add(header);
+		buffer.add(labels);
+
+		for(int i=0; i<list.size(); i++){
+			s_tmp = list.get(i);
+			tmp.clear();
+			tmp.add(Integer.toString(s_tmp.getCode()));
+			tmp.add(s_tmp.getName());
+			tmp.add(Integer.toString(s_tmp.getTimeout()));
+			buffer.add(tmp.toArray(new String[0]));
+		}
+
+		Csv.save(buffer, new File(file_name), new CsvConfig(), new StringArrayListHandler());
 	}
 }
