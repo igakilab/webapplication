@@ -49,7 +49,7 @@
 			table.append(Lmmutil.createLabelRow(labels));
 
 			IdlistConfig.getIdList(function(id_list){
-				if( SELECTED >= id_list.length ){
+				if( SELECTED > id_list.length ){
 					SELECTED = 0;
 					$("#view_selected").text("");
 				}
