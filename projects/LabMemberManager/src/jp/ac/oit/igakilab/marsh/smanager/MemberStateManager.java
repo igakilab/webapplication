@@ -3,6 +3,9 @@ package jp.ac.oit.igakilab.marsh.smanager;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
+import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
+
 /*このクラスの機能
  * ・名前とidの参照を管理する
  * ・名前による状態問い合わせについて応答を返却する

@@ -1,4 +1,4 @@
-package jp.ac.oit.igakilab.marsh.smanager;
+package jp.ac.oit.igakilab.marsh.smanager.records;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

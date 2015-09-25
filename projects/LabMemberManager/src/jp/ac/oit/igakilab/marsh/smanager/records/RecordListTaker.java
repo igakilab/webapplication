@@ -1,4 +1,4 @@
-package jp.ac.oit.igakilab.marsh.smanager;
+package jp.ac.oit.igakilab.marsh.smanager.records;
 
 public class RecordListTaker extends RecordList {
 	/*コンストラクタ*/
