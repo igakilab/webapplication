@@ -1,41 +1,49 @@
 package jp.ac.oit.igakilab.marsh.dwr;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import jp.ac.oit.igakilab.marsh.smanager.CommonMemberSet;
-import jp.ac.oit.igakilab.marsh.smanager.CommonStateSet;
-import jp.ac.oit.igakilab.marsh.smanager.MemberIdList;
-import jp.ac.oit.igakilab.marsh.smanager.StateList;
+import jp.ac.oit.igakilab.marsh.smanager.beans.ActionRecordBean;
+import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
+import jp.ac.oit.igakilab.marsh.smanager.records.CsvRecordList;
 
 public class TestCsv {
-	public void testOut(){
-		StateList slist = CommonStateSet.LIST;
-		MemberIdList mlist = CommonMemberSet.LIST;
+	CsvRecordList crl;
 
-		try{
-			slist.exportCsvFile("export_state.csv");
-			mlist.exportCsvFile("export_memid.csv");
-		}catch(IOException e){}
+	public TestCsv(){
+		init();
 	}
 
-	public String[] testInState(){
-		StateList slist = new StateList();
-
-		try{
-			slist.importCsvFile("export_state.csv");
-		}catch(IOException e){}
-
-		return slist.getStateListString();
+	public void init(){
+		crl = new CsvRecordList();
 	}
 
+	public void addRecord(String id, int code){
+		crl.addRecord(new ActionRecord(id, code));
+	}
 
-	public String[] testInMemid(){
-		MemberIdList mlist = new MemberIdList();
+	public ActionRecordBean[] getRecordList(){
+		List<ActionRecordBean> beans = new ArrayList<ActionRecordBean>();
+		int len = crl.getRecordCount();
+		for(int i=0; i<len; i++){
+			beans.add(new ActionRecordBean(crl.getRecord(i)));
+		}
+		return beans.toArray(new ActionRecordBean[0]);
+	}
 
+	public void exportList(){
 		try{
-			mlist.importCsvFile("export_memid.csv");
-		}catch(IOException e){}
+			crl.exportFile("test_output.csv");
+		}catch(IOException e0){}
+	}
 
-		return mlist.getIdListString();
+	public void importList(){
+		if( new File("test_output.csv").exists() ){
+			try{
+				crl.importFile("test_output.csv");
+			}catch(IOException e0){}
+		}
 	}
 }

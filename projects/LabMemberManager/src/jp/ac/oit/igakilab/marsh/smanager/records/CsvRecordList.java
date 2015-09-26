@@ -60,7 +60,7 @@ public class CsvRecordList extends RecordList {
 		}
 		writer.writeValues(tmp);
 
-		for(int i=getRecordCount()-1; i>=0; i++){
+		for(int i=getRecordCount()-1; i>=0; i--){
 			tmp = toTokens(getRecord(i));
 			writer.writeValues(tmp);
 		}
@@ -85,7 +85,7 @@ public class CsvRecordList extends RecordList {
 	}
 
 	public void addRecordList(RecordList recs){
-		for(int i=recs.getRecordCount()-1; i>=0; i++){
+		for(int i=recs.getRecordCount()-1; i>=0; i--){
 			addRecord(recs.getRecord(i));
 		}
 	}
