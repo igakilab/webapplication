@@ -83,5 +83,10 @@ public class TestCsv {
 			return "unsupported file";
 		}
 	}
+
+	public void addSingleRecord(String file_name, String id, int code){
+		try{
+			CsvRecordList.addRecordToFile(file_name, new ActionRecord(id, code));
+		}catch(IOException e0){}
+	}
 }
-;

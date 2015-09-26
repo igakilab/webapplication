@@ -46,6 +46,58 @@ public class CsvRecordList extends RecordList {
 		return checkFile(new File(fname));
 	}
 
+	static public List<String> toTokens(ActionRecord rec){
+		List<String> tokens = new ArrayList<String>();
+		tokens.add(DF.format(rec.getTimeStamp()));
+		tokens.add(rec.getId());
+		tokens.add(Integer.toString(rec.getStateCode()));
+		return tokens;
+	}
+
+	static public ActionRecord toRecord(String[] strs)
+	throws ParseException{
+		Date ts = DF.parse(strs[0]);
+		String id = strs[1];
+		int code = Integer.parseInt(strs[2]);
+		return new ActionRecord(ts, id, code);
+	}
+
+	static public void writeCsvHeader(CsvWriter writer)
+	throws IOException {
+		String[] labels = {"timestamp", "id", "code"};
+		List<String> tmp = new ArrayList<String>();
+		tmp.add(FILE_HEADER);
+		writer.writeValues(tmp);
+		tmp.clear();
+		for(int i=0; i<labels.length; i++){
+			tmp.add(labels[i]);
+		}
+		writer.writeValues(tmp);
+	}
+
+	static public void addRecordToFile(String fname, ActionRecord rec)
+	throws IOException{
+		File fp = new File(fname);
+		CsvWriter writer;
+		List<String> tokens;
+
+		if( fp.exists() ){
+			if( checkFile(fp) ){
+				writer = new CsvWriter(new FileWriter(fp, true));
+			}else{
+				DebugLog.out("addRecordToFile: unspported file");
+				return;
+			}
+		}else{
+			writer = new CsvWriter(new FileWriter(fp, false));
+			writeCsvHeader(writer);
+		}
+
+		tokens = toTokens(rec);
+		writer.writeValues(tokens);
+		writer.close();
+	}
+
 
 	//インスタン
 	public CsvRecordList(){
@@ -82,40 +134,15 @@ public class CsvRecordList extends RecordList {
 	public void exportFile(String fname)
 	throws IOException{
 		List<String> tmp;
-		String[] labels = {"timestamp", "id", "code"};
 		CsvWriter writer = new CsvWriter(new FileWriter(fname));
 
-		tmp = new ArrayList<String>();
-		tmp.add(FILE_HEADER);
-		writer.writeValues(tmp);
-		tmp.clear();
-		for(int i=0; i<labels.length; i++){
-			tmp.add(labels[i]);
-		}
-		writer.writeValues(tmp);
-
+		writeCsvHeader(writer);
 		for(int i=getRecordCount()-1; i>=0; i--){
 			tmp = toTokens(getRecord(i));
 			writer.writeValues(tmp);
 		}
 
 		writer.close();
-	}
-
-	public List<String> toTokens(ActionRecord rec){
-		List<String> tokens = new ArrayList<String>();
-		tokens.add(DF.format(rec.getTimeStamp()));
-		tokens.add(rec.getId());
-		tokens.add(Integer.toString(rec.getStateCode()));
-		return tokens;
-	}
-
-	public ActionRecord toRecord(String[] strs)
-	throws ParseException{
-		Date ts = DF.parse(strs[0]);
-		String id = strs[1];
-		int code = Integer.parseInt(strs[2]);
-		return new ActionRecord(ts, id, code);
 	}
 
 	public void addRecordList(RecordList recs){
