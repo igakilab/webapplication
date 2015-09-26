@@ -1,6 +1,7 @@
 package jp.ac.oit.igakilab.marsh.smanager.records;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -18,8 +19,35 @@ import jp.sf.orangesignal.csv.handlers.StringArrayListHandler;
 
 public class CsvRecordList extends RecordList {
 	static DateFormat DF= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	static String header = "RecList";
+	static String FILE_HEADER = "RecList";
 
+	static public boolean checkFile(File fp){
+		FileReader reader = null;
+		int tmp;
+		boolean flag = true;
+
+		try{
+			reader = new FileReader(fp);
+
+			for(int i=0; i<FILE_HEADER.length(); i++){
+				if( (tmp = reader.read()) == -1 ) flag = false;
+				if( (char)tmp != FILE_HEADER.charAt(i)) flag = false;
+			}
+
+			reader.close();
+		}catch(IOException e0){
+			flag = false;
+		}
+
+		return flag;
+	}
+
+	static public boolean checkFile(String fname){
+		return checkFile(new File(fname));
+	}
+
+
+	//インスタン
 	public CsvRecordList(){
 		super();
 	}
@@ -28,20 +56,26 @@ public class CsvRecordList extends RecordList {
 	throws IOException {
 		List<String[]> buf;
 		ActionRecord rec_tmp;
-		buf = Csv.load(new File(fname), new CsvConfig(), new StringArrayListHandler());
+		File fp = new File(fname);
 
-		if( !header.equals(buf.get(0)[0]) ){
+		if( !checkFile(fp) ){
+			DebugLog.out("file error");
+			return;
+		}
+
+		buf = Csv.load(fp, new CsvConfig(), new StringArrayListHandler());
+
+		if( !FILE_HEADER.equals(buf.get(0)[0]) ){
 			DebugLog.out("illigal format");
 		}
 
 		for(int i=2; i<buf.size(); i++){
 			try{
 				rec_tmp = toRecord(buf.get(i));
+				addRecord(rec_tmp);
 			}catch(ParseException e0){
-				DebugLog.out("PARSEERROR: " + e0.getMessage());
-				break;
+				DebugLog.out("PARSEERROR: [rows:" + i + "] " + e0.getMessage());
 			}
-			addRecord(rec_tmp);
 		}
 	}
 
@@ -52,7 +86,7 @@ public class CsvRecordList extends RecordList {
 		CsvWriter writer = new CsvWriter(new FileWriter(fname));
 
 		tmp = new ArrayList<String>();
-		tmp.add(header);
+		tmp.add(FILE_HEADER);
 		writer.writeValues(tmp);
 		tmp.clear();
 		for(int i=0; i<labels.length; i++){
