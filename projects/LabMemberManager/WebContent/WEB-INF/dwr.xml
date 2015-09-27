@@ -13,6 +13,9 @@
     <create creator="new" javascript="IdlistConfig" scope="session">
     	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.lmm.IdlistConfig" />
     </create>
+    <create creator="new" javascript="LogTest">
+    	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.LogTest" />
+    </create>
 
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.lmm.*" />

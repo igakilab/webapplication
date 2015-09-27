@@ -13,7 +13,7 @@ public class DebugLog {
 	public static final int LS_EXCEPTION = 104;
 	public static final int LS_FATAL = 105;
 
-	public static String LOG_DIR = "logs/";
+	public static String LOG_DIR = "";
 	public static String DEFAULT_NAME = "default";
 
 	public static String getSubjectString(int code){
@@ -32,17 +32,18 @@ public class DebugLog {
 		return "logs_" + mname + "_" + df.format(date) + ".txt";
 	}
 
-	public static void writeLog(String mname, String msg){
+	public static boolean writeLog(String mname, String msg){
 		String file_path = LOG_DIR + getLogFileName(mname, Calendar.getInstance().getTime());
 		LogRecorder recorder = new LogRecorder(file_path, true);
 		try{ recorder.addLog(msg, true); }
-		catch(IOException e0){}
+		catch(IOException e0){ return false; }
+		return true;
 	}
 
 
-	public static void logm(String module, int type, String func, String msg){
+	public static boolean logm(String module, int type, String func, String msg){
 		String write_msg = func + ": " + getSubjectString(type) + " " + msg;
-		writeLog(module, write_msg);
+		return writeLog(module, write_msg);
 	}
 
 	public static void logm(String module, int type, String msg){
