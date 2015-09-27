@@ -4,12 +4,22 @@ public class IdRecordSearcher
 implements RecordSearcher {
 	//フィールド
 	private String target_id;
+	RecordList list;
 
 	//コンストラクタ
-	public IdRecordSearcher(){};
+	public IdRecordSearcher(){
+		init();
+	};
 
 	public IdRecordSearcher(String i0){
+		this();
 		target_id = i0;
+	}
+
+	//初期化
+	public void init(){
+		target_id = null;
+		list = new RecordList();
 	}
 
 	//get/set
@@ -20,20 +30,28 @@ implements RecordSearcher {
 		target_id = i0;
 	}
 
+	//オブジェクト取得
+	public RecordList getRecordList(){
+		return list;
+	}
+
+	//リスト操作
+	public void clearList(){
+		list.clear();
+	}
+
 	//実装メソッド
 	public boolean isExcutable(){
 		return target_id != null;
 	}
 
-	public ActionRecord[] excute(RecordList r0){
-		RecordList list = new RecordList();
-
+	public int excute(RecordList r0){
 		for(int i=0; i<r0.getRecordCount() && isExcutable(); i++){
 			if( !target_id.equals(r0.getRecord(i).getId()) ){
 				list.addRecord(r0.getRecord(i));
 			}
 		}
 
-		return list.toArray();
+		return RecordSearcher.EX_CONTINUE;
 	}
 }

@@ -111,7 +111,7 @@ public class CsvRecordList extends RecordList {
 		File fp = new File(fname);
 
 		if( !checkFile(fp) ){
-			DebugLog.out("file error");
+			DebugLog.out("importFile: file error");
 			return;
 		}
 
