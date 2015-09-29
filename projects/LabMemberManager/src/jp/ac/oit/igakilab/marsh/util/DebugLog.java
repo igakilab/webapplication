@@ -1,6 +1,6 @@
 package jp.ac.oit.igakilab.marsh.util;
 
-import java.io.IOException;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,7 +13,7 @@ public class DebugLog {
 	public static final int LS_EXCEPTION = 104;
 	public static final int LS_FATAL = 105;
 
-	public static String LOG_DIR = "";
+	public static String LOG_DIR = "logs/";
 	public static String DEFAULT_NAME = "default";
 
 	public static String getSubjectString(int code){
@@ -27,23 +27,31 @@ public class DebugLog {
 		}
 	}
 
+	public static boolean createDirectory(){
+		File dir = new File(LOG_DIR);
+		if( !dir.exists() ){
+			return dir.mkdirs();
+		}else{
+			return true;
+		}
+	}
+
 	public static String getLogFileName(String mname, Date date){
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		return "logs_" + mname + "_" + df.format(date) + ".txt";
 	}
 
-	public static boolean writeLog(String mname, String msg){
+	public static void writeLog(String mname, String msg){
 		String file_path = LOG_DIR + getLogFileName(mname, Calendar.getInstance().getTime());
+		createDirectory();
 		LogRecorder recorder = new LogRecorder(file_path, true);
-		try{ recorder.addLog(msg, true); }
-		catch(IOException e0){ return false; }
-		return true;
+		recorder.addSingleLog(msg, true);
 	}
 
 
-	public static boolean logm(String module, int type, String func, String msg){
+	public static void logm(String module, int type, String func, String msg){
 		String write_msg = func + ": " + getSubjectString(type) + " " + msg;
-		return writeLog(module, write_msg);
+		writeLog(module, write_msg);
 	}
 
 	public static void logm(String module, int type, String msg){

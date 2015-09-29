@@ -9,13 +9,13 @@ public class LogTest {
 		instance = new DebugLog("INSTANCE");
 	}
 
-	public String doTests(){
+	public void doTests(){
 		instance.log(DebugLog.LS_INFO, "FUNCTION", "MESSAGE");
 		instance.log("FUNCTION", "MESSAGE");
 		instance.log(DebugLog.LS_WARN, "MESSAGE");
 		instance.log("MESSAGE ONLY");
 
-		boolean ret = DebugLog.logm("TESTMOD1", DebugLog.LS_ERROR, "FUNCTION", "MESSAGE");
+		DebugLog.logm("TESTMOD1", DebugLog.LS_ERROR, "FUNCTION", "MESSAGE");
 		DebugLog.logm("TESTMOD2", DebugLog.LS_EXCEPTION, "MESSAGE");
 		DebugLog.logm("TESTMOD3", "FUNCTION", "MESSAGE");
 		DebugLog.logm("TESTMOD4", "MESSAGE ONLY");
@@ -24,8 +24,6 @@ public class LogTest {
 		DebugLog.logs(999, "TYPECODE UNDEFINED");
 		DebugLog.logs("FUNCTION", "MESSAGE");
 		DebugLog.logs("MESSAGE ONLY");
-
-		return Boolean.toString(ret);
 	}
 
 }
