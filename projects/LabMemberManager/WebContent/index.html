@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
 	<script type="text/javascript" src="js/Lmmifc.js"></script>
 	<script type="text/javascript" src="js/Lmmutil.js"></script>
+	<script type="text/javascript" src="js/stateTable.js"></script>
 	<style type="text/css">
 	.table2 th {
 		background-color: #cccccc;
@@ -33,9 +34,9 @@
 
 	function update(){
 		/*marshmallow*/
-		Lmmutil.setStateToTable("りょーくん","ryo");
-		Lmmutil.setStateToTable("しにゃ","shinya");
-		Lmmutil.setStateToTable("きたば","kitaba");
+		StateTable.setStateRow("りょーくん","ryo");
+		//Lmmutil.setStateToTable("しにゃ","shinya");
+		//Lmmutil.setStateToTable("きたば","kitaba");
 		/*mst*/
 		/*
 		Lmmutil.setStateToTable("林修","ueda");
@@ -84,6 +85,7 @@
 	<hr>
 
 	<button onclick="gozagoza()">趣があるなぁ</button>
+	<button onclick="update()">更新</button>
 
 	<table class="table2" border=1>
 	<col span="1" style="width:2cm;height:2cm">

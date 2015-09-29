@@ -1,6 +1,6 @@
 var StateTable = {
 
-		states : [101, 102, 103, 104, 105],
+		states : [101, 103, 104, 102],
 
 		appendTdElements: function(dest, pos, len, val){
 			for(var i=0; i<len; i++){
@@ -26,7 +26,7 @@ var StateTable = {
 					return i;
 				}
 			}
-			return 1;
+			return 3;
 		},
 
 		setStateRow: function(name, id){
