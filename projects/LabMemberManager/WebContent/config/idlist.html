@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CONFIG_IDLIST</title>
+	<meta charset="UTF-8">
+
+	<script type="text/javascript" src="../dwr/engine.js"></script>
+    <script type="text/javascript" src="../dwr/util.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="../dwr/interface/IdlistConfig.js"></script>
+    <script type="text/javascript" src="../js/Lmmutil.js"></script>
+
+    <script>
+		var SELECTED = 0;
+
+		function selectRow(idx){
+			if( SELECTED != 0 ) $("#list_idx_" + SELECTED ).css("background-color", "white");
+			SELECTED = idx;
+			$("#list_idx_" + idx).css("background-color", "yellow");
+			$("#view_selected").text("選択中: " + idx);
+			IdlistConfig.getId(idx - 1, function(inf){
+				$("#input_name").val(inf.name);
+				$("#input_id").val(inf.id);
+			});
+		}
+
+    	function addIdListRow(dest, obj, idx){
+    		var row = $("<tr></tr>");
+    		if( arguments.length > 2 ){
+    			row.attr("id", "list_idx_" + idx);
+    			row.click(function(){selectRow(idx);})
+    			row.append($("<td></td>").text(idx));
+    			if( SELECTED == idx ){
+    				row.css("background-color", "yellow");
+    			}
+    		}
+    		row.append($("<td></td>").text(obj.name));
+    		row.append($("<td></td>").text(obj.id));
+    		dest.append(row);
+    	}
+		function updateIdList(){
+			var table = $("#id_table");
+			var labels = ["No", "Name", "Id"];
+
+			table.empty();
+			table.append($("<caption></caption>").text("NAME-IDリスト"));
+			table.append(Lmmutil.createLabelRow(labels));
+
+			IdlistConfig.getIdList(function(id_list){
+				if( SELECTED > id_list.length ){
+					SELECTED = 0;
+					$("#view_selected").text("");
+				}
+				for(var i=0; i<id_list.length; i++){
+					addIdListRow($("#id_table"), id_list[i], i + 1);
+				}
+			});
+		}
+
+		function add(){
+			var name = $("#input_name").val();
+			var id = $("#input_id").val();
+			var ret;
+
+			ret = confirm("[" + name + ", " + id + "] で追加します");
+			if( ret == true ){
+				IdlistConfig.addId(name, id, updateIdList);
+			}
+		}
+
+		function change(){
+			var name = $("#input_name").val();
+			var id = $("#input_id").val();
+
+			if( SELECTED != 0 ){
+				IdlistConfig.getId(SELECTED - 1, function(inf){
+					var str_pre = "[" + inf.name + ", " + inf.id + "]";
+					var str_new = "[" + name + ", " + id + "]";
+					var ret = confirm(str_pre + "を" + str_new + "に変更します");
+
+					if( ret == true ){
+						IdlistConfig.setId(SELECTED - 1, name, id, updateIdList);
+					}
+				});
+			}else{
+				alert("変更対象を選択して下さい");
+			}
+		}
+
+		function remove(){
+			var name = $("#input_name").val();
+			var id = $("#input_id").val();
+
+			if( SELECTED != 0 ){
+				IdlistConfig.getId(SELECTED - 1, function(inf){
+					var str_pre = "[" + inf.name + ", " + inf.id + "]";
+					var ret = confirm(str_pre + "を削除します");
+
+					if( ret == true ){
+						IdlistConfig.deleteId(SELECTED - 1, updateIdList);
+					}
+				});
+			}else{
+				alert("削除対象を選択して下さい");
+			}
+		}
+
+		function save(){
+			IdlistConfig.exportConfig();
+		}
+
+		function reboot(){
+			LmmManager.init();
+		}
+    </script>
+
+    <style>
+    	#id_table{
+    		width:500px;
+    	}
+    </style>
+
+</head>
+
+
+<body>
+<body>
+	<h3>ID変換リスト設定ページ</h3>
+
+	<hr>
+
+	<button onclick="save()">保存</button>
+	:現在のIDリストを保存します。適用にはMemberStateManagerの再起動が必要です。<br>
+	<button onclick="reboot()">マネージャ再起動</button>
+	:MemberStateManagerを再起動（初期化）します。<br>
+
+	<hr>
+
+	<button onclick="updateIdList()">リストを更新</button>
+	名前(Name):<input id="input_name" type="text"></input>
+	識別子(Id):<input id="input_id" type="text"></input>
+	<button onclick="add()">追加</button>
+	<button onclick="change()">変更</button>
+	<button onclick="remove()">削除</button>
+	<span id="view_selected"></span>
+
+	<hr>
+
+	<table id="id_table" border="1"></table>
+
+
+</body>
+
+</html>

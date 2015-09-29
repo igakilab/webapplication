@@ -1,4 +1,4 @@
-package jp.ac.oit.igakilab.marsh.smanager;
+package jp.ac.oit.igakilab.marsh.util;
 
 public class DebugLog {
 	private static LogRecorder INSTANCE = null;

@@ -1,4 +1,4 @@
-package jp.ac.oit.igakilab.marsh.smanager;
+package jp.ac.oit.igakilab.marsh.util;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

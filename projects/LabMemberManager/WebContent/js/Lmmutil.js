@@ -37,3 +37,13 @@ Lmmutil.addMemberInfoToTable = function(jq_elem, info){
 		);
 	}
 }
+
+
+Lmmutil.createLabelRow = function(label){
+	var nrow = $("<tr></tr>");
+	for(var i=0; i<label.length; i++){
+		nrow.append($("<th></th>").text(label[i]));
+	}
+	return nrow;
+}
+
