@@ -30,6 +30,8 @@ public class RecordListManager {
 		CsvRecordList c_rec = new CsvRecordList();
 		c_rec.addRecordList(recs);
 		try {
+			File dir = new File(CSV_DIR);
+			if( !dir.exists()) dir.mkdirs();
 			c_rec.exportFile(CSV_DIR + file_name);
 		}catch(IOException e0){
 			DebugLog.out("RecordListManager(02): 入出力エラーが発生しました");
@@ -44,6 +46,8 @@ public class RecordListManager {
 
 	static public void outputSingleRecord(String file_name, ActionRecord rec){
 		try {
+			File dir = new File(CSV_DIR);
+			if( !dir.exists() ) dir.mkdirs();
 			CsvRecordList.addRecordToFile(CSV_DIR + file_name, rec);
 		}catch(IOException e0){
 			DebugLog.out("RecordListManager(03): 入出力エラーが発生しました");
@@ -68,12 +72,17 @@ public class RecordListManager {
 	//フィールド
 	RecordList buffer;
 
+	//コンストラクタ
+	public RecordListManager(){
+		init();
+	}
+
 	//メソッド
 	public void init(){
 		buffer = new RecordList();
 	}
 
-	public void addReocrd(ActionRecord recs){
+	public void addRecord(ActionRecord recs){
 		buffer.addRecord(recs);
 		outputSingleRecord(
 			getDateFilename(recs.getTimeStamp()),
