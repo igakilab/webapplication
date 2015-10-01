@@ -1,49 +1,119 @@
-<html lang="ja">
-  <head>
-    <script type="text/javascript" src="dwr/engine.js"></script>
-    <script type="text/javascript" src="dwr/util.js"></script>
-    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="js/jquery.serialize.js"></script>
-    <script type="text/javascript" src="dwr/interface/MultiplePrinter.js"></script>
-    <script type="text/javascript">
-      function update(){
-        var formData = $('#csprinter_form').serializeJson();
-        MultiplePrinter.execute(formData, {
-          callback: function(data) {
-            $('#csprinterReply').text(data);
-            $('#error_message').text("");
-          },
-          errorHandler: updateErrorMessage
-        });
-      }
-      function getData(){
-    	  MultiplePrinter.getMemberInfoList({
-    		  callback: function(data){
-    			  $("#viewlen").text(data.length);
-    			  $("#view").text(data[0].name);
-    		  }
-    	  });
-      }
-      function updateErrorMessage(message, exception){
-        $('#error_message').text(message);
-        $('#csprinterReply').text("");
-      }
-    </script>
-  </head>
-  <body>
-    <p>
-      <form id="csprinter_form">
-        最大値: <input type="text" name="max" value="10"/><br/>
-        指定した倍数の数字をryokunに変える: <input type="text" name="multiple" value="3"/><br/>
-        <input value="Send" type="button" onclick="update()"/>
-      </form>
-    </p><p>
-      Reply: <span id="csprinterReply"></span>
-    </p><p>
-      <span id="error_message" class="error"></span>
-    </p>
-    <hr>
-    <button type="button" onclick="getData()">取得</button><span id="viewlen"></span>
-  	<p><a href="LLMtest.html">LabMemberManagerテストページ</a></p>
-  </body>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>井垣lab在室管理だぉ！</title>
+
+	<script type="text/javascript" src="dwr/engine.js"></script>
+	<script type="text/javascript" src="dwr/util.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery.serialize.js"></script>
+	<script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
+	<script type="text/javascript" src="js/Lmmifc.js"></script>
+	<script type="text/javascript" src="js/Lmmutil.js"></script>
+	<script type="text/javascript" src="js/stateTable.js"></script>
+	<style type="text/css">
+	.table2 th {
+		background-color: #cccccc;
+	}
+	</style>
+
+	<script>
+	function yt(){
+		Lmmifc.getMemberInfoList(function(info){
+			Lmmutil.addMemberInfoToTable($(".table2"), info);
+		});
+	}
+
+	function gozaru(){
+		var members = Lmmifc.getRegistedId();
+		for(var i = 0; i<members.length; i++){
+			Lmmutil.md(members[i],"table3");
+		}
+	}
+
+	function update(){
+		/*marshmallow*/
+		StateTable.setStateRow("りょーくん","ryo");
+		StateTable.setStateRow("しにゃ","shinya");
+		StateTable.setStateRow("きたば","kitaba");
+
+		/*mst*/
+		StateTable.setStateRow("林修","ueda");
+		StateTable.setStateRow("上山","ueyama");
+		StateTable.setStateRow("三井","mitui");
+
+		/*パッツアン*/
+		StateTable.setStateRow("ギダ","gida");
+		StateTable.setStateRow("めがね","kawazoe");
+		StateTable.setStateRow("清水","shimizu");
+
+		/*thallium*/
+		StateTable.setStateRow("でこぽん","でこぽん");
+		StateTable.setStateRow("きーち","きーち");
+		StateTable.setStateRow("うっちー","うっちー");
+
+	}
+
+
+	var gozagoza = function(){
+		alert("鼻毛真拳奥義\n「お・す・ぎ」とみせかけて「ピーコ」！！");
+	}
+	</script>
+
+</head>
+
+<body>
+	<h3>在室管理しまっせ！</h3>
+	<i>Version: record-system</i>
+
+	<hr>
+	<a href="http://www.jra.go.jp">絶対押すな！</a>
+	<span id="osugi"></span>
+
+<!--  	<h2>ここから選べよ！</h2>
+	<br>
+	<br>
+-->
+<!--
+	<select name="kanri">
+	<option value="in" selected>在室</option>
+	<option value="zyugyo" selected>授業</option>
+	<option value="shop" selected>コンビニ・買い物</option>
+	<option value="out" selected>帰宅</option>
+    </select>
+    <input type="submit" value="送信">
+-->
+	<hr>
+
+	<button onclick="gozagoza()">趣があるなぁ</button>
+	<button onclick="update()">更新</button>
+
+	<table class="table2" border=1>
+	<col span="1" style="width:2cm;height:2cm">
+	<col span="6" style="width:2cm;height:2cm">
+	<tr><th>なまえ</th><th>在室</th><th>授業</th><th>コンビニ 買い物</th><th>帰宅</th></tr>
+	<tr id=ryo><td>りょーくん</td><td></td><td></td><td></td><td></td></tr>
+	<tr id=shinya><td>しにゃ</td><td></td><td></td><td></td><td></td></tr>
+	<tr id=kitaba><td>きたば</td><td></td><td></td><td></td><td></td></tr>
+    <tr id=ueda><td>林修</td><td></td><td></td><td></td><td></td></tr>
+    <tr id=ueyama><td>上山</td><td></td><td></td><td></td><td></td></tr>
+    <tr id=mitui><td>三井</td><td></td><td></td><td></td><td></td></tr>
+    <tr id=gida><td>ギダ</td><td></td><td></td><td></td><td></td></tr>
+    <tr id=kawazoe><td>めがね</td><td></td><td></td><td></td><td></td></tr>
+    <tr id=shimizu><td>清水</td><td></td><td></td><td></td><td></td></tr>
+    <tr id=でこぽん><td>でこぽん</td><td></td><td></td><td></td><td></td></tr>
+    <tr id=きーち><td>きーち</td><td></td><td></td><td></td><td></td></tr>
+    <tr id=うっちー><td>うっちー</td><td></td><td></td><td></td><td></td></tr>
+
+	</table>
+
+	<hr>
+
+	<table id="table3"class="table2" border=1>
+	<col span="1" style="width:2cm;height:2cm">
+	<col span="6" style="width:2cm;height:2cm">
+	<tr><th>なまえ</th><th>在室</th><th>授業</th><th>コンビニ 買い物</th><th>帰宅</th></tr>
+	</table>
+</body>
 </html>

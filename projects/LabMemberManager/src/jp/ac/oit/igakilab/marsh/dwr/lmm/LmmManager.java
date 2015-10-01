@@ -15,7 +15,7 @@ public class LmmManager {
 
 	MemberStateManager manager;
 
-	/*コンストラクター*/
+	/*繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繝ｼ*/
 	public LmmManager(){
 		init();
 	}
@@ -24,7 +24,7 @@ public class LmmManager {
 		manager = new MemberStateManager();
 	}
 
-	/*操作*/
+	/*謫堺ｽ�*/
 	public String login(String name){
 		manager.addMemberState(name, MemberStateManager.LOGIN);
 		return "[" + name + "] login (" + DF.format(Calendar.getInstance().getTime()) + ")";
@@ -35,7 +35,6 @@ public class LmmManager {
 		manager.addMemberState(name, MemberStateManager.LOGOUT);
 		return "[" + name + "] logout(" + DF.format(Calendar.getInstance().getTime()) + ")";
 	}
-
 
 
 	public MemberStateBean getMemberState(String name){
