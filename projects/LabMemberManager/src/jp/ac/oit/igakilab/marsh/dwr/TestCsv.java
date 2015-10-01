@@ -1,41 +1,92 @@
 package jp.ac.oit.igakilab.marsh.dwr;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import jp.ac.oit.igakilab.marsh.smanager.CommonMemberSet;
-import jp.ac.oit.igakilab.marsh.smanager.CommonStateSet;
-import jp.ac.oit.igakilab.marsh.smanager.MemberIdList;
-import jp.ac.oit.igakilab.marsh.smanager.StateList;
+import jp.ac.oit.igakilab.marsh.smanager.beans.ActionRecordBean;
+import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
+import jp.ac.oit.igakilab.marsh.smanager.records.CsvRecordList;
+import jp.ac.oit.igakilab.marsh.util.DebugLog;
 
 public class TestCsv {
-	public void testOut(){
-		StateList slist = CommonStateSet.LIST;
-		MemberIdList mlist = CommonMemberSet.LIST;
+	CsvRecordList crl;
 
-		try{
-			slist.exportCsvFile("export_state.csv");
-			mlist.exportCsvFile("export_memid.csv");
-		}catch(IOException e){}
+	public TestCsv(){
+		init();
 	}
 
-	public String[] testInState(){
-		StateList slist = new StateList();
-
-		try{
-			slist.importCsvFile("export_state.csv");
-		}catch(IOException e){}
-
-		return slist.getStateListString();
+	public void init(){
+		crl = new CsvRecordList();
 	}
 
+	public void addRecord(String id, int code){
+		crl.addRecord(new ActionRecord(id, code));
+	}
 
-	public String[] testInMemid(){
-		MemberIdList mlist = new MemberIdList();
+	public ActionRecordBean[] getRecordList(){
+		List<ActionRecordBean> beans = new ArrayList<ActionRecordBean>();
+		int len = crl.getRecordCount();
+		for(int i=0; i<len; i++){
+			beans.add(new ActionRecordBean(crl.getRecord(i)));
+		}
+		return beans.toArray(new ActionRecordBean[0]);
+	}
 
+	public void exportList(){
+		exportListByName("test_output.csv");
+	}
+
+	public void exportListByName(String file_name){
 		try{
-			mlist.importCsvFile("export_memid.csv");
-		}catch(IOException e){}
+			crl.exportFile(file_name);
+		}catch(IOException e0){}
+	}
 
-		return mlist.getIdListString();
+	public String importList(){
+		return importListByName("test_output.csv");
+	}
+
+	public String importListByName(String file_name){
+		if( new File(file_name).exists() ){
+			try{
+				crl.importFile(file_name);
+			}catch(IOException e0){}
+		}else{
+			return "file not found";
+		}
+		return "complete";
+	}
+
+	public ActionRecordBean[] loadFile(String file_name){
+		CsvRecordList list = new CsvRecordList();
+		ActionRecordBean[] beans;
+		int length;
+		try{
+			list.importFile(file_name);
+		}catch(IOException e0){DebugLog.out("error392");}
+
+		length = list.getRecordCount();
+		beans = new ActionRecordBean[length];
+		for(int i=0; i<list.getRecordCount(); i++){
+			beans[i] = new ActionRecordBean(list.getRecord(i));
+		}
+
+		return beans;
+	}
+
+	public String checkFile(String file_name){
+		if( CsvRecordList.checkFile(file_name) ){
+			return "supported file";
+		}else{
+			return "unsupported file";
+		}
+	}
+
+	public void addSingleRecord(String file_name, String id, int code){
+		try{
+			CsvRecordList.addRecordToFile(file_name, new ActionRecord(id, code));
+		}catch(IOException e0){}
 	}
 }

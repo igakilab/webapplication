@@ -7,7 +7,7 @@
     <create creator="new" javascript="LmmManager" scope="application">
       <param name="class" value="jp.ac.oit.igakilab.marsh.dwr.lmm.LmmManager"/>
     </create>
-    <create creator="new" javascript="TestCsv">
+    <create creator="new" javascript="TestCsv" scope="session">
     	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.TestCsv" />
     </create>
     <create creator="new" javascript="IdlistConfig" scope="session">

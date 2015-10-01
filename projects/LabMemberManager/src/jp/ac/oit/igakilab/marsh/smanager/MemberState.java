@@ -3,6 +3,10 @@ package jp.ac.oit.igakilab.marsh.smanager;
 import java.util.Calendar;
 import java.util.Date;
 
+import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
+import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
+import jp.ac.oit.igakilab.marsh.smanager.records.RecordListTaker;
+
 public class MemberState {
 	public static final int UNDEFINED = CommonStateSet.UNDEFINED;
 

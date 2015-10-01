@@ -3,8 +3,8 @@ package jp.ac.oit.igakilab.marsh.smanager.beans;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import jp.ac.oit.igakilab.marsh.smanager.ActionRecord;
 import jp.ac.oit.igakilab.marsh.smanager.CommonStateSet;
+import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
 
 public class ActionRecordBean {
 	private String timeStamp;
