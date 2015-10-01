@@ -1,5 +1,8 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
+import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
+import jp.ac.oit.igakilab.marsh.smanager.records.RecordListTaker;
+
 public class MemberStateByname extends MemberState {
 	private String name;
 	private MemberIdList mlist;

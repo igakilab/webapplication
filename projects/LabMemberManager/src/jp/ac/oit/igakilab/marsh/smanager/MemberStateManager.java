@@ -3,6 +3,10 @@ package jp.ac.oit.igakilab.marsh.smanager;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
+import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
+import jp.ac.oit.igakilab.marsh.smanager.records.RecordListManager;
+
 /*このクラスの機能
  * ・名前とidの参照を管理する
  * ・名前による状態問い合わせについて応答を返却する
@@ -26,7 +30,7 @@ public class MemberStateManager {
 
 
 	/*インスタンス変数*/
-	private RecordList recs;
+	private RecordListManager recs;
 	private StateList slist;
 	private MemberIdList mlist;
 
@@ -37,7 +41,7 @@ public class MemberStateManager {
 	}
 
 	public void init(){
-		recs = new RecordList();
+		recs = new RecordListManager();
 		slist = DEFAULT_SLIST;
 		mlist = new MemberIdList();
 		try{
@@ -56,25 +60,25 @@ public class MemberStateManager {
 
 	/* メンバー状態取得 */
 	public MemberState getMemberState(String id){
-		return new MemberState(id, recs);
+		return new MemberState(id, recs.getBufferRecordList());
 	}
 
 	/* メンバー状態取得(ユーザ名) */
 	public MemberStateByname getMemberStateByName(String name){
-		return new MemberStateByname(name, mlist, recs);
+		return new MemberStateByname(name, mlist, recs.getBufferRecordList());
 	}
 
 
 	/* id一覧取得 */
 	public String[] getRegistedIdList(){
-		return recs.getIdList();
+		return recs.getBufferRecordList().getIdList();
 	}
 
 
 
 	/* 記録チェック */
 	public boolean checkIdRegisted(String id){
-		return recs.isIdRegisted(id);
+		return recs.getBufferRecordList().isIdRegisted(id);
 	}
 
 	/* 記録チェック */
@@ -83,7 +87,7 @@ public class MemberStateManager {
 		boolean flg = false;
 
 		for(int i=0; i<ids.length; i++){
-			flg = flg || recs.isIdRegisted(ids[i]);
+			flg = flg || recs.getBufferRecordList().isIdRegisted(ids[i]);
 		}
 
 		return flg;
@@ -92,7 +96,7 @@ public class MemberStateManager {
 
 	/* オブジェクト返し */
 	public RecordList getRecordListObject(){
-		return recs;
+		return recs.getBufferRecordList();
 	}
 	public StateList getStateListObject(){
 		return slist;

@@ -4,11 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import jp.ac.oit.igakilab.marsh.smanager.ActionRecord;
 import jp.ac.oit.igakilab.marsh.smanager.MemberState;
 import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
 import jp.ac.oit.igakilab.marsh.smanager.beans.ActionRecordBean;
 import jp.ac.oit.igakilab.marsh.smanager.beans.MemberStateBean;
+import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
 
 public class LmmManager {
 	static DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
