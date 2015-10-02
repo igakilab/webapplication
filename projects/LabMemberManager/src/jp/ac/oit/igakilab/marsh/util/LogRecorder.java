@@ -72,9 +72,9 @@ public class LogRecorder{
 			try {
 				openFile();
 				addLog(msg, timestamp);
-			}catch(IOException e){
-			}finally{
 				closeFile();
+			}catch(IOException e){
+				System.err.print(e.getMessage());
 			}
 		}
 	}
