@@ -18,8 +18,7 @@ public class MemberStateManager {
 	public static final int LOGIN = CommonStateSet.LOGIN;
 	public static final int LOGOUT = CommonStateSet.LOGOUT;
 	public static final int LECTURE = CommonStateSet.LECTURE;
-	public static final int TOILET_1 = CommonStateSet.TOILET_1;
-	public static final int TOILET_2 = CommonStateSet.TOILET_2;
+	public static final int CONVENI = CommonStateSet.CONVENI;
 
 	/*デフォルト状態リスト*/
 	public static StateList DEFAULT_SLIST= CommonStateSet.LIST;
