@@ -84,6 +84,10 @@ public class DebugLog {
 		logm(DEFAULT_NAME, msg);
 	}
 
+	public static void out(String msg){
+		logs(msg);
+	}
+
 //インスタンス化
 	String module_name;
 
