@@ -41,6 +41,6 @@ StateTable.setStateRow = function(name, id){
 StateTable.setColumn = function(args){
 	this.states = new Array();
 	for(var i=0; i<arguments.length; i++){
-		states[i] = arguments[i];
+		this.states[i] = arguments[i];
 	}
 };

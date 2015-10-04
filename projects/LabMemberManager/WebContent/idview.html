@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ログインid一覧表</title>
+
+	<script type="text/javascript" src="dwr/engine.js"></script>
+	<script type="text/javascript" src="dwr/util.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery.serialize.js"></script>
+	<script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="js/Lmmutil.js"></script>
+
+	<style>
+	#content{
+		background-color:#eee;
+		margin:0 auto;
+		width:800px;
+		padding:10px;
+	}
+	#footer{
+		background-color:#ccc;
+		margin:0 auto;
+		width:800px;
+		padding:10px;
+	}
+	#reply_area{
+		background-color:#cbc;
+	}
+	#id_name{
+		font-size:x-large;
+	}
+	#state_btn_area{
+		text-align:center;
+	}
+	.cen{
+		text-align:center;
+	}
+	.c_state_btn{
+		height:80px;
+		width:150px;
+	}
+	</style>
+
+	<script>
+	var SELECTORS = {}
+	SELECTORS.ID_INPUT = "#id_name";
+	SELECTORS.STATE_BTN_AREA = "#state_btn_area";
+	SELECTORS.REPLY_AREA = "#reply_area";
+	SELECTORS.ID_STATE_TABLE = "#id_list_table";
+
+	function test(){
+		(SELECTORS.ID_INPUT).val("test");
+	}
+
+	function updateIdList(){
+		$(SELECTORS.ID_STATE_TABLE).empty();
+		$(SELECTORS.ID_STATE_TABLE).append(
+			Lmmutil.createLabelRow(["id", "state", "last update"])
+		);
+		LmmManager.getRegistedId({
+			callback: setMemberStates
+		});
+	}
+
+	function setMemberStates(list){
+		for(var i=0; i<list.length; i++){
+			LmmManager.getMemberState(list[i], {
+				callback: setMemberInfoRow
+			});
+		}
+	}
+
+	function setMemberInfoRow(inf){
+		var nrow = $("<tr></tr>");
+		nrow.append($("<td></td>").text(inf.id));
+		nrow.append($("<td></td>").text(inf.stateStr));
+		nrow.append($("<td></td>").text(inf.lastUpdate));
+		$(SELECTORS.ID_STATE_TABLE).append(nrow);
+	}
+
+	function setStateButtons(){
+		$(SELECTORS.STATE_BTN_AREA).empty();
+		LmmManager.getStateList({
+			callback: function(list){
+				for(var i=0; i<list.length; i++){
+					$(SELECTORS.STATE_BTN_AREA).append(
+						createStateButton(list[i].name, list[i].code)
+					);
+				}
+			}
+		});
+	}
+
+	function createStateButton(s_name, s_code){
+		var btn = $("<button></button>");
+		btn.attr("class", "c_state_btn");
+		btn.text(s_name);
+		btn.click(function(){
+			setIdState(s_code);
+		});
+		return btn;
+	}
+
+	function setIdState(code){
+		var id = $(SELECTORS.ID_INPUT).val();
+		LmmManager.registState(id, code, {
+			callback: function(msg){
+				$(SELECTORS.REPLY_AREA).text("reply: " + msg);
+			}
+		});
+	}
+
+	function update(){
+		setStateButtons();
+		updateIdList();
+	}
+
+	update();
+	</script>
+
+</head>
+
+<body>
+<div id="content">
+	<h1 class="cen">ゼミ在室管理システム</h1>
+	<div style="text-align:right">
+		<button onclick="update()">update</button>
+		<button onclick="test()">test</button>
+	</div>
+	<hr>
+
+	<h2>情報の登録</h2>
+	<p>下記のテキストボックスに名前を入力して、状態ボタンをクリックして下さい</p>
+	名前:<input id="id_name" type="text"></input><br>
+	状態ボタン<br>
+	<div id="state_btn_area"></div>
+	<div id="reply_area">reply:</div>
+	<hr>
+
+	<h2>現在の状況</h2>
+	<p>データベースに登録されているidの一覧です</p>
+	<table id="id_list_table" style="width:90%" border="1"></table>
+
+</div>
+
+<div id="footer">
+	<i>Marshmallow-warriors</i>
+	<i>2015/10/04</i>
+</div>
+</body>
+
+</html>

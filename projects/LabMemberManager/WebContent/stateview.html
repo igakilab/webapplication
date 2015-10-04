@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ログインid一覧表</title>
+
+	<meta http-equiv="Refresh" content="10">
+
+	<script type="text/javascript" src="dwr/engine.js"></script>
+	<script type="text/javascript" src="dwr/util.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery.serialize.js"></script>
+	<script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="js/Lmmutil.js"></script>
+    <script type="text/javascript" src="js/stateTable.js"></script>
+
+	<style>
+	#content{
+		background-color:#eee;
+		margin:0 auto;
+		width:800px;
+		padding:10px;
+	}
+	#footer{
+		background-color:#ccc;
+		margin:0 auto;
+		width:800px;
+		padding:10px;
+	}
+	#attend_table{
+		margin:0 auto;
+		width:90%;
+	}
+	th, td{
+		height:30px;
+		font-size:large;
+	}
+	th{
+		background-color: orange;
+	}
+	td{
+		background-color: moccasin;
+	}
+	</style>
+
+	<script>
+	var ID_ATTEND_TABLE = "attend_table";
+
+	$(document).ready(function(){
+		update();
+		setInterval("update()", 10000);
+	});
+
+	function updateAttendTable(){
+		var table = $("#" + ID_ATTEND_TABLE);
+		table.empty();
+		table.append(
+			Lmmutil.createLabelRow(["名前", "在室", "授業", "コンビニ", "退室"])
+		);
+		StateTable.setColumn(101, 103, 104, 102);
+		StateTable.defaultColumn = 3
+		LmmManager.getMemberNameList({
+			callback: setMembersRow
+		});
+	}
+
+	function setMembersRow(list){
+		var table = $("#" + ID_ATTEND_TABLE);
+		var nrow;
+		for(var i=0; i<list.length; i++){
+			nrow = $("<tr></tr>");
+			row_id = "ar_" + list[i];
+			nrow.attr("id", row_id);
+			table.append(nrow);
+			StateTable.setStateRow(list[i], row_id);
+		}
+	}
+
+	function update(){
+		updateAttendTable();
+	}
+	</script>
+
+</head>
+
+<body>
+<div id="content">
+	<h1 class="cen">ゼミ在室管理システム</h1>
+	<div style="text-align:right">
+		<button onclick="update()">update</button>
+	</div>
+	<hr>
+
+	<h2>在室状況</h2>
+	<table id="attend_table"></table>
+
+</div>
+
+<div id="footer">
+	<i>Marshmallow-warriors</i>
+	<i>2015/10/04</i>
+</div>
+</body>
+
+</html>
