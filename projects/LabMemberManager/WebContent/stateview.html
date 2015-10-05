@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ログインid一覧表</title>
+
+	<script type="text/javascript" src="dwr/engine.js"></script>
+	<script type="text/javascript" src="dwr/util.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery.serialize.js"></script>
+	<script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="js/Lmmutil.js"></script>
+    <script type="text/javascript" src="js/stateTable.js"></script>
+
+	<style>
+	#content{
+		background-color:#eee;
+		margin:0 auto;
+		width:800px;
+		padding:10px;
+	}
+	#footer{
+		background-color:#ccc;
+		margin:0 auto;
+		width:800px;
+		padding:10px;
+	}
+	#attend_table{
+		margin:0 auto;
+		width:90%;
+	}
+	th, td{
+		height:30px;
+		font-size:large;
+	}
+	th{
+		background-color: orange;
+	}
+	td{
+		background-color: moccasin;
+	}
+	</style>
+
+	<script>
+	var ID_ATTEND_TABLE = "attend_table";
+	var ID_ATTEND_DIV = "attend_div";
+	var TABLE_TMP;
+
+	$(document).ready(function(){
+		update();
+		setInterval("update()", 10000);
+	});
+
+	function updateAttendTable(){
+		var table = $("<table></table>");
+		table.attr("id", "attend_table");
+		table.append(
+			Lmmutil.createLabelRow(["名前", "在室", "授業", "コンビニ", "退室"])
+		);
+		TABLE_TMP = table;
+		StateTable.setColumn([101, 102], 103, 104, 105);
+		StateTable.defaultColumn = 3
+		LmmManager.getMemberNameList({
+			callback: setMembersRow
+		});
+	}
+
+	function setMembersRow(list){
+		var table = TABLE_TMP;
+		var nrow;
+		for(var i=0; i<list.length; i++){
+			nrow = $("<tr></tr>");
+			table.append(nrow);
+			if( i == list.length-1 ){
+				StateTable.setStateRowElem(list[i], nrow, setMembersTable);
+			}else{
+				StateTable.setStateRowElem(list[i], nrow);
+			}
+		}
+	}
+
+	function setMembersTable(){
+		$("#" + ID_ATTEND_DIV).empty();
+		$("#" + ID_ATTEND_DIV).append(TABLE_TMP);
+	}
+
+	function update(){
+		updateAttendTable();
+	}
+	</script>
+
+</head>
+
+<body>
+<div id="content">
+	<h1 class="cen">ゼミ在室管理システム</h1>
+	<div style="text-align:right">
+		<button onclick="update()">update</button><br>
+		<a href="idview.html">ログイン情報登録ページ</a>
+	</div>
+	<hr>
+
+	<h2 class="cen">在室状況</h2>
+	<div id="attend_div"></div>
+
+</div>
+
+<div id="footer">
+	<i>Marshmallow-warriors</i>
+	<i>2015/10/04</i>
+</div>
+</body>
+
+</html>

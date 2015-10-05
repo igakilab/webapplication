@@ -98,6 +98,10 @@ public class StateList {
 		return slist;
 	}
 
+	public StateInfo[] toStateListArray(){
+		return list.toArray(new StateInfo[0]);
+	}
+
 
 	/*ファイル操作*/
 	public void importCsvFile(String file_name)

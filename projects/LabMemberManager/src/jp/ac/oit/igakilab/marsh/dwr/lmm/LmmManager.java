@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 import jp.ac.oit.igakilab.marsh.smanager.MemberState;
 import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
+import jp.ac.oit.igakilab.marsh.smanager.StateInfo;
 import jp.ac.oit.igakilab.marsh.smanager.beans.ActionRecordBean;
 import jp.ac.oit.igakilab.marsh.smanager.beans.MemberStateBean;
 import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
@@ -26,7 +27,7 @@ public class LmmManager {
 
 	/*謫堺ｽ�*/
 	public String login(String name){
-		manager.addMemberState(name, MemberStateManager.LOGIN);
+		manager.addMemberState(name, MemberStateManager.LOGIN_5M);
 		return "[" + name + "] login (" + DF.format(Calendar.getInstance().getTime()) + ")";
 	}
 
@@ -34,6 +35,12 @@ public class LmmManager {
 	public String logout(String name){
 		manager.addMemberState(name, MemberStateManager.LOGOUT);
 		return "[" + name + "] logout(" + DF.format(Calendar.getInstance().getTime()) + ")";
+	}
+
+
+	public String registState(String id, int code){
+		manager.addMemberState(id, code);
+		return "[id: " + id + ", code:" + code + "] registed";
 	}
 
 
@@ -93,5 +100,10 @@ public class LmmManager {
 		}
 
 		return beans;
+	}
+
+
+	public StateInfo[] getStateList(){
+		return manager.getStateListObject().toStateListArray();
 	}
 }
