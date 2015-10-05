@@ -58,7 +58,7 @@
 			Lmmutil.createLabelRow(["名前", "在室", "授業", "コンビニ", "退室"])
 		);
 		TABLE_TMP = table;
-		StateTable.setColumn(101, 102, 103, 104);
+		StateTable.setColumn([101, 102], 103, 104, 105);
 		StateTable.defaultColumn = 3
 		LmmManager.getMemberNameList({
 			callback: setMembersRow

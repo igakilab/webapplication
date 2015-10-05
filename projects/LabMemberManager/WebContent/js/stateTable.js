@@ -25,8 +25,16 @@ StateTable.appendRow = function(id, name, inf){
 
 StateTable.getPosition = function(code){
 	for(var i=0; i<this.states.length; i++){
-		if( code == this.states[i] ){
-			return i;
+		if( Array.isArray(this.states[i]) ){
+			for(var j=0; j<this.states[i].length; j++){
+				if( this.states[i][j] == code ){
+					return i;
+				}
+			}
+		}else{
+			if( this.states[i] == code ){
+				return i;
+			}
 		}
 	}
 	return this.defaultColumn;

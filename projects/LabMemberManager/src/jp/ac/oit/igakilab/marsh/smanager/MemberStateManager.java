@@ -16,6 +16,7 @@ import jp.ac.oit.igakilab.marsh.smanager.records.RecordListManager;
 public class MemberStateManager {
 	/*状態コードの管理*/
 	public static final int LOGIN = CommonStateSet.LOGIN;
+	public static final int LOGIN_5M = CommonStateSet.LOGIN_5M;
 	public static final int LOGOUT = CommonStateSet.LOGOUT;
 	public static final int LECTURE = CommonStateSet.LECTURE;
 	public static final int CONVENI = CommonStateSet.CONVENI;

@@ -27,7 +27,7 @@ public class LmmManager {
 
 	/*謫堺ｽ�*/
 	public String login(String name){
-		manager.addMemberState(name, MemberStateManager.LOGIN);
+		manager.addMemberState(name, MemberStateManager.LOGIN_5M);
 		return "[" + name + "] login (" + DF.format(Calendar.getInstance().getTime()) + ")";
 	}
 
