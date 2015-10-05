@@ -44,3 +44,21 @@ StateTable.setColumn = function(args){
 		this.states[i] = arguments[i];
 	}
 };
+
+StateTable.appendRowElem = function(jq_elem, name, inf){
+	var position = this.getPosition(inf.stateCode);
+	jq_elem.empty();
+	jq_elem.append($("<td></td>").text(name));
+	this.appendTdElements(jq_elem, position, this.states.length, "●");
+};
+
+StateTable.setStateRowElem = function(name, jq_elem, callback){
+	LmmManager.getMemberState(name, {
+		callback: function(st){
+			StateTable.appendRowElem(jq_elem, name, st);
+			if( callback !== undefined ){
+				callback();
+			}
+		}
+	});
+}

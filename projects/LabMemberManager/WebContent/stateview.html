@@ -4,8 +4,6 @@
 	<meta charset="utf-8">
 	<title>ログインid一覧表</title>
 
-	<meta http-equiv="Refresh" content="10">
-
 	<script type="text/javascript" src="dwr/engine.js"></script>
 	<script type="text/javascript" src="dwr/util.js"></script>
 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
@@ -45,6 +43,8 @@
 
 	<script>
 	var ID_ATTEND_TABLE = "attend_table";
+	var ID_ATTEND_DIV = "attend_div";
+	var TABLE_TMP;
 
 	$(document).ready(function(){
 		update();
@@ -52,12 +52,13 @@
 	});
 
 	function updateAttendTable(){
-		var table = $("#" + ID_ATTEND_TABLE);
-		table.empty();
+		var table = $("<table></table>");
+		table.attr("id", "attend_table");
 		table.append(
 			Lmmutil.createLabelRow(["名前", "在室", "授業", "コンビニ", "退室"])
 		);
-		StateTable.setColumn(101, 103, 104, 102);
+		TABLE_TMP = table;
+		StateTable.setColumn(101, 102, 103, 104);
 		StateTable.defaultColumn = 3
 		LmmManager.getMemberNameList({
 			callback: setMembersRow
@@ -65,15 +66,22 @@
 	}
 
 	function setMembersRow(list){
-		var table = $("#" + ID_ATTEND_TABLE);
+		var table = TABLE_TMP;
 		var nrow;
 		for(var i=0; i<list.length; i++){
 			nrow = $("<tr></tr>");
-			row_id = "ar_" + list[i];
-			nrow.attr("id", row_id);
 			table.append(nrow);
-			StateTable.setStateRow(list[i], row_id);
+			if( i == list.length-1 ){
+				StateTable.setStateRowElem(list[i], nrow, setMembersTable);
+			}else{
+				StateTable.setStateRowElem(list[i], nrow);
+			}
 		}
+	}
+
+	function setMembersTable(){
+		$("#" + ID_ATTEND_DIV).empty();
+		$("#" + ID_ATTEND_DIV).append(TABLE_TMP);
 	}
 
 	function update(){
@@ -87,12 +95,13 @@
 <div id="content">
 	<h1 class="cen">ゼミ在室管理システム</h1>
 	<div style="text-align:right">
-		<button onclick="update()">update</button>
+		<button onclick="update()">update</button><br>
+		<a href="idview.html">ログイン情報登録ページ</a>
 	</div>
 	<hr>
 
-	<h2>在室状況</h2>
-	<table id="attend_table"></table>
+	<h2 class="cen">在室状況</h2>
+	<div id="attend_div"></div>
 
 </div>
 
