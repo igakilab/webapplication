@@ -93,6 +93,10 @@ public class MemberStateManager {
 		return flg;
 	}
 
+	public RecordList getAllRecordList(){
+		return recs.getAllRecordList();
+	}
+
 
 	/* オブジェクト返し */
 	public RecordList getRecordListObject(){

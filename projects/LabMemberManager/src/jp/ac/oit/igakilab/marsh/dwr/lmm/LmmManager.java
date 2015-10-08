@@ -94,4 +94,15 @@ public class LmmManager {
 
 		return beans;
 	}
+
+	public ActionRecordBean[] getAllRecordList(){
+		ActionRecord[] recs = manager.getAllRecordList().toArray();
+		ActionRecordBean[] beans = new ActionRecordBean[recs.length];
+
+		for(int i=0; i<recs.length; i++){
+			beans[i] = new ActionRecordBean(recs[i]);
+		}
+
+		return beans;
+	}
 }

@@ -1,7 +1,8 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
+import jp.ac.oit.igakilab.marsh.smanager.records.NameRecordSearcher;
 import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
-import jp.ac.oit.igakilab.marsh.smanager.records.RecordListTaker;
+import jp.ac.oit.igakilab.marsh.smanager.records.RecordListManager;
 
 public class MemberStateByname extends MemberState {
 	private String name;
@@ -19,14 +20,10 @@ public class MemberStateByname extends MemberState {
 	}
 
 	/*解析用*/
-	public void updateActionRecord(RecordList l0){
-		RecordListTaker taker = new RecordListTaker();
-		String[] ids = mlist.getIdByName(name);
+	public void updateActionRecord(RecordListManager manager){
+		NameRecordSearcher searcher = new NameRecordSearcher(name);
+		manager.searchRecordList(searcher);
+		records = searcher.getRecordList();
 
-		for(int i=0; i<ids.length; i++){
-			taker.addRecordById(l0, ids[i]);
-		}
-
-		records = taker;
 	}
 }
