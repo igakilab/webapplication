@@ -7,17 +7,35 @@ import java.util.Date;
 
 
 public class ActionRecord {
+	/*スタティックメソッド*/
+	public static boolean isTimeout(Date stp, Date now, int time_out){
+		long ms_stp = stp.getTime();
+		long ms_now = now.getTime();
+		long ms_out = time_out * 1000;
+
+		return (time_out > 0) && ((ms_now - ms_stp) > ms_out);
+	}
+
+
+/* ------------------------------------------ */
+
 	/*インスタンス変数*/
 	private Date timeStamp;
 	private String id;
 	private int stateCode;
+	private int timeout;
 
 
 	/*コンストラクタ*/
-	public ActionRecord(Date d0, String n0, int c0){
+	public ActionRecord(Date d0, String n0, int c0, int t0){
 		timeStamp = d0;
 		id = n0;
 		stateCode = c0;
+		timeout = t0;
+	}
+
+	public ActionRecord(Date d0, String n0, int c0){
+		this(d0, n0, c0, 0);
 	}
 
 	public ActionRecord(String n0, int c0){
@@ -49,6 +67,21 @@ public class ActionRecord {
 	}
 	public void setStateCode(int c0){
 		stateCode = c0;
+	}
+
+	public void setTimeout(int t0){
+		timeout = t0;
+	}
+	public int getTimeout(){
+		return timeout;
+	}
+
+	public boolean isTimeoutSetted(){
+		return timeout > 0;
+	}
+
+	public boolean isTimeout(Date now){
+		return isTimeout(timeStamp, now, timeout);
 	}
 
 
