@@ -49,7 +49,7 @@ implements RecordSearcher {
 
 	public int excute(RecordList r0){
 		for(int i=0; i<r0.getRecordCount() && isExcutable(); i++){
-			if( !target_id.equals(r0.getRecord(i).getId()) ){
+			if( target_id.equals(r0.getRecord(i).getId()) ){
 				list.addRecord(r0.getRecord(i));
 			}
 		}
