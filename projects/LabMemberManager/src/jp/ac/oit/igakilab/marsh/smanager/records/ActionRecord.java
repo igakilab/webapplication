@@ -38,6 +38,10 @@ public class ActionRecord {
 		this(d0, n0, c0, 0);
 	}
 
+	public ActionRecord(String n0, int c0, int t0){
+		this(Calendar.getInstance().getTime(), n0, c0, t0);
+	}
+
 	public ActionRecord(String n0, int c0){
 		this(Calendar.getInstance().getTime(), n0, c0);
 	}
@@ -84,6 +88,13 @@ public class ActionRecord {
 		return isTimeout(timeStamp, now, timeout);
 	}
 
+	public Date getTimeoutDate(){
+		if( timeout > 0 ){
+			return new Date(timeStamp.getTime() + (timeout * 1000));
+		}else{
+			return null;
+		}
+	}
 
 	/*メソッド(toString)*/
 	public String toString(){

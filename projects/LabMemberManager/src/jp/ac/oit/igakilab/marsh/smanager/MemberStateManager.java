@@ -53,7 +53,7 @@ public class MemberStateManager {
 
 	/*レコード追加*/
 	public void addMemberState(String id, int code){
-		recs.addRecord(new ActionRecord(id, code));
+		recs.addRecord(new ActionRecord(id, code, slist.getStateTimeout(code)));
 	}
 
 

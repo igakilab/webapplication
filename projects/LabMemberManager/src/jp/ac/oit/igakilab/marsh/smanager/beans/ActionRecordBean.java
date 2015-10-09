@@ -10,6 +10,7 @@ public class ActionRecordBean {
 	private String timeStamp;
 	private String id;
 	private int stateCode;
+	private String deadLine;
 
 
 	public ActionRecordBean(){
@@ -28,6 +29,8 @@ public class ActionRecordBean {
 	public void setId(String i0){ id = i0; }
 	public int getStateCode(){ return stateCode; }
 	public void setStateCode(int c0){ stateCode = c0; }
+	public String getDeadLine(){ return deadLine; }
+	public void setDeadLine(String d0){ deadLine = d0; }
 
 
 	public void clear(){
@@ -43,5 +46,7 @@ public class ActionRecordBean {
 		timeStamp = df.format(r0.getTimeStamp());
 		id = r0.getId();
 		stateCode = r0.getStateCode();
+		if( r0.getTimeoutDate() != null ) deadLine = df.format(r0.getTimeoutDate());
+		else deadLine = "none";
 	}
 }
