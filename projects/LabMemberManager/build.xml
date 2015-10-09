@@ -46,11 +46,6 @@
   </target>
 
   <target name="compile" depends="prepare">
-  	<unjar dest="${dest.class.dir}">
-  	  <fileset dir="lib">
-  		<include name="*.jar" />
-  	  </fileset>
-  	</unjar>
     <javac destdir="${dest.class.dir}"
            debug="on"
            includeantruntime="false"

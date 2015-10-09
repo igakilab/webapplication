@@ -16,10 +16,10 @@ import jp.ac.oit.igakilab.marsh.smanager.records.RecordListManager;
 public class MemberStateManager {
 	/*状態コードの管理*/
 	public static final int LOGIN = CommonStateSet.LOGIN;
+	public static final int LOGIN_5M = CommonStateSet.LOGIN_5M;
 	public static final int LOGOUT = CommonStateSet.LOGOUT;
 	public static final int LECTURE = CommonStateSet.LECTURE;
-	public static final int TOILET_1 = CommonStateSet.TOILET_1;
-	public static final int TOILET_2 = CommonStateSet.TOILET_2;
+	public static final int CONVENI = CommonStateSet.CONVENI;
 
 	/*デフォルト状態リスト*/
 	public static StateList DEFAULT_SLIST= CommonStateSet.LIST;
