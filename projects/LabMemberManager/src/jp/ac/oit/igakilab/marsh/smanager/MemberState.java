@@ -4,8 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
+import jp.ac.oit.igakilab.marsh.smanager.records.IdRecordSearcher;
 import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
-import jp.ac.oit.igakilab.marsh.smanager.records.RecordListTaker;
+import jp.ac.oit.igakilab.marsh.smanager.records.RecordListManager;
 
 public class MemberState {
 	public static final int UNDEFINED = CommonStateSet.UNDEFINED;
@@ -20,7 +21,7 @@ public class MemberState {
 		records = new RecordList();
 	}
 
-	public MemberState(String i0, RecordList l0){
+	public MemberState(String i0, RecordListManager l0){
 		this(i0);
 		updateActionRecord(l0);
 	}
@@ -36,10 +37,10 @@ public class MemberState {
 
 
 	/*解析用*/
-	public void updateActionRecord(RecordList l0){
-		RecordListTaker taker = new RecordListTaker();
-		taker.addRecordById(l0, id);
-		records = taker;
+	public void updateActionRecord(RecordListManager l0){
+		IdRecordSearcher searcher = new IdRecordSearcher(id);
+		l0.searchBufferRecordList(searcher);
+		records = searcher.getRecordList();
 	}
 
 

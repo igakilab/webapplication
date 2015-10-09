@@ -114,6 +114,7 @@ public class RecordListManager {
 	public void searchRecordList(RecordSearcher searcher){
 		String[] file_list = getRecordFileList();
 		CsvRecordList tmp = new CsvRecordList();
+		searcher.init();
 		for(int i=0; i<file_list.length; i++){
 			tmp.clear();
 			try {
@@ -123,5 +124,10 @@ public class RecordListManager {
 			}
 			searcher.excute(tmp);
 		}
+	}
+
+	public void searchBufferRecordList(RecordSearcher searcher){
+		searcher.init();
+		searcher.excute(buffer);
 	}
 }

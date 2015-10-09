@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.ac.oit.igakilab.marsh.smanager.MemberIdList;
+import jp.ac.oit.igakilab.marsh.util.DebugLog;
 
 public class NameRecordSearcher
 implements RecordSearcher {
@@ -14,19 +15,20 @@ implements RecordSearcher {
 	MemberIdList idlist;
 
 	//コンストラクタ
-	public NameRecordSearcher(){
-		instance_init();
+	public NameRecordSearcher(MemberIdList mil){
+		instance_init(mil);
 	};
 
-	public NameRecordSearcher(String i0){
-		this();
+	public NameRecordSearcher(String i0, MemberIdList mil){
+		this(mil);
 		target_name = i0;
 	}
 
 	//初期化
-	public void instance_init(){
+	public void instance_init(MemberIdList mil){
 		target_name = null;
 		list = new RecordList();
+		idlist = mil;
 	}
 
 	//get/set
@@ -57,6 +59,7 @@ implements RecordSearcher {
 		String[] tmp = idlist.getIdByName(target_name);
 		for(int i=0; i<tmp.length; i++) ids.add(tmp[i]);
 		ids.add(target_name); //idだけでなく名前も検索対象に含む
+		DebugLog.logm(this.getClass().getSimpleName(), DebugLog.LS_INFO, "init", "length=" + ids.size());
 		list.clear();
 	}
 

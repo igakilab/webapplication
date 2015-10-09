@@ -60,12 +60,12 @@ public class MemberStateManager {
 
 	/* メンバー状態取得 */
 	public MemberState getMemberState(String id){
-		return new MemberState(id, recs.getBufferRecordList());
+		return new MemberState(id, recs);
 	}
 
 	/* メンバー状態取得(ユーザ名) */
 	public MemberStateByname getMemberStateByName(String name){
-		return new MemberStateByname(name, mlist, recs.getBufferRecordList());
+		return new MemberStateByname(name, mlist, recs);
 	}
 
 

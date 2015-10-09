@@ -6,6 +6,7 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.ac.oit.igakilab.marsh.util.DebugLog;
 import jp.sf.orangesignal.csv.Csv;
 import jp.sf.orangesignal.csv.CsvConfig;
 import jp.sf.orangesignal.csv.handlers.StringArrayListHandler;
@@ -25,7 +26,12 @@ public class MemberIdList {
 
 
 	public void addId(String name, String id){
-		if( !isIdRegisted(id) || !ID_OVERLAP ){
+		if( isIdRegisted(id) && isNameRegisted(name) ){
+			DebugLog.logm("MemberIdList", DebugLog.LS_WARN, "addId", "データが重複しています");
+			DebugLog.logm("MemberIdList", "name = " + name + " id = " + id);
+			return;
+		}
+		if( !isIdRegisted(id) || ID_OVERLAP ){
 			identifers.add(id);
 			names.add(name);
 		}

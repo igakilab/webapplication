@@ -1,7 +1,6 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
 import jp.ac.oit.igakilab.marsh.smanager.records.NameRecordSearcher;
-import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
 import jp.ac.oit.igakilab.marsh.smanager.records.RecordListManager;
 
 public class MemberStateByname extends MemberState {
@@ -14,16 +13,15 @@ public class MemberStateByname extends MemberState {
 		mlist = m0;
 	}
 
-	public MemberStateByname(String n0, MemberIdList m0, RecordList l0){
+	public MemberStateByname(String n0, MemberIdList m0, RecordListManager l0){
 		this(n0, m0);
 		updateActionRecord(l0);
 	}
 
 	/*解析用*/
 	public void updateActionRecord(RecordListManager manager){
-		NameRecordSearcher searcher = new NameRecordSearcher(name);
-		manager.searchRecordList(searcher);
+		NameRecordSearcher searcher = new NameRecordSearcher(name, mlist);
+		manager.searchBufferRecordList(searcher);
 		records = searcher.getRecordList();
-
 	}
 }
