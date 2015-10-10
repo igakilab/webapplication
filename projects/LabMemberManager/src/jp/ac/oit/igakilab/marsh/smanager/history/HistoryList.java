@@ -12,8 +12,18 @@ import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
 public class HistoryList {
 	public static int UNDEFINED = CommonStateSet.UNDEFINED;
 
+/* -------------------------------*/
 
 	private List<HistoryRecord> hist;
+
+	public HistoryList(){
+		init();
+	}
+
+	public HistoryList(RecordList r0){
+		init();
+		updateHistory(r0);
+	}
 
 	public void init(){
 		hist = new ArrayList<HistoryRecord>();
@@ -35,7 +45,7 @@ public class HistoryList {
 		int i;
 
 		i = 0;
-		while( i >= hist.size() ){
+		while( i <  hist.size() ){
 			if( pt.compareTo(hist.get(i).getTimeStamp()) > 0 ){
 				return hist.get(i).getStateCode();
 			}
@@ -84,4 +94,7 @@ public class HistoryList {
 
 	}
 
+	public HistoryRecord[] toArray(){
+		return hist.toArray(new HistoryRecord[hist.size()]);
+	}
 }

@@ -23,5 +23,6 @@ public class MemberStateByname extends MemberState {
 		NameRecordSearcher searcher = new NameRecordSearcher(name, mlist);
 		manager.searchBufferRecordList(searcher);
 		records = searcher.getRecordList();
+		updateHistoryList();
 	}
 }

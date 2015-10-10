@@ -8,6 +8,7 @@ import jp.ac.oit.igakilab.marsh.smanager.MemberState;
 import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
 import jp.ac.oit.igakilab.marsh.smanager.StateInfo;
 import jp.ac.oit.igakilab.marsh.smanager.beans.ActionRecordBean;
+import jp.ac.oit.igakilab.marsh.smanager.beans.HistoryRecordBean;
 import jp.ac.oit.igakilab.marsh.smanager.beans.MemberStateBean;
 import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
 
@@ -111,6 +112,18 @@ public class LmmManager {
 		}
 
 		return beans;
+	}
+
+	public HistoryRecordBean[] getHistoryRecord(String name){
+		MemberState ms;
+
+		if( manager.checkNameRegisted(name) ){
+			ms = manager.getMemberStateByName(name);
+		}else{
+			ms = manager.getMemberState(name);
+		}
+
+		return HistoryRecordBean.toBeans(ms.getHistoryList());
 	}
 
 	public StateInfo[] getStateList(){
