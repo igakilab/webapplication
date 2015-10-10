@@ -99,8 +99,16 @@ public class MemberStateManager {
 		return recs.getAllRecordList();
 	}
 
+	public RecordList[] getAllRecordLists(){
+		return recs.getAllRecordLists();
+	}
+
 
 	/* オブジェクト返し */
+	public RecordListManager getRecordListManager(){
+		return recs;
+	}
+
 	public RecordList getRecordListObject(){
 		return recs.getBufferRecordList();
 	}

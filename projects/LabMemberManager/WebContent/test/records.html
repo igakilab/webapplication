@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>LMMTEST</title>
+	<title>RECORDS</title>
 	<meta charset="UTF-8">
 
 	<script type="text/javascript" src="../dwr/engine.js"></script>
@@ -14,88 +14,71 @@
 
     <script>
 	$(document).ready(function(){
-		setStateButtons();
-		updateStateTables();
+		updateAllRecord();
 	});
 
-	function registAction(code){
-		var name = $("#name_input").val();
-		LmmManager.registState(name, code, function(rep){
-			$("#reply_view").text(rep);
-			updateStateTables();
-		});
-	}
-
-	function createStateButton(label, code){
-		var new_btn = $("<button></button>");
-		new_btn.attr("class", "state_btn");
-		new_btn.text("[" + code + "]" + label);
-		new_btn.click(function(){
-			registAction(code);
-		});
-		return new_btn;
-	}
-
-	function setStateButtons(){
-		LmmManager.getStateList({
-			callback: function(states){
-				for(var i=0; i<states.length; i++){
-					$("#btn_container").append(
-						createStateButton(states[i].name, states[i].code)
-					);
-				}
-			}
-		});
-	}
-
-	function createMemberStateRow(state_inf){
+	function createActionRecordRow(act_rec){
 		var new_row = $("<tr></tr>");
-		new_row.append($("<td></td>").text(state_inf.id));
-		new_row.append($("<td></td>").text("("+state_inf.stateCode+")"+state_inf.stateStr));
-		new_row.append($("<td></td>").text(state_inf.lastUpdate));
+		new_row.append($("<td></td>").text(act_rec.timeStamp));
+		new_row.append($("<td></td>").text(act_rec.id));
+		new_row.append($("<td></td>").text(act_rec.stateCode));
+		new_row.append($("<td></td>").text(act_rec.timeout));
 		return new_row;
 	}
 
-	function setMemberStateRow(jq_elem, id){
-		LmmManager.getMemberState(id, {
-			callback: function(inf){
-				jq_elem.append(
-					createMemberStateRow(inf)
-				);
-			}
-		});
+	function addActionRecordList(jq_elem, list){
+		for(var i=0; i<list.length; i++){
+			jq_elem.append(
+				createActionRecordRow(list[i])
+			);
+		}
 	}
 
-	function setMemberStateTable(){
-		var table =$("#member_state_table");
-		table.clear();
-		table.append(Lmmutil.createLabelRow(["ID", "STATE", "LAST UPDATE"]));
-		LmmManager.getRegistedId({
-			callback: function(id_list){
-				for(var i=0; i<id_list.length; i++){
-					setMemberStateRow(table, id_list[i]);
+	function addContainedRecordList(jq_elem, container){
+		var new_table = $("<table></table>");
+		new_table.attr("class", "record_tables");
+		new_table.append(Lmmutil.createLabelRow(["TIMESTAMP", "ID", "STATECODE", "TIMEOUT"]));
+		jq_elem.append($("<b></b>").text(container.label));
+		addActionRecordList(new_table, container.records);
+		jq_elem.append(new_table);
+	}
+
+	function setRecordList(){
+		var area = $("#record_table_area");
+		area.empty();
+		area.text("All Records");
+		area.append($("<br></br>"));
+		LmmManager.getAllRecordLists({
+			callback: function(containers){
+				for(var i=0; i<containers.length; i++){
+					addContainedRecordList(area, containers[i]);
 				}
 			}
 		});
 	}
 
-	function setMemberNameStateTable(){
-		var table = $("#member_name_state_table");
-		table.clear();
-		table.append(Lmmutil.createLabelRow(["ID", "STATE", "LASTUPDATE"]));
-		LmmManager.getMemberNameList({
-			callback: function(id_list){
-				for(var i=0; i<id_list.length; i++){
-					setMemberStateRow(table, id_list[i]);
-				}
+	function setBufferedRecordList(){
+		var area = $("#record_table_area");
+		area.empty();
+		area.text("Buffered Records");
+		area.append($("<br></br>"));
+		LmmManager.getRecordList({
+			callback: function(recs){
+				var container = {label:"Buffered", records:recs};
+				addContainedRecordList(area, container);
 			}
 		});
 	}
 
-	function updateStateTables(){
-		setMemberStateTable();
-		setMemberNameStateTable();
+	function updateBuffered(){
+		setBufferedRecordList();
 	}
+
+	function updateAllRecord(){
+		setRecordList();
+	}
+
+
 
 
     </script>
@@ -116,12 +99,12 @@
 			background-color:#444;
 			color:white;
 		}
-		.state_tables{
+		.record_tables{
 			width:100%;
 			border-spacing:3px;
 		}
 		td, th{
-			background-color:palegreen;
+			background-color:lightpink;
 		}
 	</style>
 
@@ -142,7 +125,10 @@
 </div>
 
 <div id="container" class="page_centering">
-
+	<h3>All Record Viewer</h3>
+	<button onclick="updateAllRecord()">すべてのレコード</button>
+	<button onclick="updateBuffered()">バッファーのレコード</button>
+	<div id="record_table_area"></div>
 </div>
 
 <div id="footer" class="page_centering">

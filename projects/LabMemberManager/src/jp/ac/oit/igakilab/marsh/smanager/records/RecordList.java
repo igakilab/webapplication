@@ -9,11 +9,13 @@ import java.util.List;
 
 public class RecordList{
 	/*インスタンス変数*/
+	private String label;
 	protected List<ActionRecord> recs;
 
 
 	/*コンストラクタ*/
 	public RecordList(){
+		label = "";
 		recs = new ArrayList<ActionRecord>();
 	}
 
@@ -52,6 +54,13 @@ public class RecordList{
 		recs.clear();
 	}
 
+	public void setLabel(String l0){
+		label = l0;
+	}
+
+	public String getLabel(){
+		return label;
+	}
 
 	/*リスト取得系メソッド*/
 	public String[] getIdList(){

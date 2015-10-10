@@ -7,6 +7,16 @@ import jp.ac.oit.igakilab.marsh.smanager.CommonStateSet;
 import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
 
 public class ActionRecordBean {
+	public static ActionRecordBean[] toBeans(ActionRecord[] recs){
+		ActionRecordBean[] beans = new ActionRecordBean[recs.length];
+		for(int i=0; i<recs.length; i++){
+			beans[i] = new ActionRecordBean(recs[i]);
+		}
+		return beans;
+	}
+
+/* -----------------------------*/
+
 	private String timeStamp;
 	private String id;
 	private int stateCode;

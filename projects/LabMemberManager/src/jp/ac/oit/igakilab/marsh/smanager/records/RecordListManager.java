@@ -111,6 +111,23 @@ public class RecordListManager {
 		return all_list;
 	}
 
+	public RecordList[] getAllRecordLists(){
+		CsvRecordList tmp;
+		String[] file_list = getRecordFileList();
+		RecordList[] lists = new RecordList[file_list.length];
+		for(int i=0; i<file_list.length; i++){
+			tmp = new CsvRecordList();
+			tmp.setLabel(file_list[i]);
+			try{
+				tmp.importFile(CSV_DIR + file_list[i]);
+			}catch(IOException e0){
+				DebugLog.logm("RecordListManager", "getAllRecordLists", e0.getMessage());
+			}
+			lists[i] = tmp;
+		}
+		return lists;
+	}
+
 	public void searchRecordList(RecordSearcher searcher){
 		String[] file_list = getRecordFileList();
 		CsvRecordList tmp = new CsvRecordList();
