@@ -68,7 +68,7 @@
 
 	function setMemberStateTable(){
 		var table =$("#member_state_table");
-		table.empty();
+		table.clear();
 		table.append(Lmmutil.createLabelRow(["ID", "STATE", "LAST UPDATE"]));
 		LmmManager.getRegistedId({
 			callback: function(id_list){
@@ -81,7 +81,7 @@
 
 	function setMemberNameStateTable(){
 		var table = $("#member_name_state_table");
-		table.empty();
+		table.clear();
 		table.append(Lmmutil.createLabelRow(["ID", "STATE", "LASTUPDATE"]));
 		LmmManager.getMemberNameList({
 			callback: function(id_list){
@@ -142,19 +142,7 @@
 </div>
 
 <div id="container" class="page_centering">
-	<h3>ActionRegister</h3>
-	<input id="name_input" type="text"></input>
-	<div id="btn_container"></div>
-	<div id="reply_view" style="background-color:gold;"></div>
 
-	<hr>
-
-	<h3>StateViewer</h3>
-	<button onclick="updateStateTables()">update</button><br>
-	<b>メンバーリストによる問い合わせ</b>
-	<table id="member_name_state_table" class="state_tables"></table>
-	<b>活動登録のあるIDリスト</b>
-	<table id="member_state_table" class="state_tables"></table>
 </div>
 
 <div id="footer" class="page_centering">

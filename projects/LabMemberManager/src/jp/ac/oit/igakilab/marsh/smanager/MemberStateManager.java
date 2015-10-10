@@ -52,8 +52,10 @@ public class MemberStateManager {
 	}
 
 	/*レコード追加*/
-	public void addMemberState(String id, int code){
-		recs.addRecord(new ActionRecord(id, code, slist.getStateTimeout(code)));
+	public ActionRecord addMemberState(String id, int code){
+		ActionRecord new_act = new ActionRecord(id, code, slist.getStateTimeout(code));
+		recs.addRecord(new_act);
+		return new_act;
 	}
 
 

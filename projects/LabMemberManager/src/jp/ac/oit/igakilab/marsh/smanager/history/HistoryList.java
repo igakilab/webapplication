@@ -44,12 +44,12 @@ public class HistoryList {
 	public int getStateCode(Date pt){
 		int i;
 
-		i = 0;
-		while( i <  hist.size() ){
+		i = hist.size() - 1;
+		while( i >= 0 ){
 			if( pt.compareTo(hist.get(i).getTimeStamp()) > 0 ){
 				return hist.get(i).getStateCode();
 			}
-			i++;
+			i--;
 		}
 
 		return UNDEFINED;
@@ -60,14 +60,15 @@ public class HistoryList {
 	}
 
 	public void updateHistory(RecordList rec){
-		int pre_statecode;
-		Date pre_deadline;
+		int pre_statecode = UNDEFINED;
+		Date pre_deadline = null;
 		ActionRecord tmp;
 		int rec_len = rec.getRecordCount();
 
 		hist.clear();
 		if( rec_len - 1 >= 0 ){
 			tmp = rec.getRecord(rec_len - 1);
+			hist.add(new HistoryRecord(tmp.getTimeStamp(), tmp.getStateCode()));
 			pre_statecode = tmp.getStateCode();
 			pre_deadline = tmp.getTimeoutDate();
 		}else{

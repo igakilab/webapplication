@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PERSONAL DATA</title>
+	<meta charset="UTF-8">
+
+	<script type="text/javascript" src="../dwr/engine.js"></script>
+    <script type="text/javascript" src="../dwr/util.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="../js/Lmmifc.js"></script>
+    <script type="text/javascript" src="../js/Lmmutil.js"></script>
+
+    <script>
+	$(document).ready(function(){
+		ACCOUNT = null;
+	});
+
+	var ACCOUNT;
+
+	function registAction(code){
+		if( ACCOUNT == null ) return;
+		var name = ACCOUNT;
+		LmmManager.registState(name, code, function(rep){
+			$("#reply_view").text(rep);
+			updateMemberInfo();
+		});
+	}
+
+	function createStateButton(label, code){
+		var new_btn = $("<button></button>");
+		new_btn.attr("class", "state_btn");
+		new_btn.text("[" + code + "]" + label);
+		new_btn.click(function(){
+			registAction(code);
+		});
+		return new_btn;
+	}
+
+	function setStateButtons(){
+		$("#btn_container").empty();
+		LmmManager.getStateList({
+			callback: function(states){
+				for(var i=0; i<states.length; i++){
+					$("#btn_container").append(
+						createStateButton(states[i].name, states[i].code)
+					);
+				}
+			}
+		});
+	}
+
+	function createActionRecordRow(act_rec){
+		var new_row = $("<tr></tr>");
+		new_row.append($("<td></td>").text(act_rec.timeStamp));
+		new_row.append($("<td></td>").text(act_rec.id));
+		new_row.append($("<td></td>").text(act_rec.stateCode));
+		new_row.append($("<td></td>").text(act_rec.timeout));
+		return new_row;
+	}
+
+	function createHistoryRecordRow(hist_rec){
+		var new_row = $("<tr></tr>");
+		new_row.append($("<td></td>").text(hist_rec.timeStamp));
+		new_row.append($("<td></td>").text(hist_rec.stateCode));
+		return new_row;
+	}
+
+	function addActionRecordList(jq_elem, list){
+		for(var i=0; i<list.length; i++){
+			jq_elem.append(
+				createActionRecordRow(list[i])
+			);
+		}
+	}
+
+	function addHistoryRecordList(jq_elem, list){
+		for(var i=0; i<list.length; i++){
+			jq_elem.append(
+				createHistoryRecordRow(list[i])
+			);
+		}
+	}
+
+	function setMemberActionRecord(){
+		var table = $("#action_record_table");
+		table.empty();
+		table.append($("<caption></caption>").text("アクションレコード"));
+		table.append(Lmmutil.createLabelRow(["TIMESTAMP", "ID", "STATECODE", "TIMEOUT"]));
+		LmmManager.getMemberRecordList(ACCOUNT, {
+			callback: function(list){
+				addActionRecordList(table, list);
+			}
+		});
+	}
+
+	function setMemberHistoryRecord(){
+		var table = $("#history_record_table");
+		table.empty();
+		table.append($("<caption></caption>").text("ヒストリーレコード"));
+		table.append(Lmmutil.createLabelRow(["TIMESTAMP", "STATECODE"]));
+		LmmManager.getHistoryRecord(ACCOUNT, {
+			callback: function(list){
+				addHistoryRecordList(table, list);
+			}
+		});
+	}
+
+	function createMemberStateRow(state_inf){
+		var new_row = $("<tr></tr>");
+		new_row.append($("<td></td>").text(state_inf.id));
+		new_row.append($("<td></td>").text("("+state_inf.stateCode+")"+state_inf.stateStr));
+		new_row.append($("<td></td>").text(state_inf.lastUpdate));
+		return new_row;
+	}
+
+	function setMemberBasicInfo(){
+		var table = $("#information_table");
+		table.empty();
+		table.append(Lmmutil.createLabelRow(["ID", "STATE", "LAST UPDATE"]));
+		LmmManager.getMemberState(ACCOUNT, {
+			callback: function(inf){
+				table.append(
+					createMemberStateRow(inf)
+				);
+			}
+		});
+	}
+
+	function updateMemberInfo(){
+		setMemberBasicInfo();
+		setMemberActionRecord();
+		setMemberHistoryRecord();
+	}
+
+	function setMember(){
+		ACCOUNT = $("#name_input").val();
+		setStateButtons();
+		updateMemberInfo();
+	}
+
+
+    </script>
+
+	<style>
+		.page_centering{
+			width:800px;
+			margin:0 auto;
+			padding:10px;
+		}
+		#header{
+			background-color:#ccc;
+		}
+		#container{
+			background-color:#eee;
+		}
+		#footer{
+			background-color:#444;
+			color:white;
+		}
+		.info_tables{
+			width:100%;
+			border-spacing:3px;
+		}
+		.record_tables{
+			width:100%;
+			border-spacing:3px;
+		}
+		td, th{
+			background-color:skyblue;
+		}
+	</style>
+
+</head>
+
+
+<body>
+<body>
+<div id="header" class="page_centering">
+	<h2>LabMemberManagerテストページ</h2>
+	<i>Version: history-system</i>
+	<ol>
+		<li><a href="lmmtest.html">lmmtest.html</a></li>
+		<li><a href="personalData.html">personalData.html</a></li>
+		<li><a href="records.html">records.html</a></li>
+	</ol>
+	<div style="text-align:right;"><button onclick="Lmmifc.systemInit()">システムの初期化</button></div>
+</div>
+
+<div id="container" class="page_centering">
+	<h3>MemberInfo</h3>
+	<input id="name_input" type="text"></input>
+	<button onclick="setMember()">取得</button><br>
+
+	<hr>
+	<b>基本データ</b>
+	<table id="information_table" class="info_tables"></table>
+
+	<hr>
+	<b>状態登録</b>
+	<div id="btn_container"></div>
+	<div id="reply_view" style="background-color:gold;"></div>
+
+	<hr>
+	<b>すべてのデータ</b>
+	<table style="width:100%">
+	<tr><td style="background-color:transparent;vertical-align:top;">
+	<table id="action_record_table" class="record_tables"></table>
+	</td><td style="background-color:transparent;vertical-align:top;">
+	<table id="history_record_table" class="record_tables"></table>
+	</td></tr>
+	</table>
+
+
+
+</div>
+
+<div id="footer" class="page_centering">
+	<i>marshmallow-warriors 2015/10/10</i>
+</div>
+</body>
+
+</html>

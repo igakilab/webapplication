@@ -40,8 +40,11 @@ public class LmmManager {
 
 
 	public String registState(String id, int code){
-		manager.addMemberState(id, code);
-		return "[id: " + id + ", code:" + code + "] registed";
+		ActionRecord ar = manager.addMemberState(id, code);
+		ActionRecordBean bean = new ActionRecordBean(ar);
+		String s_ar = "Time:" + bean.getTimeStamp() + ", Id:" + bean.getId() +
+				", Code:" + bean.getStateCode() + ", DeadLine:" + bean.getDeadLine();
+		return "(" + s_ar + ") registed";
 	}
 
 
