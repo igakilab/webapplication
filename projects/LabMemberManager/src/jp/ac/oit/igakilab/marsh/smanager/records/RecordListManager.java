@@ -59,7 +59,10 @@ public class RecordListManager {
 		List<String> files = new ArrayList<String>();
 		File tmp;
 		for(int i=0; i<list.length; i++){
-			tmp = new File(list[i]);
+			DebugLog.logm("RecordListManager", "getRecordFileList", "list["+i+"]="+list[i]); //デバッグ用
+			tmp = new File(CSV_DIR + list[i]);
+			//デバッグ用↓
+			DebugLog.logm("RecordListManager", "isFile=" + tmp.isFile() + " csvCheck=" + CsvRecordList.checkFile(tmp));
 			if( tmp.isFile() && CsvRecordList.checkFile(tmp) ){
 				files.add(list[i]);
 			}
@@ -97,6 +100,7 @@ public class RecordListManager {
 	public RecordList getAllRecordList(){
 		CsvRecordList all_list = new CsvRecordList();
 		String[] file_list = getRecordFileList();
+		DebugLog.logm("RecordListManager", DebugLog.LS_INFO, "record length = " + file_list.length);
 		for(int i=0; i<file_list.length; i++){
 			try {
 				all_list.importFile(CSV_DIR + file_list[i]);
@@ -107,9 +111,27 @@ public class RecordListManager {
 		return all_list;
 	}
 
+	public RecordList[] getAllRecordLists(){
+		CsvRecordList tmp;
+		String[] file_list = getRecordFileList();
+		RecordList[] lists = new RecordList[file_list.length];
+		for(int i=0; i<file_list.length; i++){
+			tmp = new CsvRecordList();
+			tmp.setLabel(file_list[i]);
+			try{
+				tmp.importFile(CSV_DIR + file_list[i]);
+			}catch(IOException e0){
+				DebugLog.logm("RecordListManager", "getAllRecordLists", e0.getMessage());
+			}
+			lists[i] = tmp;
+		}
+		return lists;
+	}
+
 	public void searchRecordList(RecordSearcher searcher){
 		String[] file_list = getRecordFileList();
 		CsvRecordList tmp = new CsvRecordList();
+		searcher.init();
 		for(int i=0; i<file_list.length; i++){
 			tmp.clear();
 			try {
@@ -119,5 +141,10 @@ public class RecordListManager {
 			}
 			searcher.excute(tmp);
 		}
+	}
+
+	public void searchBufferRecordList(RecordSearcher searcher){
+		searcher.init();
+		searcher.excute(buffer);
 	}
 }

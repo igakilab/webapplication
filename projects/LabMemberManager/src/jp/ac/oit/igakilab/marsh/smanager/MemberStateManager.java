@@ -52,20 +52,22 @@ public class MemberStateManager {
 	}
 
 	/*レコード追加*/
-	public void addMemberState(String id, int code){
-		recs.addRecord(new ActionRecord(id, code));
+	public ActionRecord addMemberState(String id, int code){
+		ActionRecord new_act = new ActionRecord(id, code, slist.getStateTimeout(code));
+		recs.addRecord(new_act);
+		return new_act;
 	}
 
 
 
 	/* メンバー状態取得 */
 	public MemberState getMemberState(String id){
-		return new MemberState(id, recs.getBufferRecordList());
+		return new MemberState(id, recs);
 	}
 
 	/* メンバー状態取得(ユーザ名) */
 	public MemberStateByname getMemberStateByName(String name){
-		return new MemberStateByname(name, mlist, recs.getBufferRecordList());
+		return new MemberStateByname(name, mlist, recs);
 	}
 
 
@@ -93,8 +95,20 @@ public class MemberStateManager {
 		return flg;
 	}
 
+	public RecordList getAllRecordList(){
+		return recs.getAllRecordList();
+	}
+
+	public RecordList[] getAllRecordLists(){
+		return recs.getAllRecordLists();
+	}
+
 
 	/* オブジェクト返し */
+	public RecordListManager getRecordListManager(){
+		return recs;
+	}
+
 	public RecordList getRecordListObject(){
 		return recs.getBufferRecordList();
 	}

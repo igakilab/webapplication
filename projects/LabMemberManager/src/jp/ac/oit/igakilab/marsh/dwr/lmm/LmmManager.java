@@ -8,8 +8,11 @@ import jp.ac.oit.igakilab.marsh.smanager.MemberState;
 import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
 import jp.ac.oit.igakilab.marsh.smanager.StateInfo;
 import jp.ac.oit.igakilab.marsh.smanager.beans.ActionRecordBean;
+import jp.ac.oit.igakilab.marsh.smanager.beans.HistoryRecordBean;
 import jp.ac.oit.igakilab.marsh.smanager.beans.MemberStateBean;
+import jp.ac.oit.igakilab.marsh.smanager.beans.RecordListContainer;
 import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
+import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
 
 public class LmmManager {
 	static DateFormat DF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -39,8 +42,11 @@ public class LmmManager {
 
 
 	public String registState(String id, int code){
-		manager.addMemberState(id, code);
-		return "[id: " + id + ", code:" + code + "] registed";
+		ActionRecord ar = manager.addMemberState(id, code);
+		ActionRecordBean bean = new ActionRecordBean(ar);
+		String s_ar = "Time:" + bean.getTimeStamp() + ", Id:" + bean.getId() +
+				", Code:" + bean.getStateCode() + ", DeadLine:" + bean.getDeadLine();
+		return "(" + s_ar + ") registed";
 	}
 
 
@@ -102,6 +108,40 @@ public class LmmManager {
 		return beans;
 	}
 
+	public ActionRecordBean[] getAllRecordList(){
+		ActionRecord[] recs = manager.getAllRecordList().toArray();
+		ActionRecordBean[] beans = new ActionRecordBean[recs.length];
+
+		for(int i=0; i<recs.length; i++){
+			beans[i] = new ActionRecordBean(recs[i]);
+		}
+
+		return beans;
+	}
+
+	public RecordListContainer[] getAllRecordLists(){
+		RecordList[] recs = manager.getAllRecordLists();
+		RecordListContainer[] containers = new RecordListContainer[recs.length];
+		RecordListContainer.sortRecordLists(recs);
+		for(int i=0; i<recs.length; i++){
+			containers[i] = new RecordListContainer(recs[i]);
+		}
+		return containers;
+	}
+
+
+
+	public HistoryRecordBean[] getHistoryRecord(String name){
+		MemberState ms;
+
+		if( manager.checkNameRegisted(name) ){
+			ms = manager.getMemberStateByName(name);
+		}else{
+			ms = manager.getMemberState(name);
+		}
+
+		return HistoryRecordBean.toBeans(ms.getHistoryList());
+	}
 
 	public StateInfo[] getStateList(){
 		return manager.getStateListObject().toStateListArray();

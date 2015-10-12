@@ -51,6 +51,7 @@ public class CsvRecordList extends RecordList {
 		tokens.add(DF.format(rec.getTimeStamp()));
 		tokens.add(rec.getId());
 		tokens.add(Integer.toString(rec.getStateCode()));
+		tokens.add(Integer.toString(rec.getTimeout()));
 		return tokens;
 	}
 
@@ -59,12 +60,17 @@ public class CsvRecordList extends RecordList {
 		Date ts = DF.parse(strs[0]);
 		String id = strs[1];
 		int code = Integer.parseInt(strs[2]);
-		return new ActionRecord(ts, id, code);
+		if( strs.length > 3 ){
+			int timeout = Integer.parseInt(strs[3]);
+			return new ActionRecord(ts, id, code, timeout);
+		}else{
+			return new ActionRecord(ts, id, code);
+		}
 	}
 
 	static public void writeCsvHeader(CsvWriter writer)
-	throws IOException {
-		String[] labels = {"timestamp", "id", "code"};
+	throws IOException {	
+		String[] labels = {"timestamp", "id", "code", "timeout"};
 		List<String> tmp = new ArrayList<String>();
 		tmp.add(FILE_HEADER);
 		writer.writeValues(tmp);

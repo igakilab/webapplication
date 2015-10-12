@@ -1,5 +1,9 @@
 var Lmmifc = {};
 
+Lmmifc.systemInit = function(){
+	LmmManager.init();
+}
+
 Lmmifc.login = function(name, cbf){
 	if( cbf === undefined ){
 		LmmManager.login(name);

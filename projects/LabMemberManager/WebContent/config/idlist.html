@@ -114,6 +114,11 @@
 		function reboot(){
 			LmmManager.init();
 		}
+
+		function sort(){
+			IdlistConfig.sortList();
+			updateIdList();
+		}
     </script>
 
     <style>
@@ -135,6 +140,8 @@
 	:現在のIDリストを保存します。適用にはMemberStateManagerの再起動が必要です。<br>
 	<button onclick="reboot()">マネージャ再起動</button>
 	:MemberStateManagerを再起動（初期化）します。<br>
+	<button onclick="sort()">ソート</button>
+	:Idリストを名前順にソートして見やすくします。<br>
 
 	<hr>
 

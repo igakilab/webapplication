@@ -57,4 +57,8 @@ public class IdlistConfig {
 			list.exportCsvFile(CONF_IDLIST_FILE);
 		}catch(IOException e0){}
 	}
+
+	public void sortList(){
+		list.sortRow();
+	}
 }

@@ -8,7 +8,7 @@ implements RecordSearcher {
 
 	//コンストラクタ
 	public IdRecordSearcher(){
-		init();
+		instance_init();
 	};
 
 	public IdRecordSearcher(String i0){
@@ -17,10 +17,12 @@ implements RecordSearcher {
 	}
 
 	//初期化
-	public void init(){
+	public void instance_init(){
 		target_id = null;
 		list = new RecordList();
 	}
+
+	public void init(){}
 
 	//get/set
 	public String getTargetId(){
@@ -47,7 +49,7 @@ implements RecordSearcher {
 
 	public int excute(RecordList r0){
 		for(int i=0; i<r0.getRecordCount() && isExcutable(); i++){
-			if( !target_id.equals(r0.getRecord(i).getId()) ){
+			if( target_id.equals(r0.getRecord(i).getId()) ){
 				list.addRecord(r0.getRecord(i));
 			}
 		}

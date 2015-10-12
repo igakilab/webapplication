@@ -13,135 +13,153 @@
     <script type="text/javascript" src="../js/Lmmutil.js"></script>
 
     <script>
-    	function act_login(){
-    		var name = $("#name_input").val();
-    		Lmmifc.login(name, function(rep){
-    			$("#action_reply").text(rep);
-    		});
-    	}
+	$(document).ready(function(){
+		setStateButtons();
+		updateStateTables();
+	});
 
-    	function act_logout(){
-    		var name = $("#name_input").val();
-    		Lmmifc.logout(name, function(rep){
-    			$("#action_reply").text(rep);
-    		});
-    	}
+	function registAction(code){
+		var name = $("#name_input").val();
+		LmmManager.registState(name, code, function(rep){
+			$("#reply_view").text(rep);
+			updateStateTables();
+		});
+	}
 
+	function createStateButton(label, code){
+		var new_btn = $("<button></button>");
+		new_btn.attr("class", "state_btn");
+		new_btn.text("[" + code + "]" + label);
+		new_btn.click(function(){
+			registAction(code);
+		});
+		return new_btn;
+	}
 
-    	var MEMBER_TABLE = $("#member_state");
-    	var RECORD_TABLE = $("#record_table");
+	function setStateButtons(){
+		LmmManager.getStateList({
+			callback: function(states){
+				for(var i=0; i<states.length; i++){
+					$("#btn_container").append(
+						createStateButton(states[i].name, states[i].code)
+					);
+				}
+			}
+		});
+	}
 
-    	function addMemberRow(info){
-    		var nrow = $("<tr></tr>");
-    		nrow.append($("<td></td>").text(info.id));
-    		nrow.append($("<td></td>").text(info.stateCode));
-    		nrow.append($("<td></td>").text(info.stateStr));
-    		nrow.append($("<td></td>").text(info.lastUpdate));
-    		$("#member_state").append(nrow);
-    	}
+	function createMemberStateRow(state_inf){
+		var new_row = $("<tr></tr>");
+		new_row.append($("<td></td>").text(state_inf.id));
+		new_row.append($("<td></td>").text("("+state_inf.stateCode+")"+state_inf.stateStr));
+		new_row.append($("<td></td>").text(state_inf.lastUpdate));
+		return new_row;
+	}
 
-    	function addRecordRow(rec){
-    		var nrow = $("<tr></tr>");
-    		nrow.append($("<td></td>").text(rec.timeStamp));
-    		nrow.append($("<td></td>").text(rec.id));
-    		nrow.append($("<td></td>").text(rec.stateCode));
-    		$("#record_table").append(nrow);
-    	}
+	function setMemberStateRow(jq_elem, id){
+		LmmManager.getMemberState(id, {
+			callback: function(inf){
+				jq_elem.append(
+					createMemberStateRow(inf)
+				);
+			}
+		});
+	}
 
-    	function updateMemberState(){
-    		const labels = ["NAME", "CODE", "STATE", "UPDATE"];
-    		$("#member_state").empty();
-    		$("#member_state").append($("<caption></caption>").text("MEMBER LIST"));
-    		$("#member_state").append(Lmmutil.createLabelRow(labels));
-    		Lmmifc.getRegistedId(function(member_list){
-    			for(var i=0; i<member_list.length; i++){
-    				Lmmifc.getMemberState(member_list[i], addMemberRow);
-    			}
-    		});
-    	}
+	function setMemberStateTable(){
+		var table =$("#member_state_table");
+		table.empty();
+		table.append(Lmmutil.createLabelRow(["ID", "STATE", "LAST UPDATE"]));
+		LmmManager.getRegistedId({
+			callback: function(id_list){
+				for(var i=0; i<id_list.length; i++){
+					setMemberStateRow(table, id_list[i]);
+				}
+			}
+		});
+	}
 
-    	function updateRecordList(){
-    		const labels = ["TIMESTAMP", "ID", "CODE"];
-    		$("#record_table").empty();
-    		$("#record_table").append($("<caption></caption>").text("RECORD LIST"));
-    		$("#record_table").append(Lmmutil.createLabelRow(labels));
-    		Lmmifc.getRecordList(function(record_list){
-    			for(var i=0; i<record_list.length; i++){
-    				addRecordRow(record_list[i]);
-    			}
-    		});
-    	}
+	function setMemberNameStateTable(){
+		var table = $("#member_name_state_table");
+		table.empty();
+		table.append(Lmmutil.createLabelRow(["ID", "STATE", "LASTUPDATE"]));
+		LmmManager.getMemberNameList({
+			callback: function(id_list){
+				for(var i=0; i<id_list.length; i++){
+					setMemberStateRow(table, id_list[i]);
+				}
+			}
+		});
+	}
 
-    	function updateNameState(){
-    		const labels = ["NAME", "CODE", "STATE", "UPDATE"];
-    		$("#name_state").empty();
-    		$("#name_state").append($("<caption></caption>").text("NAME LIST"));
-    		$("#name_state").append(Lmmutil.createLabelRow(labels));
-    		Lmmifc.getMemberNameList(function(name_list){
-    			for(var i=0; i<name_list.length; i++){
-    				Lmmifc.getMemberState(name_list[i], addNameRow);
-    			}
-    		});
-    	}
-
-    	function addNameRow(info){
-    		var nrow = $("<tr></tr>");
-    		nrow.append($("<td></td>").text(info.id));
-    		nrow.append($("<td></td>").text(info.stateCode));
-    		nrow.append($("<td></td>").text(info.stateStr));
-    		nrow.append($("<td></td>").text(info.lastUpdate));
-    		$("#name_state").append(nrow);
-    	}
-
-
-    	function pressUpdateButton(){
-    		updateMemberState();
-    		updateRecordList();
-    		updateNameState();
-    	}
+	function updateStateTables(){
+		setMemberStateTable();
+		setMemberNameStateTable();
+	}
 
 
     </script>
+
+	<style>
+		.page_centering{
+			width:800px;
+			margin:0 auto;
+			padding:10px;
+		}
+		#header{
+			background-color:#ccc;
+		}
+		#container{
+			background-color:#eee;
+		}
+		#footer{
+			background-color:#444;
+			color:white;
+		}
+		.state_tables{
+			width:100%;
+			border-spacing:3px;
+		}
+		td, th{
+			background-color:palegreen;
+		}
+	</style>
 
 </head>
 
 
 <body>
 <body>
-	<h3>LabMemberManagerテストページ</h3>
-	<i>Version: record-system</i>
+<div id="header" class="page_centering">
+	<h2>LabMemberManagerテストページ</h2>
+	<i>Version: history-system</i>
+	<ol>
+		<li><a href="lmmtest.html">lmmtest.html</a></li>
+		<li><a href="personalData.html">personalData.html</a></li>
+		<li><a href="records.html">records.html</a></li>
+	</ol>
+	<div style="text-align:right;"><button onclick="Lmmifc.systemInit()">システムの初期化</button></div>
+</div>
+
+<div id="container" class="page_centering">
+	<h3>ActionRegister</h3>
+	<input id="name_input" type="text"></input>
+	<div id="btn_container"></div>
+	<div id="reply_view" style="background-color:gold;"></div>
 
 	<hr>
 
-	<h4>アクションを登録する</h4>
-	名前: <input id="name_input" type="text"></input><br>
-	<button type="button" onclick="act_login()">LOGIN</button>
-	<button type="button" onclick="act_logout()">LOGOUT</button>
-	<p id="action_reply"></p>
+	<h3>StateViewer</h3>
+	<button onclick="updateStateTables()">update</button><br>
+	<b>メンバーリストによる問い合わせ</b>
+	<table id="member_name_state_table" class="state_tables"></table>
+	<b>活動登録のあるIDリスト</b>
+	<table id="member_state_table" class="state_tables"></table>
+</div>
 
-	<hr>
-
-	<h4>メンバーの状態表示</h4>
-	<button onclick="pressUpdateButton()">update</button>
-	<table><tr>
-		<td style="vertical-align:top">
-
-			<table id="member_state" border="1" style="width:400px">
-			<tr><th>NAME</th><th>CODE</th><th>STATE</th><th>UPDATE</th>
-			</table>
-		</td>
-		<td style="vertical-align:top">
-			<table id="record_table" border="1" style="width:300px">
-			<tr><th>TIMESTAMP</th><th>ID</th><th>CODE</th>
-			</table>
-		</td>
-	</tr></table>
-
-	<h4>名前問い合わせ</h4>
-
-	<table id="name_state" border="1" style="width:500px"></table>
-
-
+<div id="footer" class="page_centering">
+	<i>marshmallow-warriors 2015/10/10</i>
+</div>
 </body>
 
 </html>
