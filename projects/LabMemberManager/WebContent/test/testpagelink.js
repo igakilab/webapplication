@@ -2,8 +2,9 @@ var TestPageLink = {};
 
 TestPageLink.links = [
     {text:"lmmtest.html", href:"lmmtest.html"},
-    {text:"personalDate.html", href:"personalData.html"},
-    {text:"records.html", href:"records.html"}
+    {text:"personalData.html", href:"personalData.html"},
+    {text:"records.html", href:"records.html"},
+    {text:"statistics.html", href:"statistics.html"}
 ]
 
 TestPageLink.appendToList = function(jq_elem){

@@ -26,6 +26,10 @@ public class HistoryStatistics {
 	List<Integer> totalTimes;
 
 
+	public HistoryStatistics(){
+		init();
+	}
+
 	public void init(){
 		stateCodes = new ArrayList<Integer>();
 		totalTimes = new ArrayList<Integer>();
