@@ -51,6 +51,13 @@ public class MemberState {
 		updateHistoryList();
 	}
 
+	public void updateActionRecord(RecordList l0){
+		IdRecordSearcher searcher = new IdRecordSearcher(id);
+		searcher.excute(l0);
+		records = searcher.getRecordList();
+		updateHistoryList();
+	}
+
 	public void updateHistoryList(){
 		history = new HistoryList(records);
 	}
