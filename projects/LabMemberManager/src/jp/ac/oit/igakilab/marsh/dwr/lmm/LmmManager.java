@@ -21,13 +21,23 @@ public class LmmManager {
 
 	MemberStateManager manager;
 
-	/*繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繝ｼ*/
+
 	public LmmManager(){
 		init();
 	}
 
 	public void init(){
 		manager = new MemberStateManager();
+	}
+
+	MemberState getMemberStateObject(String name){
+		MemberState ms;
+		if( manager.checkNameRegisted(name) ){
+			ms = manager.getMemberStateByName(name);
+		}else{
+			ms = manager.getMemberState(name);
+		}
+		return ms;
 	}
 
 	/*謫堺ｽ�*/
@@ -53,17 +63,9 @@ public class LmmManager {
 
 
 	public MemberStateBean getMemberState(String name){
-		MemberState ms;
-
-		if( manager.checkNameRegisted(name) ){
-			ms = manager.getMemberStateByName(name);
-		}else{
-			ms = manager.getMemberState(name);
-		}
-
+		MemberState ms = getMemberStateObject(name);
 		return new MemberStateBean(ms, manager.getStateListObject());
 	}
-
 
 
 	public String[] getRegistedId(){
@@ -74,7 +76,6 @@ public class LmmManager {
 	public String[] getMemberNameList(){
 		return manager.getMemberIdListObject().getRegistedNameList();
 	}
-
 
 
 	public ActionRecordBean[] getRecordList(){
@@ -90,15 +91,9 @@ public class LmmManager {
 
 
 	public ActionRecordBean[] getMemberRecordList(String name){
-		MemberState ms;
+		MemberState ms = getMemberStateObject(name);
 		ActionRecord[] recs;
 		ActionRecordBean[] beans;
-
-		if( manager.checkNameRegisted(name) ){
-			ms = manager.getMemberStateByName(name);
-		}else{
-			ms = manager.getMemberState(name);
-		}
 
 		recs = ms.getRecordList();
 		beans = new ActionRecordBean[recs.length];
@@ -109,6 +104,7 @@ public class LmmManager {
 
 		return beans;
 	}
+
 
 	public ActionRecordBean[] getAllRecordList(){
 		ActionRecord[] recs = manager.getAllRecordList().toArray();
@@ -134,27 +130,14 @@ public class LmmManager {
 
 
 	public HistoryRecordBean[] getHistoryRecord(String name){
-		MemberState ms;
-
-		if( manager.checkNameRegisted(name) ){
-			ms = manager.getMemberStateByName(name);
-		}else{
-			ms = manager.getMemberState(name);
-		}
+		MemberState ms = getMemberStateObject(name);
 
 		return HistoryRecordBean.toBeans(ms.getHistoryList());
 	}
 
 	public HistoryStatisticsBean[] getHistoryStatistics(String name){
-		MemberState ms;
-		if( manager.checkNameRegisted(name) ){
-			ms = manager.getMemberStateByName(name);
-		}else{
-			ms = manager.getMemberState(name);
-		}
-
-		HistoryStatistics stat = new HistoryStatistics();
-		stat.analyze(ms.getHistoryList());
+		MemberState ms = getMemberStateObject(name);
+		HistoryStatistics stat = ms.getStatistics();
 
 		return HistoryStatisticsBean.toBeans(stat);
 	}

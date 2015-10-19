@@ -56,13 +56,13 @@ public class HistoryStatistics {
 		stateCodes.clear();
 		totalTimes.clear();
 
-		while( begin.compareTo(records[cnt].getTimeStamp()) > 0 ) cnt++;
+		while( cnt < records.length && begin.compareTo(records[cnt].getTimeStamp()) > 0 ) cnt++;
 		if( cnt > 0 ){
 			pre_sc = records[cnt - 1].getStateCode();
 		}
 		pre_ts = begin;
 
-		while( end.compareTo(records[cnt].getTimeStamp()) > 0 && cnt < records.length ){
+		while( cnt < records.length && end.compareTo(records[cnt].getTimeStamp()) > 0 ){
 			addTime(pre_sc, getDateSpan(pre_ts, records[cnt].getTimeStamp()));
 			pre_sc = records[cnt].getStateCode();
 			pre_ts = records[cnt].getTimeStamp();
@@ -73,6 +73,7 @@ public class HistoryStatistics {
 	}
 
 	public void analyze(HistoryRecord[] records, Date end){
+		if( records.length == 0 ) return;
 		analyze(records, records[0].getTimeStamp(), end);
 	}
 

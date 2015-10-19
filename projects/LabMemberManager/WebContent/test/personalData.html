@@ -134,12 +134,37 @@
 		setMemberBasicInfo();
 		setMemberActionRecord();
 		setMemberHistoryRecord();
+		setMemberStatistics();
 	}
 
 	function setMember(){
 		ACCOUNT = $("#name_input").val();
 		setStateButtons();
 		updateMemberInfo();
+	}
+
+	function createStatRow(inf){
+		var new_row = $("<tr></tr>");
+		new_row.append($("<td></td>").text(inf.code));
+		new_row.append($("<td></td>").text(Lmmutil.getStateName(inf.code)));
+		new_row.append($("<td></td>").text((inf.totalTime / 60).toFixed(2) + "分"));
+		return new_row;
+	}
+
+	function setMemberStatistics(){
+		var table = $("#stat_table");
+		table.empty();
+		table.append(Lmmutil.createLabelRow(["CODE", "STATE", "TIME"]));
+		LmmManager.getHistoryStatistics(ACCOUNT, {
+			callback: function(stats){
+				Lmmutil.updateStateTable();
+				for(var i=0; i<stats.length; i++){
+					table.append(
+						createStatRow(stats[i])
+					);
+				}
+			}
+		});
 	}
 
 
@@ -201,6 +226,10 @@
 	<div id="reply_view" style="background-color:gold;"></div>
 
 	<hr>
+	<b>統計情報</b>
+	<table id="stat_table" class="info_tables"></table>
+
+	<hr>
 	<b>すべてのデータ</b>
 	<table style="width:100%">
 	<tr><td style="background-color:transparent;vertical-align:top;">
@@ -215,7 +244,7 @@
 </div>
 
 <div id="footer" class="page_centering">
-	<i>marshmallow-warriors 2015/10/10</i>
+	<i>marshmallow-warriors 2015/10/19</i>
 </div>
 </body>
 
