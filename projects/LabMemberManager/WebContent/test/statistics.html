@@ -9,7 +9,7 @@
     <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="../js/jquery.serialize.js"></script>
     <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
-    <script type="text/javascript" src="../dwr/interface/TestStatistics.js!
+    <script type="text/javascript" src="../dwr/interface/TestStatistics.js"></script>
     <script type="text/javascript" src="../js/Lmmifc.js"></script>
     <script type="text/javascript" src="../js/Lmmutil.js"></script>
     <script type="text/javascript" src="testpagelink.js"></script>
@@ -17,24 +17,24 @@
     <script>
 	$(document).ready(function(){
 		TestPageLink.appendToList($("#links"));
-		USER_NAME = "sample";
+		USER_NAME = "samp";
 	});
-	
+
 	var USER_NAME;
-	
+
 	function createStatRow(inf){
 		var new_elem = $("<tr></tr>");
-		new_elem.append("<td></td>").text(inf.code);
-		new_elem.append("<td></td>").text(inf.totalTime);
+		new_elem.append($("<td></td>").text(inf.code));
+		new_elem.append($("<td></td>").text(inf.totalTime/60));
 		return new_elem;
 	}
-	
+
 	function createActionRecordRow(act_rec){
 		var new_row = $("<tr></tr>");
 		new_row.append($("<td></td>").text(act_rec.timeStamp));
 		new_row.append($("<td></td>").text(act_rec.id));
 		new_row.append($("<td></td>").text(act_rec.stateCode));
-		new_row.append($("<td></td>").text(act_rec.timeout));
+		new_rowxqxq.append($("<td></td>").text(act_rec.timeout));
 		return new_row;
 	}
 
@@ -44,9 +44,50 @@
 		new_row.append($("<td></td>").text(hist_rec.stateCode));
 		return new_row;
 	}
-	
+
 	function setStatTable(){
-		Test
+		var table = $("#stat_table");
+		table.empty();
+		table.append($("<caption></caption>").text("Statistics"));
+		TestStatistics.getStatistics(USER_NAME, function(ary){
+			for(var i=0; i<ary.length; i++){
+				table.append(
+					createStatRow(ary[i])
+				);
+			}
+		});
+	}
+
+	function setActionTable(){
+		var table = $("#rec_table");
+		table.empty();
+		table.append($("<caption></caption>").text("Records"));
+		TestStatistics.getRecordList(function(ary){
+			for(var i=0; i<ary.length; i++){
+				table.append(
+					createActionRecordRow(ary[i])
+				);
+			}
+		});
+	}
+
+	function setHistoryTable(){
+		var table = $("#hist_table");
+		table.empty();
+		table.append($("<caption></caption>").text("Histories"));
+		TestStatistics.getHistoryList(USER_NAME, function(ary){
+			for(var i=0; i<ary.length; i++){
+				table.append(
+					createHistoryRecordRow(ary[i])
+				);
+			}
+		});
+	}
+
+	function update(){
+		setActionTable();
+		setHistoryTable();
+		setStatTable();
 	}
 
 
@@ -95,16 +136,16 @@
 
 <div id="container" class="page_centering">
 	<h3>StatisticsTest</h3>
-	<button onclick="setMember()">実行</button><br>
+	<button onclick="update()">実行</button><br>
 
 	<hr>
 	<h4>統計情報</h4>
 	<table id="stat_table" class="info_tables"></table>
-	
+
 	<hr>
 	<h4>ヒストリーリスト</h4>
 	<table id="hist_table" class="record_tables"></table>
-	
+
 	<hr>
 	<h4>レコードリスト</h4>
 	<table id="rec_table" class="record_tables"></table>

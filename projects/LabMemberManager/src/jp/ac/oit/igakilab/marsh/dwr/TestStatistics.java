@@ -19,6 +19,10 @@ public class TestStatistics {
 
 	CsvRecordList recs;
 
+	public TestStatistics(){
+		init();
+	}
+
 	public void init(){
 		recs = new CsvRecordList();
 		if( CsvRecordList.checkFile(SAMPLE_FILE_PATH) ){
@@ -47,7 +51,7 @@ public class TestStatistics {
 		return new MemberStateBean(ms, CommonStateSet.LIST);
 	}
 
-	public HistoryRecordBean[] getHistorList(String name){
+	public HistoryRecordBean[] getHistoryList(String name){
 		MemberState ms = getMemberStateInstance(name);
 		return HistoryRecordBean.toBeans(ms.getHistoryList());
 	}
@@ -55,7 +59,7 @@ public class TestStatistics {
 	public HistoryStatisticsBean[] getStatistics(String name){
 		MemberState ms = getMemberStateInstance(name);
 		HistoryStatistics stat = new HistoryStatistics();
-		Date end_date = recs.getRecord(recs.getRecordCount() - 1).getTimeStamp();
+		Date end_date = recs.getRecord(0).getTimeStamp();
 		stat.analyze(ms.getHistoryList(), end_date);
 		return HistoryStatisticsBean.toBeans(stat);
 	}
