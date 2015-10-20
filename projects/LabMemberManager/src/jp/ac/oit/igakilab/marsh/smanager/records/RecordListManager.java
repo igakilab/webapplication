@@ -128,6 +128,20 @@ public class RecordListManager {
 		return lists;
 	}
 
+	public void loadAllRecordsToBuffer(){
+		String[] file_list = getRecordFileList();
+		CsvRecordList tmp = new CsvRecordList();
+		for(int i=0; i<file_list.length; i++){
+			try {
+				tmp.importFile(CSV_DIR + file_list[i]);
+			}catch(IOException e0){
+				DebugLog.logm("RecordListManager", "loadAllRecords:", e0.getMessage());
+			}
+		}
+		buffer.init();
+		buffer = tmp;
+	}
+
 	public void searchRecordList(RecordSearcher searcher){
 		String[] file_list = getRecordFileList();
 		CsvRecordList tmp = new CsvRecordList();

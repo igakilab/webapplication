@@ -127,6 +127,13 @@ public class LmmManager {
 		return containers;
 	}
 
+	public String loadAllRecordsToBuffer(){
+		manager.getRecordListManager().loadAllRecordsToBuffer();
+		int cnt = manager.getRecordListObject().getRecordCount();
+
+		return "load all records to buffer (" + cnt + " record(s)!)";
+	}
+
 
 
 	public HistoryRecordBean[] getHistoryRecord(String name){
