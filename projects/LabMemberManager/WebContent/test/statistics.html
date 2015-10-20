@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>STATISTICS</title>
+	<meta charset="UTF-8">
+
+	<script type="text/javascript" src="../dwr/engine.js"></script>
+    <script type="text/javascript" src="../dwr/util.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="../dwr/interface/TestStatistics.js"></script>
+    <script type="text/javascript" src="../js/Lmmifc.js"></script>
+    <script type="text/javascript" src="../js/Lmmutil.js"></script>
+    <script type="text/javascript" src="testpagelink.js"></script>
+
+    <script>
+	$(document).ready(function(){
+		TestPageLink.appendToList($("#links"));
+		USER_NAME = "samp";
+	});
+
+	var USER_NAME;
+
+	function createStatRow(inf){
+		var new_elem = $("<tr></tr>");
+		new_elem.append($("<td></td>").text(inf.code));
+		new_elem.append($("<td></td>").text(inf.totalTime/60));
+		return new_elem;
+	}
+
+	function createActionRecordRow(act_rec){
+		var new_row = $("<tr></tr>");
+		new_row.append($("<td></td>").text(act_rec.timeStamp));
+		new_row.append($("<td></td>").text(act_rec.id));
+		new_row.append($("<td></td>").text(act_rec.stateCode));
+		new_row.append($("<td></td>").text(act_rec.timeout));
+		return new_row;
+	}
+
+	function createHistoryRecordRow(hist_rec){
+		var new_row = $("<tr></tr>");
+		new_row.append($("<td></td>").text(hist_rec.timeStamp));
+		new_row.append($("<td></td>").text(hist_rec.stateCode));
+		return new_row;
+	}
+
+	function setStatTable(){
+		var table = $("#stat_table");
+		table.empty();
+		table.append($("<caption></caption>").text("Statistics"));
+		TestStatistics.getStatistics(USER_NAME, function(ary){
+			for(var i=0; i<ary.length; i++){
+				table.append(
+					createStatRow(ary[i])
+				);
+			}
+		});
+	}
+
+	function setActionTable(){
+		var table = $("#rec_table");
+		table.empty();
+		table.append($("<caption></caption>").text("Records"));
+		TestStatistics.getRecordList(function(ary){
+			for(var i=0; i<ary.length; i++){
+				table.append(
+					createActionRecordRow(ary[i])
+				);
+			}
+		});
+	}
+
+	function setHistoryTable(){
+		var table = $("#hist_table");
+		table.empty();
+		table.append($("<caption></caption>").text("Histories"));
+		TestStatistics.getHistoryList(USER_NAME, function(ary){
+			for(var i=0; i<ary.length; i++){
+				table.append(
+					createHistoryRecordRow(ary[i])
+				);
+			}
+		});
+	}
+
+	function update(){
+		setActionTable();
+		setHistoryTable();
+		setStatTable();
+	}
+
+
+    </script>
+
+	<style>
+		.page_centering{
+			width:800px;
+			margin:0 auto;
+			padding:10px;
+		}
+		#header{
+			background-color:#ccc;
+		}
+		#container{
+			background-color:#eee;
+		}
+		#footer{
+			background-color:#444;
+			color:white;
+		}
+		.info_tables{
+			width:100%;
+			border-spacing:3px;
+		}
+		.record_tables{
+			width:100%;
+			border-spacing:3px;
+		}
+		td, th{
+			background-color:khaki;
+		}
+	</style>
+
+</head>
+
+
+<body>
+<body>
+<div id="header" class="page_centering">
+	<h2>LabMemberManagerテストページ</h2>
+	<i>Version: HistoryStatistics</i>
+	<ol id="links"></ol>
+	<div style="text-align:right;"><button onclick="Lmmifc.systemInit()">システムの初期化</button></div>
+</div>
+
+<div id="container" class="page_centering">
+	<h3>StatisticsTest</h3>
+	<button onclick="update()">実行</button><br>
+
+	<hr>
+	<h4>統計情報</h4>
+	<table id="stat_table" class="info_tables"></table>
+
+	<hr>
+	<h4>ヒストリーリスト</h4>
+	<table id="hist_table" class="record_tables"></table>
+
+	<hr>
+	<h4>レコードリスト</h4>
+	<table id="rec_table" class="record_tables"></table>
+
+
+
+</div>
+
+<div id="footer" class="page_centering">
+	<i>marshmallow-warriors 2015/10/16</i>
+</div>
+</body>
+
+</html>

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import jp.ac.oit.igakilab.marsh.smanager.history.HistoryList;
 import jp.ac.oit.igakilab.marsh.smanager.history.HistoryRecord;
+import jp.ac.oit.igakilab.marsh.smanager.history.HistoryStatistics;
 import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
 import jp.ac.oit.igakilab.marsh.smanager.records.IdRecordSearcher;
 import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
@@ -51,6 +52,13 @@ public class MemberState {
 		updateHistoryList();
 	}
 
+	public void updateActionRecord(RecordList l0){
+		IdRecordSearcher searcher = new IdRecordSearcher(id);
+		searcher.excute(l0);
+		records = searcher.getRecordList();
+		updateHistoryList();
+	}
+
 	public void updateHistoryList(){
 		history = new HistoryList(records);
 	}
@@ -67,6 +75,12 @@ public class MemberState {
 			return records.getRecord(0).getTimeStamp();
 		}
 		return null;
+	}
+
+	public HistoryStatistics getStatistics(){
+		HistoryStatistics stat = new HistoryStatistics();
+		stat.analyze(history.toArray());
+		return stat;
 	}
 
 

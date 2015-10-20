@@ -47,3 +47,20 @@ Lmmutil.createLabelRow = function(label){
 	return nrow;
 }
 
+Lmmutil.stateTable = [];
+
+Lmmutil.updateStateTable = function(){
+	LmmManager.getStateList(function(list){
+		stateTable = list;
+	});
+}
+
+Lmmutil.getStateName = function(code){
+	var name = "unknown";
+	for(var i=0; i<stateTable.length; i++){
+		if( stateTable[i].code == code ){
+			name = stateTable[i].name;
+		}
+	}
+	return name;
+}

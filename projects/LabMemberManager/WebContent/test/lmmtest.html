@@ -11,9 +11,11 @@
     <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
     <script type="text/javascript" src="../js/Lmmifc.js"></script>
     <script type="text/javascript" src="../js/Lmmutil.js"></script>
+ 	<script type="text/javascript" src="testpagelink.js"></script>
 
     <script>
 	$(document).ready(function(){
+		TestPageLink.appendToList($("#links"));
 		setStateButtons();
 		updateStateTables();
 	});
@@ -133,11 +135,7 @@
 <div id="header" class="page_centering">
 	<h2>LabMemberManagerテストページ</h2>
 	<i>Version: history-system</i>
-	<ol>
-		<li><a href="lmmtest.html">lmmtest.html</a></li>
-		<li><a href="personalData.html">personalData.html</a></li>
-		<li><a href="records.html">records.html</a></li>
-	</ol>
+	<ol id="links"></ol>
 	<div style="text-align:right;"><button onclick="Lmmifc.systemInit()">システムの初期化</button></div>
 </div>
 
