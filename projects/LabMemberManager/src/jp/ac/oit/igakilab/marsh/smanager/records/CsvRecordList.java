@@ -18,8 +18,9 @@ import jp.sf.orangesignal.csv.CsvWriter;
 import jp.sf.orangesignal.csv.handlers.StringArrayListHandler;
 
 public class CsvRecordList extends RecordList {
-	static DateFormat DF= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	static String DF_PATTERN = "yyyy-MM-dd HH:mm:ss";
 	static String FILE_HEADER = "RecList";
+	static DebugLog logger = new DebugLog("CsvRecordList");
 
 	static public boolean checkFile(File fp){
 		FileReader reader = null;
@@ -48,7 +49,8 @@ public class CsvRecordList extends RecordList {
 
 	static public List<String> toTokens(ActionRecord rec){
 		List<String> tokens = new ArrayList<String>();
-		tokens.add(DF.format(rec.getTimeStamp()));
+		DateFormat df = new SimpleDateFormat(DF_PATTERN);
+		tokens.add(df.format(rec.getTimeStamp()));
 		tokens.add(rec.getId());
 		tokens.add(Integer.toString(rec.getStateCode()));
 		tokens.add(Integer.toString(rec.getTimeout()));
@@ -57,7 +59,8 @@ public class CsvRecordList extends RecordList {
 
 	static public ActionRecord toRecord(String[] strs)
 	throws ParseException{
-		Date ts = DF.parse(strs[0]);
+		DateFormat df = new SimpleDateFormat(DF_PATTERN);
+		Date ts = df.parse(strs[0]);
 		String id = strs[1];
 		int code = Integer.parseInt(strs[2]);
 		if( strs.length > 3 ){
@@ -69,7 +72,7 @@ public class CsvRecordList extends RecordList {
 	}
 
 	static public void writeCsvHeader(CsvWriter writer)
-	throws IOException {	
+	throws IOException {
 		String[] labels = {"timestamp", "id", "code", "timeout"};
 		List<String> tmp = new ArrayList<String>();
 		tmp.add(FILE_HEADER);
@@ -91,7 +94,7 @@ public class CsvRecordList extends RecordList {
 			if( checkFile(fp) ){
 				writer = new CsvWriter(new FileWriter(fp, true));
 			}else{
-				DebugLog.out("addRecordToFile: unspported file");
+				logger.log("addRecordToFile: unspported file");
 				return;
 			}
 		}else{
@@ -117,14 +120,14 @@ public class CsvRecordList extends RecordList {
 		File fp = new File(fname);
 
 		if( !checkFile(fp) ){
-			DebugLog.out("importFile: file error");
+			logger.log("importFile: file error");
 			return;
 		}
 
 		buf = Csv.load(fp, new CsvConfig(), new StringArrayListHandler());
 
 		if( !FILE_HEADER.equals(buf.get(0)[0]) ){
-			DebugLog.out("illigal format");
+			logger.log("illigal format");
 		}
 
 		for(int i=2; i<buf.size(); i++){
@@ -132,9 +135,10 @@ public class CsvRecordList extends RecordList {
 				rec_tmp = toRecord(buf.get(i));
 				addRecord(rec_tmp);
 			}catch(ParseException e0){
-				DebugLog.out("PARSEERROR: [rows:" + i + "] " + e0.getMessage());
+				logger.log("[file:" + fname + ", rows:" + i + "] " + e0.getMessage());
 			}
 		}
+		logger.log("file:" + fname + "is load complete");
 	}
 
 	public void exportFile(String fname)
