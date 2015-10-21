@@ -47,14 +47,4 @@ public class FixedRecordList extends RecordList {
 			super.addRecord(r0);
 		}
 	}
-
-	public void addRecordList(RecordList rec_list){
-		int len = rec_list.getRecordCount();
-		for(int i=0; i<len; i++){
-			addRecord(rec_list.getRecord(i));
-		}
-	}
-
-
-
 }
