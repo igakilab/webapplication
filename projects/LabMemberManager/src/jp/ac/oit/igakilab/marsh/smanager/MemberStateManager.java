@@ -61,8 +61,12 @@ public class MemberStateManager {
 
 
 	/* メンバー状態取得 */
-	public MemberState getMemberState(String id){
-		return new MemberState(id, recs);
+	public MemberState getMemberState(String name){
+		if( mlist.isNameRegisted(name) ){
+			return new MemberStateByname(name, mlist);
+		}else{
+			return new MemberState(name);
+		}
 	}
 
 	/* メンバー状態取得(ユーザ名) */

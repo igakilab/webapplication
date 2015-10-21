@@ -26,7 +26,7 @@ public class MemberIdList {
 
 
 	public void addId(String name, String id){
-		if( isIdRegisted(id) && isNameRegisted(name) ){
+		if( checkOverlap(name, id) ){
 			DebugLog.logm("MemberIdList", DebugLog.LS_WARN, "addId", "データが重複しています");
 			DebugLog.logm("MemberIdList", "name = " + name + " id = " + id);
 			return;
@@ -146,6 +146,19 @@ public class MemberIdList {
 
 	public boolean isNameRegisted(String name){
 		return names.contains(name);
+	}
+
+	public boolean checkOverlap(String name, String id){
+		int len = getListLength();
+		for(int i=0; i<len; i++){
+			if(
+				identifers.get(i).equals(id) &&
+				names.get(i).equals(name)
+			){
+				return true;
+			}
+		}
+		return false;
 	}
 
 
