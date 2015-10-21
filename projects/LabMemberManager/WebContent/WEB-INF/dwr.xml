@@ -19,6 +19,9 @@
     <create creator="new" javascript="TestStatistics" scope="session">
     	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.TestStatistics" />
     </create>
+    <create creator="new" javascript="LogChecker">
+    	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.lmm.LogChecker" />
+    </create>
 
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.lmm.*" />
