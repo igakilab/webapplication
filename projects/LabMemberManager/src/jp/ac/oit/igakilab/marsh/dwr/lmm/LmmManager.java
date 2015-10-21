@@ -61,6 +61,11 @@ public class LmmManager {
 		return ActionRecordBean.toBeans(manager.getAllRecordList().toArray());
 	}
 
+	//互換性維持
+	public ActionRecordBean[] getRecordList(){
+		return getBufferRecordList();
+	}
+
 	public RecordListContainer[] getAllRecordLists(){
 		RecordList[] recs = manager.getAllRecordLists();
 		RecordListContainer[] containers = new RecordListContainer[recs.length];
