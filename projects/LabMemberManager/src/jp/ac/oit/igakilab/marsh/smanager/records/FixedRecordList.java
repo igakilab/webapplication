@@ -30,14 +30,14 @@ public class FixedRecordList extends RecordList {
 
 	public void normalize(){
 		int tmp = recs.size();
-		while( recs.size() > length ){
+		while( recs.size() > length &&  length > 0 ){
 			recs.remove(recs.size() - 1);
 		}
 		DebugLog.logm("FixedRecordList", "ListLength " + tmp + " -> " + recs.size() + " normalized");
 	}
 
 	public void addRecord(ActionRecord r0){
-		if( recs.size() + 1 > length && recs.size() > 0 ){
+		if( length > 0 && recs.size() + 1 > length ){
 			Date rear_date =  recs.get(recs.size() - 1).getTimeStamp();
 			if( rear_date.compareTo(r0.getTimeStamp()) <= 0 ){
 				super.addRecord(r0);
