@@ -39,6 +39,8 @@ ImgStateRow.getStateColumn(code){
 	return this.defaultColumn;
 };
 
+
+//コードの設定
 ImgStateRow.setColumn = function(args){
 	this.states = new Array();
 	for(var i=0; i<arguments.length; i++){
@@ -46,3 +48,4 @@ ImgStateRow.setColumn = function(args){
 	}
 };
 
+//
