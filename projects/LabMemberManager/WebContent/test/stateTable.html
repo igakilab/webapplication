@@ -10,10 +10,27 @@
     <script type="text/javascript" src="../js/jquery.serialize.js"></script>
     <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
     <script type="text/javascript" src="../js/Lmmifc.js"></script>
-    <script type="text/javascript" src="../js/stateTable.js"></script>
+    <script type="text/javascript" src="../js/ImgStateTable.js"></script>
 
     <script>
+    	var imgs = [
+			"../icon/attend.png",
+			"../icon/lecture.png",
+			"../icon/goout.png",
+			"../icon/absense.png"
+		];
+    	var act_imgs = [
+			"../icon/attend_act.png",
+			"../icon/lecture_act.png",
+			"../icon/goout_act.png",
+			"../icon/absense_act.png"
+		];
+
 		function pressUpdateButton(){
+			ImgStateTable.setImgPaths(imgs);
+			ImgStateTable.setActiveImgPaths(act_imgs);
+
+
 			StateTable.setStateRow("りょーくん", "ryo");
 			StateTable.setStateRow("しにゃ", "shin");
 			StateTable.setStateRow("ばーきた", "kitab");
