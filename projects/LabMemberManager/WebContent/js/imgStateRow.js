@@ -79,6 +79,10 @@ ImgStateRow.appendToTable = function(elem_id, name, cbf){
 	});
 }
 
+ImgStateRow.registState(id, code){
+
+}
+
 
 //コードの設定
 ImgStateRow.setColumn = function(args){
