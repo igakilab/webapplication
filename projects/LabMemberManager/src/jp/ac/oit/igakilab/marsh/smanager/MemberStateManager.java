@@ -61,8 +61,20 @@ public class MemberStateManager {
 
 
 	/* メンバー状態取得 */
-	public MemberState getMemberState(String id){
-		return new MemberState(id, recs);
+	public MemberState getMemberState(String name, boolean all){
+		int search_level;
+
+		if( all ){
+			search_level = MemberState.SL_ALL;
+		}else{
+			search_level = MemberState.SL_BUFFER;
+		}
+
+		if( mlist.isNameRegisted(name) ){
+			return new MemberStateByname(name, mlist, recs, search_level);
+		}else{
+			return new MemberState(name, recs, search_level);
+		}
 	}
 
 	/* メンバー状態取得(ユーザ名) */
@@ -95,6 +107,10 @@ public class MemberStateManager {
 		return flg;
 	}
 
+	public RecordList getBufferRecordList(){
+		return recs.getBufferRecordList();
+	}
+
 	public RecordList getAllRecordList(){
 		return recs.getAllRecordList();
 	}
@@ -107,10 +123,6 @@ public class MemberStateManager {
 	/* オブジェクト返し */
 	public RecordListManager getRecordListManager(){
 		return recs;
-	}
-
-	public RecordList getRecordListObject(){
-		return recs.getBufferRecordList();
 	}
 	public StateList getStateListObject(){
 		return slist;

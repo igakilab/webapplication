@@ -30,28 +30,18 @@ public class LmmManager {
 		manager = new MemberStateManager();
 	}
 
-	MemberState getMemberStateObject(String name){
-		MemberState ms;
-		if( manager.checkNameRegisted(name) ){
-			ms = manager.getMemberStateByName(name);
-		}else{
-			ms = manager.getMemberState(name);
-		}
-		return ms;
-	}
 
-	/*謫堺ｽ�*/
+
+	/*メンバー状態操作*/
 	public String login(String name){
 		manager.addMemberState(name, MemberStateManager.LOGIN_5M);
 		return "[" + name + "] login (" + DF.format(Calendar.getInstance().getTime()) + ")";
 	}
 
-
 	public String logout(String name){
 		manager.addMemberState(name, MemberStateManager.LOGOUT);
 		return "[" + name + "] logout(" + DF.format(Calendar.getInstance().getTime()) + ")";
 	}
-
 
 	public String registState(String id, int code){
 		ActionRecord ar = manager.addMemberState(id, code);
@@ -62,59 +52,18 @@ public class LmmManager {
 	}
 
 
-	public MemberStateBean getMemberState(String name){
-		MemberState ms = getMemberStateObject(name);
-		return new MemberStateBean(ms, manager.getStateListObject());
+	/*レコード取得, 登録id, name確認*/
+	public ActionRecordBean[] getBufferRecordList(){
+		return ActionRecordBean.toBeans(manager.getBufferRecordList().toArray());
 	}
-
-
-	public String[] getRegistedId(){
-		return manager.getRegistedIdList();
-	}
-
-
-	public String[] getMemberNameList(){
-		return manager.getMemberIdListObject().getRegistedNameList();
-	}
-
-
-	public ActionRecordBean[] getRecordList(){
-		ActionRecord[] recs = manager.getRecordListObject().toArray();
-		ActionRecordBean[] beans = new ActionRecordBean[recs.length];
-
-		for(int i=0; i<recs.length; i++){
-			beans[i] = new ActionRecordBean(recs[i]);
-		}
-
-		return beans;
-	}
-
-
-	public ActionRecordBean[] getMemberRecordList(String name){
-		MemberState ms = getMemberStateObject(name);
-		ActionRecord[] recs;
-		ActionRecordBean[] beans;
-
-		recs = ms.getRecordList();
-		beans = new ActionRecordBean[recs.length];
-
-		for(int i=0; i<recs.length; i++){
-			beans[i] = new ActionRecordBean(recs[i]);
-		}
-
-		return beans;
-	}
-
 
 	public ActionRecordBean[] getAllRecordList(){
-		ActionRecord[] recs = manager.getAllRecordList().toArray();
-		ActionRecordBean[] beans = new ActionRecordBean[recs.length];
+		return ActionRecordBean.toBeans(manager.getAllRecordList().toArray());
+	}
 
-		for(int i=0; i<recs.length; i++){
-			beans[i] = new ActionRecordBean(recs[i]);
-		}
-
-		return beans;
+	//互換性維持
+	public ActionRecordBean[] getRecordList(){
+		return getBufferRecordList();
 	}
 
 	public RecordListContainer[] getAllRecordLists(){
@@ -127,26 +76,44 @@ public class LmmManager {
 		return containers;
 	}
 
-	public String loadAllRecordsToBuffer(){
-		manager.getRecordListManager().loadAllRecordsToBuffer();
-		int cnt = manager.getRecordListObject().getRecordCount();
+	public String[] getRegistedId(){
+		return manager.getRegistedIdList();
+	}
 
-		return "load all records to buffer (" + cnt + " record(s)!)";
+	public String[] getMemberNameList(){
+		return manager.getMemberIdListObject().getRegistedNameList();
 	}
 
 
+	/*メンバー個別情報取得*/
+	public MemberStateBean getMemberState(String name){
+		MemberState ms = manager.getMemberState(name, false);
+		return new MemberStateBean(ms, manager.getStateListObject());
+	}
+
+	public ActionRecordBean[] getMemberRecordList(String name){
+		MemberState ms = manager.getMemberState(name, true);
+		return ActionRecordBean.toBeans(ms.getRecordList());
+	}
 
 	public HistoryRecordBean[] getHistoryRecord(String name){
-		MemberState ms = getMemberStateObject(name);
-
+		MemberState ms = manager.getMemberState(name, true);
 		return HistoryRecordBean.toBeans(ms.getHistoryList());
 	}
 
 	public HistoryStatisticsBean[] getHistoryStatistics(String name){
-		MemberState ms = getMemberStateObject(name);
+		MemberState ms = manager.getMemberState(name, true);
 		HistoryStatistics stat = ms.getStatistics();
-
 		return HistoryStatisticsBean.toBeans(stat);
+	}
+
+
+	/*その他操作*/
+	public String loadAllRecordsToBuffer(){
+		manager.getRecordListManager().loadAllRecordsToBuffer();
+		int cnt = manager.getBufferRecordList().getRecordCount();
+
+		return "load all records to buffer (" + cnt + " record(s)!)";
 	}
 
 	public StateInfo[] getStateList(){
