@@ -10,14 +10,17 @@ ImgStateRow.defaultColumn = 0;
 ImgStateRow.imgPaths = [];
 ImgStateRow.imgPaths_act = [];
 
-//クリックされたときの動作の定義
-ImgStateRow.onclickFunction = [];
+//クリックすると状態が変わるようにするかどうか
+ImgStateRow.registButton = true;
+
+//登録完了時のコールバック関数
+ImgStateRow.registCallback = null;
 
 ImgStateRow.createImgElement = function(imgpath, callback){
 	var e_img = $("<img></img>");
 	e_img.attr("alt", "img");
 	e_img.attr("src", imgpath);
-	if( callback !== undefined ){
+	if( callback !== undefined && callback !== null ){
 		e_img.click(callback);
 	}
 	return e_img;
@@ -36,21 +39,33 @@ ImgStateRow.getStateColumn = function(code){
 	return this.defaultColumn;
 };
 
-ImgStateRow.appendTdElements = function(dest, pos){
+ImgStateRow.appendTdElements = function(dest, pos, name){
 	var len = this.imgPaths.length;
 
 	for(var i=0; i<len; i++){
 		var newtd = $("<td></td>");
+		var cfunc = null;
+
+		if( this.registButton == true && name !== undefined ){
+			cfunc = function(){
+				ImgStateRow.registState(name,
+					ImgStateRow.getStateCodeForRegist(i),
+					ImgStateRow.registCallback
+				);
+			}
+		}
+
 		if( i == pos ){
 			newtd.attr("class", "isr_data_act");
-			newtd.append(this.createImgElement(this.imgPaths_act[i], this.onclickFunction[i]));
+			newtd.append(this.createImgElement(this.imgPaths_act[i], cfunc));
 			dest.append(newtd);
 		}else{
-			nwetd.attr("class", "isr_data");
-			newtd.append(this.createImgElement(this.imgPaths[i], this.onclickFunction[i]));
+			newtd.attr("class", "isr_data");
+			newtd.append(this.createImgElement(this.imgPaths[i], cfunc));
 			dest.append(newtd);
 		}
 	}
+
 };
 
 ImgStateRow.appendTableData = function(dest, name, inf){
@@ -59,13 +74,14 @@ ImgStateRow.appendTableData = function(dest, name, inf){
 	td_name.text(name);
 	dest.append(td_name);
 
-	this.appendTdElements(dest, this.getStateColumn(inf.stateCode))
+	this.appendTdElements(dest, this.getStateColumn(inf.stateCode), name)
 
 }
 
 ImgStateRow.appendToRow = function(elem_id, name, cbf){
+	$("#" + elem_id).empty();
 	LmmManager.getMemberState(name, function(inf){
-		this.appendTableData($("#" + elem_id), name, inf);
+		ImgStateRow.appendTableData($("#" + elem_id), name, inf);
 		if( cbf !== undefined ) cbf();
 	});
 }
@@ -73,14 +89,26 @@ ImgStateRow.appendToRow = function(elem_id, name, cbf){
 ImgStateRow.appendToTable = function(elem_id, name, cbf){
 	LmmManager.getMemberState(name, function(inf){
 		var new_row = $("<tr></tr>");
-		this.appendTableData(new_row, name, inf);
+		ImgStateRow.appendTableData(new_row, name, inf);
 		$("#" + elem_id).append(new_row);
 		if( cbf !== undefined ) cbf();
 	});
 }
 
-ImgStateRow.registState(id, code){
+ImgStateRow.registState = function(id, code, cbf){
+	LmmManager.registState(id, code, function(reply){
+		if( cbf !== undefined && cbf == null ){
+			cbf(reply);
+		}
+	});
+}
 
+ImgStateRow.getStateCodeForRegist = function(colm){
+	if( jQuery.isArray(this.codes[colm]) ){
+		return this.codes[colm][0];
+	}else{
+		return this.codes[colm];
+	}
 }
 
 
@@ -99,10 +127,5 @@ ImgStateRow.setImgPaths = function(paths){
 ImgStateRow.setActiveImgPaths = function(paths){
 	this.imgPaths_act = paths;
 }
-
-ImgStateRow.setCallbackFunction = function(funcs){
-	this.onclickFunction = funcs;
-}
-
 
 //
