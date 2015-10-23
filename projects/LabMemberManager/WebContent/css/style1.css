@@ -15,10 +15,10 @@
 	width:90%;
 }
 th, td{
-	/*height:30px;*/
-	padding : 20px 30px;
+	height:40px;
 	text-align:center;
 	font-size:large;
+	width:90px;
 }
 th{
 	background-color: #ccff33;
