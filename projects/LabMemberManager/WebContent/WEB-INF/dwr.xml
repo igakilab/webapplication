@@ -19,11 +19,15 @@
     <create creator="new" javascript="TestStatistics" scope="session">
     	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.TestStatistics" />
     </create>
+    <create creator="new" javascript="TestMemberList" scope="session">
+    	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.TestMemberList" />
+    </create>
 
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.lmm.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.beans.*"/>
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.beans.*" />
+    <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.members.*" />
   </allow>
 </dwr>

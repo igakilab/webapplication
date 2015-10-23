@@ -12,6 +12,11 @@ public class Member {
 		init();
 	}
 
+	public Member(String n0){
+		init();
+		setName(n0);
+	}
+
 	public void init(){
 		name = "";
 		password = "";

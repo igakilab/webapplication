@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MemberList {
-
-
 	List<Member> list;
 
 	public MemberList(){
@@ -25,13 +23,23 @@ public class MemberList {
 		return -1;
 	}
 
-	public void addMemberList(Member m0){
+	public void addMember(Member m0){
+		if( isMemberRegisted(m0.getName()) ) return;
+
 		list.add(m0);
 	}
 
 	public Member getMember(String name){
 		int idx = getMemberIdxByName(name);
 		if( idx >= 0 ){
+			return list.get(idx);
+		}else{
+			return null;
+		}
+	}
+
+	public Member getMemberByIdx(int idx){
+		if( idx >= 0 && idx < size() ){
 			return list.get(idx);
 		}else{
 			return null;
@@ -45,5 +53,9 @@ public class MemberList {
 
 	public int size(){
 		return list.size();
+	}
+
+	public Member[] toArray(){
+		return list.toArray(new Member[list.size()]);
 	}
 }
