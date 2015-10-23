@@ -1,0 +1,32 @@
+#content{
+	background-color:#eee;
+	margin:0 auto;
+	width:800px;
+	padding:10px;
+}
+#footer{
+	background-color:#ccc;
+	margin:0 auto;
+	width:800px;
+	padding:10px;
+}
+#attend_table{
+	margin:0 auto;
+	width:90%;
+}
+th, td{
+	/*height:30px;*/
+	padding : 20px 30px;
+	text-align:center;
+	font-size:large;
+}
+th{
+	background-color: #ccff33;
+
+}
+td{
+	background-color: #ccffff;
+	font-weight:bold;
+
+}
+
