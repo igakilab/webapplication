@@ -43,4 +43,13 @@ public class Member {
 	public void addConvertId(String i0){
 		convid.add(i0);
 	}
+	public boolean deleteConvertId(String i0){
+		int idx = convid.indexOf(i0);
+		if( idx >= 0 ){
+			convid.remove(idx);
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

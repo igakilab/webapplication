@@ -115,7 +115,7 @@ public class XmlMemberList extends MemberList{
 		tff = TransformerFactory.newInstance();
 		try{
 			tf = tff.newTransformer();
-			tf.setOutputProperty(OutputKeys.ENCODING, "Shift-JIS");
+			tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			tf.transform(new DOMSource(doc), new StreamResult(file_name));
 		}catch(Exception e0){
 			LOGGER.log("save", e0.getMessage());

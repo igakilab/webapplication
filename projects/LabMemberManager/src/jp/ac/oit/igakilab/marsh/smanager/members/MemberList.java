@@ -29,6 +29,16 @@ public class MemberList {
 		list.add(m0);
 	}
 
+	public boolean deleteMember(String name){
+		int idx = getMemberIdxByName(name);
+		if( idx >= 0 ){
+			list.remove(idx);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	public Member getMember(String name){
 		int idx = getMemberIdxByName(name);
 		if( idx >= 0 ){

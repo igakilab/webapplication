@@ -22,6 +22,9 @@
     <create creator="new" javascript="TestMemberList" scope="session">
     	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.TestMemberList" />
     </create>
+    <create creator="new" javascript="MemberEditor">
+    	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.lmm.MemberEditor" />
+    </create>
 
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.lmm.*" />

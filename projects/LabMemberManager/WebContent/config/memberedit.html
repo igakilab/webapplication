@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MEMBER EDITOR</title>
+	<meta charset="UTF-8">
+
+	<script type="text/javascript" src="../dwr/engine.js"></script>
+    <script type="text/javascript" src="../dwr/util.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="../dwr/interface/MemberEditor.js"></script>
+    <script type="text/javascript" src="../js/Lmmutil.js"></script>
+
+    <script>
+    /*メンバーリスト*/
+    function updateMemberTable(){
+    	var table = $("#members");
+    	table.empty();
+    	table.append(Lmmutil.createLabelRow(["名前", "idリスト"]));
+    	MemberEditor.get_memlist(function(list){
+    		for(var i=0; i<list.length; i++){
+    			appendMemberRow(table, list[i]);
+    		}
+    	});
+    }
+
+    function appendMemberRow(jq_elem, inf){
+    	var nr = $("<tr></tr>");
+    	nr.append($("<td></td>").text(inf.name));
+    	nr.append($("<td></td>").text(inf.convertIds));
+    	jq_elem.append(nr);
+    }
+
+    /*メンバー操作*/
+    function mem_add(){
+    	var name = $("#i_add_name").val();
+    	var pass = $("#i_adm_pass").val();
+    	MemberEditor.add_member(pass, name, function(rep){
+    		$("#reply2").text(rep);
+    		update();
+    	});
+    }
+
+    function pass_set(){
+    	var name = $("#i_mem_name").val();
+    	var pass = $("#i_mem_pass").val();
+    	var npass = $("#i_pas_npass").val();
+    	MemberEditor.set_password(name, pass, npass, function(rep){
+    		$("#reply1").text(rep);
+    		update();
+    	});
+    }
+
+    function id_add(){
+    	var name = $("#i_mem_name").val();
+    	var pass = $("#i_mem_pass").val();
+    	var id = $("#i_iadd_id").val();
+    	MemberEditor.set_addconvid(name, pass, id, function(rep){
+    		$("#reply1").text(rep);
+    		update();
+    	});
+    }
+
+    function id_del(){
+    	var name = $("#i_mem_name").val();
+    	var pass = $("#i_mem_pass").val();
+    	var id = $("#i_idel_id").val();
+    	MemberEditor.set_deleteconvid(name, pass, id, function(rep){
+    		$("#reply1").text(rep);
+    		update();
+    	});
+    }
+
+    function mem_del(){
+    	var name = $("#i_del_name").val();
+    	var pass = $("#i_adm_pass").val();
+    	MemberEditor.delete_member(pass, name, function(rep){
+    		$("#reply2").text(rep);
+    		update();
+    	});
+    }
+
+    function update(){
+    	updateMemberTable();
+    }
+
+    $(document).ready(function(){
+    	update();
+    });
+
+
+    </script>
+
+	<style>
+		.page_centering{
+			width:800px;
+			margin:0 auto;
+			padding:10px;
+		}
+		#header{
+			background-color:#ccc;
+		}
+		#container{
+			background-color:#eee;
+		}
+		#footer{
+			background-color:#444;
+			color:white;
+		}
+		#reply1, #reply2{
+			background-color:wheat;
+		}
+		.state_tables{
+			width:100%;
+			border-spacing:3px;
+		}
+		td, th{
+			background-color:palegreen;
+		}
+	</style>
+
+</head>
+
+
+<body>
+	<div id="header" class="page_centering">
+		<h1>メンバーエディター</h1>
+		<button onclick="update()">更新</button>
+	</div>
+
+	<div id="container" class="page_centering">
+		<table id="members" class="state_tables"></table>
+
+		<hr>
+
+		<h3>メンバー設定</h3>
+		設定メンバー名: <input id="i_mem_name" type="text" /><br/>
+		メンバーパスワード: <input id="i_mem_pass" type="text" /><br/>
+
+		<h4>パスワードの設定</h4>
+		新しいパスワード: <input id="i_pas_npass" type="text" />
+		<button onclick="pass_set()">設定</button>
+
+		<h4>idの追加</h4>
+		追加するid: <input id="i_iadd_id" type="text" />
+		<button onclick="id_add()">追加</button>
+
+		<h4>idの削除</h4>
+		削除するid: <input id="i_idel_id" type="text" />
+		<button onclick="id_del()">削除</button>
+
+		<p id="reply1">reply</p>
+
+		<hr>
+
+		<h3>管理者設定</h3>
+		管理者パスワード: <input id="i_adm_pass" type="text" /><br/>
+
+		<h4>メンバーの追加</h4>
+		追加メンバーの名前: <input id="i_add_name" type="text" />
+		<button onclick="mem_add()">追加</button>
+
+		<h4>メンバーの削除</h4>
+		削除メンバーの名前: <input id="i_del_name" type="text" />
+		<button onclick="mem_del()">削除</button>
+
+		<p id="reply2">reply</p>
+
+
+	</div>
+
+	<div id="footer" class="page_centering">
+		<i>marshmallow-warriors 2015/10/24</i>
+	</div>
+
+
+<body>
+
+
+</body>
+
+</html>
