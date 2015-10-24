@@ -12,6 +12,8 @@ import jp.ac.oit.igakilab.marsh.smanager.records.RecordListManager;
 
 public class MemberState {
 	public static final int UNDEFINED = CommonStateSet.UNDEFINED;
+	public static final int SL_ALL = 201;
+	public static final int SL_BUFFER = 202;
 
 
 	/*インスタンス変数*/
@@ -27,6 +29,11 @@ public class MemberState {
 	public MemberState(String i0, RecordListManager l0){
 		this(i0);
 		updateActionRecord(l0);
+	}
+
+	public MemberState(String i0, RecordListManager l0, int sl0){
+		this(i0);
+		updateActionRecord(l0, sl0);
 	}
 
 	public void init(){
@@ -46,8 +53,19 @@ public class MemberState {
 
 	/*解析用*/
 	public void updateActionRecord(RecordListManager l0){
+		updateActionRecord(l0, SL_BUFFER);
+	}
+
+	public void updateActionRecord(RecordListManager l0, int sl){
 		IdRecordSearcher searcher = new IdRecordSearcher(id);
-		l0.searchBufferRecordList(searcher);
+		switch( sl ){
+		case SL_ALL:
+			l0.searchRecordList(searcher);
+			break;
+		case SL_BUFFER:
+			l0.searchBufferRecordList(searcher);
+			break;
+		}
 		records = searcher.getRecordList();
 		updateHistoryList();
 	}
