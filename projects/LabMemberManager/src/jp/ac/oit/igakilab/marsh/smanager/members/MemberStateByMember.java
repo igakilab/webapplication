@@ -31,8 +31,19 @@ public class MemberStateByMember extends MemberState {
 	}
 
 	public void updateActionRecord(RecordListManager mg0){
+		updateActionRecord(mg0, SL_BUFFER);
+	}
+
+	public void updateActionRecord(RecordListManager mg0, int sl){
 		MemberRecordSearcher searcher = new MemberRecordSearcher(minfo);
-		mg0.searchRecordList(searcher);
+		switch( sl ){
+		case SL_ALL:
+			mg0.searchRecordList(searcher);
+			break;
+		case SL_BUFFER:
+			mg0.searchBufferRecordList(searcher);
+			break;
+		}
 		records = new RecordList(searcher.getRecordList());
 		updateHistoryList();
 	}
