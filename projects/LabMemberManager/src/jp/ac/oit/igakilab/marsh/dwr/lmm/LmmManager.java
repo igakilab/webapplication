@@ -81,7 +81,7 @@ public class LmmManager {
 	}
 
 	public String[] getMemberNameList(){
-		return manager.getMemberIdListObject().getRegistedNameList();
+		return manager.getMemberListObject().getNameList();
 	}
 
 

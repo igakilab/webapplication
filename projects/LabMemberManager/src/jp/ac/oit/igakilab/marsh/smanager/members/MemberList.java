@@ -24,7 +24,7 @@ public class MemberList {
 	}
 
 	public void addMember(Member m0){
-		if( isMemberRegisted(m0.getName()) ) return;
+		if( isNameRegisted(m0.getName()) ) return;
 
 		list.add(m0);
 	}
@@ -46,7 +46,17 @@ public class MemberList {
 		}
 	}
 
-	public boolean isMemberRegisted(String name){
+	public String[] getNameList(){
+		String[] names = new String[list.size()];
+
+		for(int i=0; i<list.size(); i++){
+			names[i] = list.get(i).getName();
+		}
+
+		return names;
+	}
+
+	public boolean isNameRegisted(String name){
 		int idx = getMemberIdxByName(name);
 		return idx >= 0;
 	}

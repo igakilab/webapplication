@@ -1,8 +1,8 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
+import jp.ac.oit.igakilab.marsh.smanager.members.MemberList;
+import jp.ac.oit.igakilab.marsh.smanager.members.MemberStateByMember;
+import jp.ac.oit.igakilab.marsh.smanager.members.XmlMemberList;
 import jp.ac.oit.igakilab.marsh.smanager.records.ActionRecord;
 import jp.ac.oit.igakilab.marsh.smanager.records.RecordList;
 import jp.ac.oit.igakilab.marsh.smanager.records.RecordListManager;
@@ -23,16 +23,15 @@ public class MemberStateManager {
 
 	/*デフォルト状態リスト*/
 	public static StateList DEFAULT_SLIST= CommonStateSet.LIST;
-	public static MemberIdList DEFAULT_MLIST = CommonMemberSet.LIST;
 
 	/*設定ファイル*/
-	public static String CONF_IDLIST_FILE = "config_idlist.csv";
+	public static String CONF_MEMBER_FILE = "members.xml";
 
 
 	/*インスタンス変数*/
 	private RecordListManager recs;
 	private StateList slist;
-	private MemberIdList mlist;
+	private XmlMemberList mlist;
 
 
 	/*コンストラクタ*/
@@ -43,12 +42,8 @@ public class MemberStateManager {
 	public void init(){
 		recs = new RecordListManager();
 		slist = DEFAULT_SLIST;
-		mlist = new MemberIdList();
-		try{
-			mlist.importCsvFile(CONF_IDLIST_FILE);
-		}catch( FileNotFoundException e0 ){
-			mlist = DEFAULT_MLIST;
-		}catch( IOException e1 ){}
+		mlist = new XmlMemberList();
+		mlist.loadXmlFile(CONF_MEMBER_FILE);
 	}
 
 	/*レコード追加*/
@@ -71,15 +66,10 @@ public class MemberStateManager {
 		}
 
 		if( mlist.isNameRegisted(name) ){
-			return new MemberStateByname(name, mlist, recs, search_level);
+			return new MemberStateByMember(mlist.getMember(name), recs, search_level);
 		}else{
 			return new MemberState(name, recs, search_level);
 		}
-	}
-
-	/* メンバー状態取得(ユーザ名) */
-	public MemberStateByname getMemberStateByName(String name){
-		return new MemberStateByname(name, mlist, recs);
 	}
 
 
@@ -95,16 +85,8 @@ public class MemberStateManager {
 		return recs.getBufferRecordList().isIdRegisted(id);
 	}
 
-	/* 記録チェック */
 	public boolean checkNameRegisted(String name){
-		String[] ids = mlist.getIdByName(name);
-		boolean flg = false;
-
-		for(int i=0; i<ids.length; i++){
-			flg = flg || recs.getBufferRecordList().isIdRegisted(ids[i]);
-		}
-
-		return flg;
+		return mlist.isNameRegisted(name);
 	}
 
 	public RecordList getBufferRecordList(){
@@ -127,7 +109,7 @@ public class MemberStateManager {
 	public StateList getStateListObject(){
 		return slist;
 	}
-	public MemberIdList getMemberIdListObject(){
+	public MemberList getMemberListObject(){
 		return mlist;
 	}
 

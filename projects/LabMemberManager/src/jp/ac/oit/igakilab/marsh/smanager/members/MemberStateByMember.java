@@ -22,6 +22,11 @@ public class MemberStateByMember extends MemberState {
 		updateActionRecord(mg0);
 	}
 
+	public MemberStateByMember(Member m0, RecordListManager mg0, int sl0){
+		this(m0);
+		updateActionRecord(mg0, sl0);
+	}
+
 	public void updateActionRecord(RecordList r0){
 		MemberRecordSearcher searcher = new MemberRecordSearcher(minfo);
 		searcher.init();
