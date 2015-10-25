@@ -18,14 +18,14 @@
 
 			MemberMap.addIconConfig([101, 102], "在室", "rgb(0, 255, 0)");
 			MemberMap.addIconConfig(103, "授業", "rgb(255, 255, 0)");
+			MemberMap.setIconDefaultConfig("退室", "rgb(230, 230, 230)");
 			MemberMap.addMember("りょーくん", 200, 200, MemberMap.TLEFT);
-			MemberMap.addMember("りょーくん", 300, 200, MemberMap.TTOP);
-			MemberMap.addMember("きたば", 400, 200, MemberMap.TBOTTOM);
+			//MemberMap.addMember("りょーくん", 300, 200, MemberMap.TTOP);
+			//MemberMap.addMember("きたば", 400, 200, MemberMap.TBOTTOM);
 
 			MemberMap.backgroundImg = "semi_layout.png";
 			MemberMap.fontType = "18px sans-serif";
-			MemberMap.loginColor = "rgb(0, 255, 0)";
-			MemberMap.otherColor = "rgb(230, 230, 230)";
+			MemberMap.setIconSize(60, 30);
 			MemberMap.draw("test_canvas", 500, 1000);
 		}
 

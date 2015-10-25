@@ -49,17 +49,20 @@ MemberMap.setIconDefaultConfig = function(s0, cl0){
 	};
 }
 
+MemberMap.setIconSize = function(w0, h0){
+	this.memberRectWidth = w0;
+	this.memberRectHeight = h0;
+}
+
 MemberMap.getIconConfig = function(code){
 	for(var i=0; i<this.iconConfigs.length; i++){
 		if( Array.isArray(this.iconConfigs[i].code) ){
 			for(var j=0; j<this.iconConfigs[i].code.length; j++){
-				console.log("compare [" + code + " <> " + this.iconConfigs[i].code[j] + "]");
 				if( code == this.iconConfigs[i].code[j] ){
 					return this.iconConfigs[i];
 				}
 			}
 		}else{
-			console.log("compare [" + code + " <> " + this.iconConfigs[i].code + "]");
 			if( code == this.iconConfigs[i].code ){
 				return this.iconConfigs[i];
 			}
@@ -114,7 +117,7 @@ MemberMap.drawMemberIcon = function(ctx, name, cx, cy, nstr_f, code){
 	}
 	ctx.strokeRect(dx, dy, dw, dh);
 	ctx.textAlign = "center";
-	ctx.fillText(ic_conf.str, cx , dy + dh -3, dw-6);
+	ctx.fillText(ic_conf.str, cx , dy + dh -5, dw-6);
 	ctx.textAlign = nt_align;
 	ctx.fillText(name, nt_dx, nt_dy);
 }
