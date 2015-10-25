@@ -24,7 +24,7 @@ public class GanttConverter {
 		grecs = new ArrayList<GanttRecord>();
 	}
 
-	public void addStates(int code, String label){
+	public void addState(int code, String label){
 		if( !codes.contains(code) ){
 			codes.add(code);
 			labels.add(label);

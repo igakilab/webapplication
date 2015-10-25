@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import jp.ac.oit.igakilab.marsh.dwr.beans.GanttRecordBean;
 import jp.ac.oit.igakilab.marsh.smanager.MemberState;
 import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
 import jp.ac.oit.igakilab.marsh.smanager.StateInfo;
@@ -105,6 +106,14 @@ public class LmmManager {
 		MemberState ms = manager.getMemberState(name, true);
 		HistoryStatistics stat = ms.getStatistics();
 		return HistoryStatisticsBean.toBeans(stat);
+	}
+
+	public GanttRecordBean[] getGanttRecord(String name){
+		MemberState ms = manager.getMemberState(name, true);
+		GanttConverter gconv = new GanttConverter();
+		gconv.addState(MemberStateManager.LOGIN, "在室");
+		gconv.analyze(ms.getHistoryList());
+		return GanttRecordBean.toBeans(gconv.getGanttRecords());
 	}
 
 
