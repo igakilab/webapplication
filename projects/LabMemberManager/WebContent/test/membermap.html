@@ -13,6 +13,11 @@
 
     <script>
 		function pressUpdateButton(){
+			MemberMap.clearMember();
+			MemberMap.clearIconConfig();
+
+			MemberMap.addIconConfig([101, 102], "在室", "rgb(0, 255, 0)");
+			MemberMap.addIconConfig(103, "授業", "rgb(255, 255, 0)");
 			MemberMap.addMember("りょーくん", 200, 200, MemberMap.TRIGHT);
 
 			MemberMap.backgroundImg = "semi_layout.png";

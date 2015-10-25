@@ -1,6 +1,8 @@
 var MemberMap = {};
 
 MemberMap.members = [];
+MemberMap.iconConfigs = [];
+MemberMap.iconDefaultConfig = {code: 0, str:"×", color:"rgb(230, 230, 230)"};
 
 MemberMap.backgroundImg = null;
 
@@ -10,14 +12,6 @@ MemberMap.TLEFT = 101;
 MemberMap.defaultFillColor = "rgba(0, 0, 0, 1)";
 
 //ユーザが変更してよい変数
-//ログイン状態と判別するコード
-MemberMap.loginCode = 101;
-//ログイン状態時の文字列と色
-MemberMap.loginLabel = "在室";
-MemberMap.loginColor = null;
-//その他の状態時の文字列と色
-MemberMap.otherLabel = "退室";
-MemberMap.otherColor = null;
 //アイコンの大きさ
 MemberMap.memberRectWidth = 30;
 MemberMap.memberRectHeight = 30;
@@ -35,29 +29,51 @@ MemberMap.clearMember = function(){
 	this.members = new Array();
 }
 
-
-MemberMap.checkLoginCode = function(code){
-	if( Array.isArray(this.loginCode) ){
-		for(var i=0; i<this.loginCode.length; i++){
-			if( this.loginCode[i] == code ) return true;
-		}
-	}else{
-		if( this.loginCode == code ) return true;
-	}
-	return false;
+MemberMap.addIconConfig = function(c0, s0, cl0){
+	this.iconConfigs[this.iconConfigs.length] = {
+		code: c0, str: s0, color: cl0
+	};
 }
 
-MemberMap.drawMemberIcon = function(ctx, name, cx, cy, name_str_side, login){
+MemberMap.clearIconConfig = function(){
+	this.iconConfigs = new Array();
+}
+
+MemberMap.setIconDefaultConfig = function(s0, cl0){
+	this.iconDefaultConfig = {
+		code: 0, str: s0, color: cl0
+	};
+}
+
+MemberMap.getIconConfig = function(code){
+	for(var i=0; i<this.iconConfigs.length; i++){
+		if( Array.isArray(this.iconConfigs[i].code) ){
+			for(var j=0; j<this.iconConfigs[i].code.length; j++){
+				console.log("compare [" + code + " <> " + this.iconConfigs[i].code[j] + "]");
+				if( code == this.iconConfigs[i].code[j] ){
+					return this.iconConfigs[i];
+				}
+			}
+		}else{
+			console.log("compare [" + code + " <> " + this.iconConfigs[i].code + "]");
+			if( code == this.iconConfigs[i].code ){
+				return this.iconConfigs[i];
+			}
+		}
+	}
+	return this.iconDefaultConfig;
+}
+
+MemberMap.isDefined(val){
+	return (val !== undefined && val != null);
+}
+
+MemberMap.drawMemberIcon = function(ctx, name, cx, cy, name_str_side, code){
 	var dw = this.memberRectWidth;
 	var dh = this.memberRectHeight;
 	var dx = cx - (dw / 2);
 	var dy = cy - (dh / 2);
-	var rect_color;
-	if( login == true ){
-		rect_color = this.loginColor;
-	}else{
-		rect_color = this.otherColor;
-	}
+	var ic_conf = this.getIconConfig(code);
 	var nt_dx, nt_dy, nt_align;
 	if( name_str_side == MemberMap.TLEFT ){
 		nt_dx = dx - 5;
@@ -67,24 +83,18 @@ MemberMap.drawMemberIcon = function(ctx, name, cx, cy, name_str_side, login){
 		nt_dx = dx + dw + 5;
 		nt_dy = dy + dh - 5;
 	}
-	var s_str;
-	if( login == true ){
-		s_str = this.loginLabel;
-	}else{
-		s_str = this.otherLabel;
-	}
 	if( this.fontType != null ){
 		ctx.font = this.fontType;
 	}
 
-	if( rect_color != null ){
-		ctx.fillStyle = rect_color;
+	if( ic_conf.color != null ){
+		ctx.fillStyle = ic_conf.color;
 		ctx.fillRect(dx, dy, dw, dh);
 		ctx.fillStyle = this.defaultFillColor;
 	}
 	ctx.strokeRect(dx, dy, dw, dh);
 	ctx.textAlign = "left";
-	ctx.fillText(s_str, dx +3 , dy + dh -3, dw-6);
+	ctx.fillText(ic_conf.str, dx +3 , dy + dh -3, dw-6);
 	ctx.textAlign = nt_align;
 	ctx.fillText(name, nt_dx, nt_dy);
 }
@@ -96,8 +106,7 @@ MemberMap.drawMember = function(ctx, idx){
 	var tsd = this.members[idx].text_side;
 
 	LmmManager.getMemberState(mna, function(inf){
-		var login = MemberMap.checkLoginCode(inf.stateCode);
-		MemberMap.drawMemberIcon(ctx, mna, mdx, mdy, tsd, login);
+		MemberMap.drawMemberIcon(ctx, mna, mdx, mdy, tsd, inf.stateCode);
 	});
 }
 
