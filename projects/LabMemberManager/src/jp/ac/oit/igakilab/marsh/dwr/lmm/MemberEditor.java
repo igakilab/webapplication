@@ -97,7 +97,7 @@ public class MemberEditor {
 	}
 
 	public String import_idlist(String passwd, String file_name){
-		if( ROOT_PASSWORD.equals(passwd) ) return "password error";
+		if( !ROOT_PASSWORD.equals(passwd) ) return "password error";
 
 		MemberIdList mem = new MemberIdList();
 		try{

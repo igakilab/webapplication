@@ -1,5 +1,7 @@
 package jp.ac.oit.igakilab.marsh.smanager;
 
+import java.io.File;
+
 import jp.ac.oit.igakilab.marsh.smanager.members.MemberList;
 import jp.ac.oit.igakilab.marsh.smanager.members.MemberStateByMember;
 import jp.ac.oit.igakilab.marsh.smanager.members.XmlMemberList;
@@ -25,7 +27,8 @@ public class MemberStateManager {
 	public static StateList DEFAULT_SLIST= CommonStateSet.LIST;
 
 	/*設定ファイル*/
-	public static String CONF_MEMBER_FILE = "config/members.xml";
+	public static String CONFIG_DIR = "config/";
+	public static String CONF_MEMBER_FILE = CONFIG_DIR + "members.xml";
 
 
 	/*インスタンス変数*/
@@ -43,7 +46,11 @@ public class MemberStateManager {
 		recs = new RecordListManager();
 		slist = DEFAULT_SLIST;
 		mlist = new XmlMemberList();
-		mlist.loadXmlFile(CONF_MEMBER_FILE);
+
+		File cd = new File(CONFIG_DIR);
+		if( !cd.exists() ) cd.mkdirs();
+
+		loadConfigs();
 	}
 
 	/*レコード追加*/
@@ -78,6 +85,10 @@ public class MemberStateManager {
 		return recs.getBufferRecordList().getIdList();
 	}
 
+	public String[] getMemberList(){
+		return mlist.getNameList();
+	}
+
 
 
 	/* 記録チェック */
@@ -101,6 +112,11 @@ public class MemberStateManager {
 		return recs.getAllRecordLists();
 	}
 
+	/*設定ファイル読み込み*/
+	public void loadConfigs(){
+		mlist.clear();
+		mlist.loadXmlFile(CONF_MEMBER_FILE);
+	}
 
 	/* オブジェクト返し */
 	public RecordListManager getRecordListManager(){

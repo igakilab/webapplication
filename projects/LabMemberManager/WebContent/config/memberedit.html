@@ -90,6 +90,10 @@
     	});
     }
 
+    function applic(){
+    	LmmManager.loadConfigs();
+    }
+
     function update(){
     	updateMemberTable();
     }
@@ -135,10 +139,12 @@
 <body>
 	<div id="header" class="page_centering">
 		<h1>メンバーエディター</h1>
-		<button onclick="update()">更新</button>
+		<button onclick="applic()">変更の適用</button>メンバーリストを更新したらクリックしてください。
 	</div>
 
 	<div id="container" class="page_centering">
+		<h3>メンバーリスト</h3>
+		<button onclick="updateMemberTable()">メンバーリスト更新</button>
 		<table id="members" class="state_tables"></table>
 
 		<hr>

@@ -14,6 +14,10 @@ public class MemberList {
 		list = new ArrayList<Member>();
 	}
 
+	public void clear(){
+		list.clear();
+	}
+
 	public int getMemberIdxByName(String name){
 		for(int i=0; i<list.size(); i++){
 			if( name.equals(list.get(i).getName()) ){
