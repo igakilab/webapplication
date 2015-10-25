@@ -94,6 +94,13 @@ public class RecordList{
 		}
 	}
 
+	public void addRecordList(RecordList rec_list){
+		int len = rec_list.getRecordCount();
+		for(int i=0; i<len; i++){
+			addRecord(rec_list.getRecord(i));
+		}
+	}
+
 
 	/*情報取得系メソッド*/
 	public int getRecordCount(){

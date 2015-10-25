@@ -13,6 +13,7 @@ import jp.ac.oit.igakilab.marsh.util.DebugLog;
 public class RecordListManager {
 //スタティック変数
 	public static String CSV_DIR = "records/";
+	public static int BUFFER_LENGTH = 200;
 
 //スタティックメソッド
 	static public RecordList loadCsvRecordList(String file_name){
@@ -73,7 +74,7 @@ public class RecordListManager {
 
 //インスタンス
 	//フィールド
-	RecordList buffer;
+	FixedRecordList buffer;
 
 	//コンストラクタ
 	public RecordListManager(){
@@ -82,7 +83,7 @@ public class RecordListManager {
 
 	//メソッド
 	public void init(){
-		buffer = new RecordList();
+		buffer = new FixedRecordList(BUFFER_LENGTH);
 	}
 
 	public void addRecord(ActionRecord recs){
@@ -139,7 +140,7 @@ public class RecordListManager {
 			}
 		}
 		buffer.init();
-		buffer = tmp;
+		buffer.addRecordList(tmp);
 	}
 
 	public void searchRecordList(RecordSearcher searcher){
