@@ -16,10 +16,11 @@ MemberMap.loginCode = 101;
 MemberMap.loginLabel = "在室";
 MemberMap.loginColor = null;
 //その他の状態時の文字列と色
-MemberMap.otherLabel = "×";
+MemberMap.otherLabel = "退室";
 MemberMap.otherColor = null;
 //アイコンの大きさ
-MemberMap.memberRectSize = 30;
+MemberMap.memberRectWidth = 30;
+MemberMap.memberRectHeight = 30;
 //フォントの種類
 MemberMap.fontType = null;
 
@@ -46,9 +47,11 @@ MemberMap.checkLoginCode = function(code){
 	return false;
 }
 
-MemberMap.drawMemberIcon = function(ctx, name, cx, cy, size, name_str_side, login){
-	var dx = cx - (size / 2);
-	var dy = cy - (size / 2);
+MemberMap.drawMemberIcon = function(ctx, name, cx, cy, name_str_side, login){
+	var dw = this.memberRectWidth;
+	var dh = this.memberRectHeight;
+	var dx = cx - (dw / 2);
+	var dy = cy - (dh / 2);
 	var rect_color;
 	if( login == true ){
 		rect_color = this.loginColor;
@@ -58,11 +61,11 @@ MemberMap.drawMemberIcon = function(ctx, name, cx, cy, size, name_str_side, logi
 	var nt_dx, nt_dy, nt_align;
 	if( name_str_side == MemberMap.TLEFT ){
 		nt_dx = dx - 5;
-		nt_dy = dy + size - 5;
+		nt_dy = dy + dh - 5;
 		nt_align = "right";
 	}else{
-		nt_dx = dx + size + 5;
-		nt_dy = dy + size - 5;
+		nt_dx = dx + dw + 5;
+		nt_dy = dy + dh - 5;
 	}
 	var s_str;
 	if( login == true ){
@@ -76,12 +79,12 @@ MemberMap.drawMemberIcon = function(ctx, name, cx, cy, size, name_str_side, logi
 
 	if( rect_color != null ){
 		ctx.fillStyle = rect_color;
-		ctx.fillRect(dx, dy, size, size);
+		ctx.fillRect(dx, dy, dw, dh);
 		ctx.fillStyle = this.defaultFillColor;
 	}
-	ctx.strokeRect(dx, dy, size, size);
+	ctx.strokeRect(dx, dy, dw, dh);
 	ctx.textAlign = "left";
-	ctx.fillText(s_str, dx +3 , dy + size -3, size-6);
+	ctx.fillText(s_str, dx +3 , dy + dh -3, dw-6);
 	ctx.textAlign = nt_align;
 	ctx.fillText(name, nt_dx, nt_dy);
 }
@@ -94,27 +97,22 @@ MemberMap.drawMember = function(ctx, idx){
 
 	LmmManager.getMemberState(mna, function(inf){
 		var login = MemberMap.checkLoginCode(inf.stateCode);
-		MemberMap.drawMemberIcon(ctx, mna, mdx, mdy, MemberMap.memberRectSize, tsd, login);
+		MemberMap.drawMemberIcon(ctx, mna, mdx, mdy, tsd, login);
 	});
 }
 
 MemberMap.drawBackgroundImg = function(ctx, img_path, callback, dw, dh){
 	var img = new Image();
-	if( callback !== undefined && callback == null ){
+	if( arguments.length >= 5 ){
+		img.onload = function(){
+			ctx.drawImage(img, 0, 0, dw, dh);
+			callback();
+		};
+	}else{
 		img.onload = function(){
 			ctx.drawImage(img, 0, 0);
 			callback();
 		};
-	}else{
-		if( arguments.lenght >= 5 ){
-			img.onload = function(){
-				ctx.drawImage(img, 0, 0, dw, dh);
-			};
-		}else{}
-			img.onload = function(){
-				ctx.drawImage(img, 0, 0);
-			};
-		}
 	}
 	img.src = img_path;
 }
@@ -131,11 +129,11 @@ MemberMap.draw = function(id, canvas_width, canvas_height){
 
     if( this.backgroundImg != null ){
     	if( arguments.length >= 3 ){
-	    	this.drawBackgorundImg(ctx, this.backgroundImg, function(){
+	    	this.drawBackgroundImg(ctx, this.backgroundImg, function(){
 	    		MemberMap.drawMemberList(ctx);
 	    	}, canvas_width, canvas_height);
     	}else{
-	    	this.drawBackgorundImg(ctx, this.backgroundImg, function(){
+	    	this.drawBackgroundImg(ctx, this.backgroundImg, function(){
 	    		MemberMap.drawMemberList(ctx);
 	    	});
     	}

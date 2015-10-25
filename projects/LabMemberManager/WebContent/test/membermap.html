@@ -13,12 +13,13 @@
 
     <script>
 		function pressUpdateButton(){
-			MemberMap.addMember("りょーくん", 100, 100, MemberMap.TRIGHT);
+			MemberMap.addMember("りょーくん", 200, 200, MemberMap.TRIGHT);
 
+			MemberMap.backgroundImg = "semi_layout.png";
 			MemberMap.fontType = "18px sans-serif";
 			MemberMap.loginColor = "rgb(0, 255, 0)";
 			MemberMap.otherColor = "rgb(230, 230, 230)";
-			MemberMap.draw("test_canvas", 500, 500);
+			MemberMap.draw("test_canvas", 500, 1000);
 		}
 
     </script>
@@ -51,7 +52,7 @@
 	</div>
 
 	<div id="container" class="page_centering">
-	<canvas id="test_canvas" width="500" height="500"></canvas>
+	<canvas id="test_canvas" width="500" height="1000"></canvas>
 	</div>
 
 	<div id="footer" class="page_centering">
