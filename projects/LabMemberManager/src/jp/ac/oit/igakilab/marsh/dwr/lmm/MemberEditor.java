@@ -1,5 +1,8 @@
 package jp.ac.oit.igakilab.marsh.dwr.lmm;
 
+import java.io.IOException;
+
+import jp.ac.oit.igakilab.marsh.smanager.MemberIdList;
 import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
 import jp.ac.oit.igakilab.marsh.smanager.members.Member;
 import jp.ac.oit.igakilab.marsh.smanager.members.XmlMemberList;
@@ -91,6 +94,32 @@ public class MemberEditor {
 
 	public Member[] get_memlist(){
 		return member_list.toArray();
+	}
+
+	public String import_idlist(String passwd, String file_name){
+		if( ROOT_PASSWORD.equals(passwd) ) return "password error";
+
+		MemberIdList mem = new MemberIdList();
+		try{
+			mem.importCsvFile(file_name);
+		}catch(IOException e0){
+			return "error: " + e0.getMessage();
+		}
+
+		int cnt;
+		for( cnt=0; cnt<mem.getListLength(); cnt++){
+
+			if( member_list.isNameRegisted(mem.getNameByIndex(cnt)) ){
+				member_list.getMember(mem.getNameByIndex(cnt)).addConvertId(mem.getIdByIndex(cnt));
+			}else{
+				Member m = new Member(mem.getNameByIndex(cnt));
+				m.addConvertId(mem.getNameByIndex(cnt));
+				member_list.addMember(m);
+			}
+		}
+
+		save();
+		return "import successfully (add " + cnt + "record(s))";
 	}
 
 

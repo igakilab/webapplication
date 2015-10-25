@@ -41,7 +41,9 @@ public class Member {
 		return convid.toArray(new String[convid.size()]);
 	}
 	public void addConvertId(String i0){
-		convid.add(i0);
+		if( !convid.contains(i0) ){
+			convid.add(i0);
+		}
 	}
 	public boolean deleteConvertId(String i0){
 		int idx = convid.indexOf(i0);

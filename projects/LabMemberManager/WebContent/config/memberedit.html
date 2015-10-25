@@ -81,6 +81,15 @@
     	});
     }
 
+    function mem_ili(){
+    	var fname = $("#i_ili_fname").val();
+    	var pass = $("#i_adm_pass").val();
+    	MemberEditor.import_idlist(pass, fname, function(rep){
+    		$("#reply2").text(rep);
+    		update();
+    	});
+    }
+
     function update(){
     	updateMemberTable();
     }
@@ -164,6 +173,10 @@
 		<h4>メンバーの削除</h4>
 		削除メンバーの名前: <input id="i_del_name" type="text" />
 		<button onclick="mem_del()">削除</button>
+
+		<h4>旧idリストのインポート</h4>
+		リストファイル名: <input id="i_ili_fname" type="text" />
+		<button onclick="mem_ili()">実行</button>
 
 		<p id="reply2">reply</p>
 
