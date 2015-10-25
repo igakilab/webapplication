@@ -31,6 +31,8 @@
 			ImgStateRow.defaultColumn = 3;
 			ImgStateRow.setImgPaths(imgs);
 			ImgStateRow.setActiveImgPaths(act_imgs);
+			ImgStateRow.registButton = true;
+			ImgStateRow.registCallback = pressUpdateButton;
 
 			ImgStateRow.appendToRow("ryo", "りょーくん");
 			ImgStateRow.appendToRow("shin", "しにゃ");
@@ -52,10 +54,10 @@
 
 	<table border="1">
 		<col span="6" style="width:120px">
-		<tr><th>name</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
-		<tr id="ryo"><td>りょーくん</td><td></td><td></td><td></td><td></td><td></td></tr>
-		<tr id="shin"><td>しにゃ</td><td></td><td></td><td></td><td></td><td></td></tr>
-		<tr id="kitab"><td>ばーきた</td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><th>name</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+		<tr id="ryo"><td>りょーくん</td><td></td><td></td><td></td><td></td></tr>
+		<tr id="shin"><td>しにゃ</td><td></td><td></td><td></td><td></td></tr>
+		<tr id="kitab"><td>ばーきた</td><td></td><td></td><td></td><td></td></tr>
 	</table>
 
 

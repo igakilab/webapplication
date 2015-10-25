@@ -14,30 +14,31 @@ ImgStateRow.imgPaths_act = [];
 ImgStateRow.registButton = true;
 
 //登録完了時のコールバック関数
-ImgStateRow.registCallback = null;
+ImgStateRow.registCallback = function(){};
 
-ImgStateRow.createImgElement = function(imgpath, callback){
+ImgStateRow.createImgElement = function(imgpath, onc){
 	var e_img = $("<img></img>");
 	e_img.attr("alt", "img");
 	e_img.attr("src", imgpath);
-	if( callback !== undefined && callback !== null ){
-		e_img.click(callback);
+	if( onc !== undefined && onc !== null ){
+		e_img.attr("onclick", onc);
 	}
 	return e_img;
 }
 
 ImgStateRow.getStateColumn = function(code){
-	for(var i=0; i<this.states.length; i++){
-		if( Array.isArray(this.states[i]) ){
-			for(var j=0; j<this.states[i].length; j++){
-				if( this.states[i][j] == code ) return i;
+	for(var i=0; i<this.codes.length; i++){
+		if( Array.isArray(this.codes[i]) ){
+			for(var j=0; j<this.codes[i].length; j++){
+				if( this.codes[i][j] == code ) return i;
 			}
 		}else{
-			if( this.states[i] == code ) return i;
+			if( this.codes[i] == code ) return i;
 		}
 	}
 	return this.defaultColumn;
 };
+
 
 ImgStateRow.appendTdElements = function(dest, pos, name){
 	var len = this.imgPaths.length;
@@ -47,12 +48,12 @@ ImgStateRow.appendTdElements = function(dest, pos, name){
 		var cfunc = null;
 
 		if( this.registButton == true && name !== undefined ){
+			var c_name = name;
+			var c_code = this.getStateCodeForRegist(i);
 			cfunc = function(){
-				ImgStateRow.registState(name,
-					ImgStateRow.getStateCodeForRegist(i),
-					ImgStateRow.registCallback
-				);
+
 			}
+			cfunc = "ImgStateRow.registState(\"" + name + "\", " + this.getStateCodeForRegist(i) + ")";
 		}
 
 		if( i == pos ){
@@ -78,33 +79,29 @@ ImgStateRow.appendTableData = function(dest, name, inf){
 
 }
 
-ImgStateRow.appendToRow = function(elem_id, name, cbf){
+ImgStateRow.appendToRow = function(elem_id, name){
 	$("#" + elem_id).empty();
 	LmmManager.getMemberState(name, function(inf){
 		ImgStateRow.appendTableData($("#" + elem_id), name, inf);
-		if( cbf !== undefined ) cbf();
 	});
 }
 
-ImgStateRow.appendToTable = function(elem_id, name, cbf){
+ImgStateRow.appendToTable = function(elem_id, name){
 	LmmManager.getMemberState(name, function(inf){
 		var new_row = $("<tr></tr>");
 		ImgStateRow.appendTableData(new_row, name, inf);
 		$("#" + elem_id).append(new_row);
-		if( cbf !== undefined ) cbf();
 	});
 }
 
-ImgStateRow.registState = function(id, code, cbf){
+ImgStateRow.registState = function(id, code){
 	LmmManager.registState(id, code, function(reply){
-		if( cbf !== undefined && cbf == null ){
-			cbf(reply);
-		}
+		ImgStateRow.registCallback(reply);
 	});
 }
 
 ImgStateRow.getStateCodeForRegist = function(colm){
-	if( jQuery.isArray(this.codes[colm]) ){
+	if( Array.isArray(this.codes[colm]) ){
 		return this.codes[colm][0];
 	}else{
 		return this.codes[colm];
@@ -114,9 +111,9 @@ ImgStateRow.getStateCodeForRegist = function(colm){
 
 //コードの設定
 ImgStateRow.setColumn = function(args){
-	this.states = new Array();
+	this.codes = new Array();
 	for(var i=0; i<arguments.length; i++){
-		this.states[i] = arguments[i];
+		this.codes[i] = arguments[i];
 	}
 };
 
