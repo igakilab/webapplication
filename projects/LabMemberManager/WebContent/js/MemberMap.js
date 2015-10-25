@@ -8,15 +8,19 @@ MemberMap.backgroundImg = null;
 
 MemberMap.TRIGHT = 100;
 MemberMap.TLEFT = 101;
+MemberMap.TTOP = 102;
+MemberMap.TBOTTOM = 103;
 
 MemberMap.defaultFillColor = "rgba(0, 0, 0, 1)";
 
 //ユーザが変更してよい変数
-//アイコンの大きさ
+//アイコンの大きさC
 MemberMap.memberRectWidth = 30;
 MemberMap.memberRectHeight = 30;
 //フォントの種類
 MemberMap.fontType = null;
+//TBOTTOM指定時のずれ
+MemberMap.tBottomGap = 15;
 
 
 MemberMap.addMember = function(n0, dx0, dy0, ts0){
@@ -64,37 +68,53 @@ MemberMap.getIconConfig = function(code){
 	return this.iconDefaultConfig;
 }
 
-MemberMap.isDefined(val){
+MemberMap.isDefined = function(val){
 	return (val !== undefined && val != null);
 }
 
-MemberMap.drawMemberIcon = function(ctx, name, cx, cy, name_str_side, code){
+MemberMap.drawMemberIcon = function(ctx, name, cx, cy, nstr_f, code){
 	var dw = this.memberRectWidth;
 	var dh = this.memberRectHeight;
 	var dx = cx - (dw / 2);
 	var dy = cy - (dh / 2);
 	var ic_conf = this.getIconConfig(code);
+
+	if( this.fontType != null ) ctx.font = this.fontType;
+	var nmet = ctx.measureText(name);
 	var nt_dx, nt_dy, nt_align;
-	if( name_str_side == MemberMap.TLEFT ){
+	switch( nstr_f ){
+	case this.TLEFT:
 		nt_dx = dx - 5;
 		nt_dy = dy + dh - 5;
 		nt_align = "right";
-	}else{
+		break;
+	case this.TTOP:
+		nt_dx = cx;
+		nt_dy = dy - 5;
+		nt_align = "center";
+		break;
+	case this.TBOTTOM:
+		nt_dx = cx;
+		nt_dy = dy + dh + 5 + this.tBottomGap;
+		nt_align = "center";
+		break;
+	default:
 		nt_dx = dx + dw + 5;
 		nt_dy = dy + dh - 5;
-	}
-	if( this.fontType != null ){
-		ctx.font = this.fontType;
+		nt_align = "left";
+		break;
 	}
 
-	if( ic_conf.color != null ){
+	if( this.fontType != null ) ctx.font = this.fontType;
+
+	if( this.isDefined(ic_conf.color) ){
 		ctx.fillStyle = ic_conf.color;
 		ctx.fillRect(dx, dy, dw, dh);
 		ctx.fillStyle = this.defaultFillColor;
 	}
 	ctx.strokeRect(dx, dy, dw, dh);
-	ctx.textAlign = "left";
-	ctx.fillText(ic_conf.str, dx +3 , dy + dh -3, dw-6);
+	ctx.textAlign = "center";
+	ctx.fillText(ic_conf.str, cx , dy + dh -3, dw-6);
 	ctx.textAlign = nt_align;
 	ctx.fillText(name, nt_dx, nt_dy);
 }
