@@ -4,10 +4,9 @@ import java.io.IOException;
 
 import jp.ac.oit.igakilab.marsh.dwr.beans.MemberIdBean;
 import jp.ac.oit.igakilab.marsh.smanager.MemberIdList;
-import jp.ac.oit.igakilab.marsh.smanager.MemberStateManager;
 
 public class IdlistConfig {
-	public static String CONF_IDLIST_FILE = MemberStateManager.CONF_IDLIST_FILE;
+	public static String CONF_IDLIST_FILE = "idlist_config.csv";
 
 	MemberIdList list;
 

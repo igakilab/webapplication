@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>STATETABLE</title>
+	<meta charset="UTF-8">
+
+	<script type="text/javascript" src="../dwr/engine.js"></script>
+    <script type="text/javascript" src="../dwr/util.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
+    <script type="text/javascript" src="../js/MemberMap.js"></script>
+
+    <script>
+		function pressUpdateButton(){
+			MemberMap.clearMember();
+			MemberMap.clearIconConfig();
+
+			MemberMap.addIconConfig([101, 102], "在室", "rgb(0, 255, 0)");
+			MemberMap.addIconConfig(103, "授業", "rgb(255, 255, 0)");
+			MemberMap.setIconDefaultConfig("退室", "rgb(230, 230, 230)");
+			MemberMap.addMember("りょーくん", 200, 200, MemberMap.TLEFT);
+			//MemberMap.addMember("りょーくん", 300, 200, MemberMap.TTOP);
+			//MemberMap.addMember("きたば", 400, 200, MemberMap.TBOTTOM);
+
+			MemberMap.backgroundImg = "semi_layout.png";
+			MemberMap.fontType = "18px sans-serif";
+			MemberMap.setIconSize(60, 30);
+			MemberMap.draw("test_canvas", 500, 1000);
+		}
+
+    </script>
+
+   	<style>
+		.page_centering{
+			width:800px;
+			margin:0 auto;
+			padding:10px;
+		}
+		#header{
+			background-color:#ccc;
+		}
+		#container{
+			background-color:#eee;
+		}
+		#footer{
+			background-color:#444;
+			color:white;
+		}
+	</style>
+
+</head>
+
+
+<body>
+	<div id="header" class="page_centering">
+	<h1>MemberMapテストページ</h1>
+	<button onclick="pressUpdateButton()">update</button>
+	</div>
+
+	<div id="container" class="page_centering">
+	<canvas id="test_canvas" width="500" height="1000"></canvas>
+	</div>
+
+	<div id="footer" class="page_centering">
+	<i>marshmallow-warriors 2015/10/25</i>
+	</div>
+
+
+</body>
+</html>

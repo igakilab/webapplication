@@ -11,29 +11,33 @@ import jp.ac.oit.igakilab.marsh.smanager.beans.HistoryStatisticsBean;
 import jp.ac.oit.igakilab.marsh.smanager.beans.MemberStateBean;
 import jp.ac.oit.igakilab.marsh.smanager.history.HistoryStatistics;
 import jp.ac.oit.igakilab.marsh.smanager.records.CsvRecordList;
+import jp.ac.oit.igakilab.marsh.smanager.records.FixedRecordList;
 import jp.ac.oit.igakilab.marsh.util.DebugLog;
 
 public class TestStatistics {
 	static String SAMPLE_FILE_PATH = "test/sample.csv";
 	static DebugLog LOGGER = new DebugLog("TestStatistics");
+	static int LIST_LENGTH = 10;
 
-	CsvRecordList recs;
+	FixedRecordList recs;
 
 	public TestStatistics(){
 		init();
 	}
 
 	public void init(){
-		recs = new CsvRecordList();
+		CsvRecordList csvr = new CsvRecordList();
 		if( CsvRecordList.checkFile(SAMPLE_FILE_PATH) ){
 			try{
-				recs.importFile(SAMPLE_FILE_PATH);
+				csvr.importFile(SAMPLE_FILE_PATH);
 			}catch(IOException e0){
 				LOGGER.log("init", e0.getMessage());
 			}
 		}else{
 			LOGGER.log("init", "SAMPLE_FILE_PATHが不正なファイルです");
 		}
+		recs = new FixedRecordList(LIST_LENGTH);
+		recs.addRecordList(csvr);
 	}
 
 	public ActionRecordBean[] getRecordList(){

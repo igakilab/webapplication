@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LOG_CHECKER</title>
+	<meta charset="shift_jis">
+
+	<script type="text/javascript" src="../dwr/engine.js"></script>
+    <script type="text/javascript" src="../dwr/util.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="../dwr/interface/LogChecker.js"></script>
+
+    <script>
+	$(document).ready(function(){
+		setLogfileList();
+	});
+
+	function setLogfileList(){
+		var dest = $("#log_list");
+		LogChecker.getLogfileList(function(flist){
+			for(var i=0; i<flist.length; i++){
+				dest.append(createFilelink(flist[i]));
+			}
+		});
+	}
+
+	function createFilelink(fname){
+		var new_li = $("<li></li>");
+		var new_a = $("<a></a>");
+		new_a.text(fname);
+		new_a.attr("href", "javascript:getLog(\"" + fname + "\")");
+		new_li.append(new_a);
+		return new_li;
+	}
+
+	function getLog(fname){
+		var dest = $("#log_content");
+		$("#log_title").text(fname);
+		LogChecker.getLog(fname, function(logs){
+			dest.empty();
+			for(var i=0; i<logs.length; i++){
+				appendLine(dest, logs[i]);
+			}
+		});
+	}
+
+	function appendLine(jq_elem, str){
+		jq_elem.append(str);
+		jq_elem.append($("<br></br>"));
+	}
+
+    </script>
+
+	<style>
+		.page_centering{
+			width:800px;
+			margin:0 auto;
+			padding:10px;
+		}
+		#header{
+			background-color:#ccc;
+		}
+		#container{
+			background-color:#eee;
+		}
+		#footer{
+			background-color:#444;
+			color:white;
+		}
+		#log_content{
+			font-family: monospace;
+		}
+	</style>
+
+</head>
+
+
+<body>
+<div id="header" class="page_centering">
+	<h2>LogChecker</h2>
+	<i>Version: log-checker</i>
+</div>
+
+<div id="container" class="page_centering">
+	<h3>ログファイル一覧</h3>
+	<ul id="log_list"></ul>
+
+	<hr>
+	<h3 id="log_title">ログデータ</h3>
+	<div id="log_content"></div>
+</div>
+
+<div id="footer" class="page_centering">
+	<i>marshmallow-warriors 2015/10/21</i>
+</div>
+</body>
+
+</html>
