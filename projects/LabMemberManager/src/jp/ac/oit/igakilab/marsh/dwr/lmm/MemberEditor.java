@@ -113,7 +113,7 @@ public class MemberEditor {
 				member_list.getMember(mem.getNameByIndex(cnt)).addConvertId(mem.getIdByIndex(cnt));
 			}else{
 				Member m = new Member(mem.getNameByIndex(cnt));
-				m.addConvertId(mem.getNameByIndex(cnt));
+				m.addConvertId(mem.getIdByIndex(cnt));
 				member_list.addMember(m);
 			}
 		}
