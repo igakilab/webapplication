@@ -59,7 +59,7 @@
 			});
 		}
 
-		function add(){
+		function add_id(){
 			var name = $("#input_name").val();
 			var id = $("#input_id").val();
 			var ret;
@@ -70,7 +70,7 @@
 			}
 		}
 
-		function change(){
+		function change_id(){
 			var name = $("#input_name").val();
 			var id = $("#input_id").val();
 
@@ -89,7 +89,7 @@
 			}
 		}
 
-		function remove(){
+		function remove_id(){
 			var name = $("#input_name").val();
 			var id = $("#input_id").val();
 
@@ -148,9 +148,9 @@
 	<button onclick="updateIdList()">リストを更新</button>
 	名前(Name):<input id="input_name" type="text"></input>
 	識別子(Id):<input id="input_id" type="text"></input>
-	<button onclick="add()">追加</button>
-	<button onclick="change()">変更</button>
-	<button onclick="remove()">削除</button>
+	<button onclick="add_id()">追加</button>
+	<button onclick="change_id()">変更</button>
+	<button onclick="remove_id()">削除</button>
 	<span id="view_selected"></span>
 
 	<hr>
