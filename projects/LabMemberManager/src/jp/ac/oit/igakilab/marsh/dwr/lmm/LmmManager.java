@@ -81,7 +81,7 @@ public class LmmManager {
 	}
 
 	public String[] getMemberNameList(){
-		return manager.getMemberIdListObject().getRegistedNameList();
+		return manager.getMemberList();
 	}
 
 
@@ -114,6 +114,10 @@ public class LmmManager {
 		int cnt = manager.getBufferRecordList().getRecordCount();
 
 		return "load all records to buffer (" + cnt + " record(s)!)";
+	}
+
+	public void loadConfigs(){
+		manager.loadConfigs();
 	}
 
 	public StateInfo[] getStateList(){
