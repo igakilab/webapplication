@@ -24,6 +24,9 @@
     </create>
     <create creator="new" javascript="MemberEditor">
     	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.lmm.MemberEditor" />
+	</create>
+    <create creator="new" javascript="LogChecker">
+    	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.lmm.LogChecker" />
     </create>
 
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
