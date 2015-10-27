@@ -112,6 +112,7 @@ public class LmmManager {
 		MemberState ms = manager.getMemberState(name, true);
 		GanttConverter gconv = new GanttConverter();
 		gconv.addState(MemberStateManager.LOGIN, "在室");
+		gconv.addState(MemberStateManager.LOGIN_5M, "在室");
 		gconv.analyze(ms.getHistoryList());
 		return GanttRecordBean.toBeans(gconv.getGanttRecords());
 	}
