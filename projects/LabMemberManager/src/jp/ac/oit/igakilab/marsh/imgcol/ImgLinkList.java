@@ -16,6 +16,9 @@ public class ImgLinkList {
 	}
 
 	public void add(ImgLink l0){
+		int over = getIndexByUrl(l0.getUrl());
+		if( over >= 0 && over < list.size() ) list.set(over, l0);
+
 		int idx = list.size();
 
 		while( idx > 0 && list.get(idx - 1).getTimeStamp().compareTo(l0.getTimeStamp()) > 0 ){
@@ -84,5 +87,14 @@ public class ImgLinkList {
 		}
 
 		return tmp.toArray(new ImgLink[tmp.size()]);
+	}
+
+	public int getIndexByUrl(String u0){
+		for(int i=0; i<list.size(); i++){
+			if( list.get(i).getUrl().equals(u0) ){
+				return i;
+			}
+		}
+		return -1;
 	}
 }
