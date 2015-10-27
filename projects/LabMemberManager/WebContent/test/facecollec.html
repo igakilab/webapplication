@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LMMTEST</title>
+	<meta charset="utf-8">
+
+	<script type="text/javascript" src="../dwr/engine.js"></script>
+    <script type="text/javascript" src="../dwr/util.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.serialize.js"></script>
+    <script type="text/javascript" src="../dwr/interface/FaceCollector.js"></script>
+    <script type="text/javascript" src="../js/FaceIfc.js"></script>
+ 	<script type="text/javascript" src="testpagelink.js"></script>
+
+    <script>
+	$(document).ready(function(){
+		TestPageLink.appendToList($("#links"));
+		updatePictureList();
+	});
+
+	function updatePictureList(){
+		$("#picture_list").empty();
+		FaceIfc.updateImageList(function(){
+			for(var i=0; i<FaceIfc.getImageListLength(); i++){
+				var e_tr = $("<tr></tr>");
+				e_tr.append($("<th></th>").text(FaceIfc.getImageList(i).timeStamp));
+				var e_img = $("<img></img>");
+				e_img.attr("alt", "raspi-img");
+				e_img.attr("src", FaceIfc.getImageList(i).url);
+				var e_td = $("<td></td>");
+				e_td.append(e_img);
+				e_tr.append(e_td);
+				$("#picture_list").append(e_tr);
+			}
+		});
+	}
+
+
+    </script>
+
+	<style>
+		.page_centering{
+			width:800px;
+			margin:0 auto;
+			padding:10px;
+		}
+		#header{
+			background-color:#ccc;
+		}
+		#container{
+			background-color:#eee;
+		}
+		#footer{
+			background-color:#444;
+			color:white;
+		}
+		.state_tables{
+			width:100%;
+			border-spacing:3px;
+		}
+		td, th{
+			background-color:palegreen;
+		}
+	</style>
+
+</head>
+
+
+<body>
+<body>
+<div id="header" class="page_centering">
+	<h2>LabMemberManagerテストページ</h2>
+	<i>Version: history-system</i>
+	<ol id="links"></ol>
+	<div style="text-align:right;"><button onclick="updatePictureList()">更新</button></div>
+</div>
+
+<div id="container" class="page_centering">
+	<h3>picture list</h3>
+	<table id="picture_list">
+	</table>
+
+</div>
+
+<div id="footer" class="page_centering">
+	<i>marshmallow-warriors 2015/10/10</i>
+</div>
+</body>
+
+</html>

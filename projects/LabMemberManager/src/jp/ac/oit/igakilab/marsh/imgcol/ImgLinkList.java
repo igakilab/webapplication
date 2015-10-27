@@ -17,7 +17,10 @@ public class ImgLinkList {
 
 	public void add(ImgLink l0){
 		int over = getIndexByUrl(l0.getUrl());
-		if( over >= 0 && over < list.size() ) list.set(over, l0);
+		if( over >= 0 && over < list.size() ){
+			list.set(over, l0);
+			return;
+		}
 
 		int idx = list.size();
 
@@ -82,7 +85,7 @@ public class ImgLinkList {
 		int idx = list.size() - 1;
 
 		while( idx >= 0 && idx > (list.size() - 1 - cnt) ){
-			list.add(0, list.get(idx));
+			tmp.add(0, list.get(idx));
 			idx--;
 		}
 
