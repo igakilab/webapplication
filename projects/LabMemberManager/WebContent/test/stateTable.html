@@ -10,13 +10,33 @@
     <script type="text/javascript" src="../js/jquery.serialize.js"></script>
     <script type="text/javascript" src="../dwr/interface/LmmManager.js"></script>
     <script type="text/javascript" src="../js/Lmmifc.js"></script>
-    <script type="text/javascript" src="../js/stateTable.js"></script>
+    <script type="text/javascript" src="../js/ImgStateRow.js"></script>
 
     <script>
+    	var imgs = [
+			"../icons/attend.png",
+			"../icons/lecture.png",
+			"../icons/goout.png",
+			"../icons/absense.png"
+		];
+    	var act_imgs = [
+			"../icons/attend_act.png",
+			"../icons/lecture_act.png",
+			"../icons/goout_act.png",
+			"../icons/absense_act.png"
+		];
+
 		function pressUpdateButton(){
-			StateTable.setStateRow("りょーくん", "ryo");
-			StateTable.setStateRow("しにゃ", "shin");
-			StateTable.setStateRow("ばーきた", "kitab");
+			ImgStateRow.setColumn([101, 102], 103, 104, 105);
+			ImgStateRow.defaultColumn = 3;
+			ImgStateRow.setImgPaths(imgs);
+			ImgStateRow.setActiveImgPaths(act_imgs);
+			ImgStateRow.registButton = true;
+			ImgStateRow.registCallback = pressUpdateButton;
+
+			ImgStateRow.appendToRow("ryo", "りょーくん");
+			ImgStateRow.appendToRow("shin", "しにゃ");
+			ImgStateRow.appendToRow("kitab", "ばーきた");
 		}
 
     </script>
@@ -34,10 +54,10 @@
 
 	<table border="1">
 		<col span="6" style="width:120px">
-		<tr><th>name</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
-		<tr id="ryo"><td>りょーくん</td><td></td><td></td><td></td><td></td><td></td></tr>
-		<tr id="shin"><td>しにゃ</td><td></td><td></td><td></td><td></td><td></td></tr>
-		<tr id="kitab"><td>ばーきた</td><td></td><td></td><td></td><td></td><td></td></tr>
+		<tr><th>name</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+		<tr id="ryo"><td>りょーくん</td><td></td><td></td><td></td><td></td></tr>
+		<tr id="shin"><td>しにゃ</td><td></td><td></td><td></td><td></td></tr>
+		<tr id="kitab"><td>ばーきた</td><td></td><td></td><td></td><td></td></tr>
 	</table>
 
 
