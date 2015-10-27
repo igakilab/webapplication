@@ -59,7 +59,7 @@ public class GanttConverter {
 
 		grecs.clear();
 
-		while( cnt < records.length && begin.compareTo(records[cnt].getTimeStamp()) > 0 ) cnt++;
+		while( cnt < records.length && begin.compareTo(records[cnt].getTimeStamp()) >= 0 ) cnt++;
 		if( cnt > 0 ){
 			pre_sc = records[cnt - 1].getStateCode();
 		}
@@ -75,7 +75,7 @@ public class GanttConverter {
 		}
 
 		if( containsCode(pre_sc) && end.compareTo(pre_ts) < 0 ){
-			grecs.add(new GanttRecord(getLabel(pre_sc), pre_ts, records[cnt].getTimeStamp()));
+			grecs.add(new GanttRecord(getLabel(pre_sc), pre_ts, end));
 		}
 	}
 
