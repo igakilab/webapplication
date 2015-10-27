@@ -9,6 +9,10 @@ public class FaceCollector {
 
 	FixedImgLinkList list;
 
+	public FaceCollector(){
+		init();
+	}
+
 	public void init(){
 		list = new FixedImgLinkList(FIXED_LEN);
 	}

@@ -16,13 +16,17 @@ public class ImgLinkList {
 	}
 
 	public void add(ImgLink l0){
-		int idx = list.size() - 1;
+		int idx = list.size();
 
-		while( list.get(idx).getTimeStamp().compareTo(l0.getTimeStamp()) > 0 ){
+		while( idx > 0 && list.get(idx - 1).getTimeStamp().compareTo(l0.getTimeStamp()) > 0 ){
 			idx--;
 		}
 
-		list.add(idx, l0);
+		if( idx >= list.size() ){
+			list.add(l0);
+		}else{
+			list.add(idx, l0);
+		}
 	}
 
 	public ImgLink get(int idx){
@@ -43,7 +47,7 @@ public class ImgLinkList {
 	}
 
 
-	/*追加機能*/
+	/*霑ｽ蜉�讖溯�ｽ*/
 	public ImgLink[] getByDate(Date d_from, Date d_to){
 		List<ImgLink> tmp = new ArrayList<ImgLink>();
 		int idx = 0;

@@ -28,6 +28,9 @@
     <create creator="new" javascript="LogChecker">
     	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.lmm.LogChecker" />
     </create>
+    <create creator="new" javascript="FaceCollector" scope="application">
+    	<param name="class" value="jp.ac.oit.igakilab.marsh.dwr.raspicol.FaceCollector" />
+    </create>
 
     <convert converter="bean" match="jp.ac.oit.igakilab.dwr.multiple.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.lmm.*" />
@@ -35,5 +38,6 @@
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.beans.*"/>
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.dwr.beans.*" />
     <convert converter="bean" match="jp.ac.oit.igakilab.marsh.smanager.members.*" />
+    <convert converter="bean" match="jp.ac.oit.igakilab.marsh.imgcol.*" />
   </allow>
 </dwr>
