@@ -16,10 +16,16 @@ ImgStateRow.registButton = true;
 //登録完了時のコールバック関数
 ImgStateRow.registCallback = function(){};
 
+//アイコンの大きさ
+ImgStateRow.imgWidth = 84;
+ImgStateRow.imgHeight = 46;
+
 ImgStateRow.createImgElement = function(imgpath, onc){
 	var e_img = $("<img></img>");
 	e_img.attr("alt", "img");
 	e_img.attr("src", imgpath);
+	e_img.attr("width", this.imgWidth);
+	e_img.attr("height", this.imgHeight);
 	if( onc !== undefined && onc !== null ){
 		e_img.attr("onclick", onc);
 	}
