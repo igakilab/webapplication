@@ -38,6 +38,10 @@
   <script>
 		$(function() {
 			var gantt_config = GanttManager.defaultProfile;
+
+			gantt_config.scale = "hours";
+			gantt_config.itemsPerPage = 15;
+
 			GanttManager.getGanttRecord("りょーくん", function(src){
 				gantt_config.source[0] = GanttManager.convertSource(src);
 				$(".gantt").gantt(gantt_config);
@@ -55,6 +59,7 @@
 
 			GanttManager.getGanttRecord("めがね", function(src){
 				gantt_config.source[3] = GanttManager.convertSource(src);
+				gantt_config.source[3].name = "ぞえ";
 				$(".gantt").gantt(gantt_config);
 			});
 
