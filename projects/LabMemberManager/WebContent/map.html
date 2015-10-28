@@ -13,7 +13,7 @@
 	<link href="css/style1.css" rel="stylesheet" type="text/css" />
 
     <script>
-		function pressUpdateButton(){
+    	$(document).ready(function(){
 			MemberMap.clearMember();
 			MemberMap.clearIconConfig();
 
@@ -25,7 +25,7 @@
 			MemberMap.addMember("角", 40, 310, MemberMap.TTOP);
 			MemberMap.addMember("りょーくん", 285, 318, MemberMap.TTOP);
 			MemberMap.addMember("きたば", 410, 485 , MemberMap.TTOP);
-			MemberMap.addMember("しにゃ", 410, 405 , MemberMap.TTOP);
+			MemberMap.addMember("しんや", 410, 405 , MemberMap.TTOP);
 			MemberMap.addMember("ぞえ",  40, 585 , MemberMap.TTOP);
 			MemberMap.addMember("清水",  40, 680 , MemberMap.TTOP);
 			MemberMap.addMember("ギダ",  120, 520 , MemberMap.TTOP);
@@ -40,6 +40,12 @@
 			MemberMap.backgroundImg = "semimap.png";
 			MemberMap.fontType = "18px sans-serif";
 			MemberMap.setIconSize(60, 30);
+
+    		setInterval("update()", 10000);
+    		update();
+    	});
+
+		function pressUpdateButton(){
 			MemberMap.draw("test_canvas", 450, 991);
 		}
 
