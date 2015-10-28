@@ -3,6 +3,7 @@ GanttManager = {};
 GanttManager.defaultCustomClass = "ganttOrange";
 
 GanttManager.defaultProfile = {
+	source: [],
 	navigate: "scroll",
 	maxScale: "hours",
 	itemsPerPage: 10,
