@@ -10,36 +10,9 @@
 	<script type="text/javascript" src="js/jquery.serialize.js"></script>
 	<script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
     <script type="text/javascript" src="js/Lmmutil.js"></script>
-    <script type="text/javascript" src="js/stateTable.js"></script>
+    <script type="text/javascript" src="js/ImgStateRow.js"></script>
+	<link href="css/style1.css" rel="stylesheet" type="text/css" />
 
-	<style>
-	#content{
-		background-color:#eee;
-		margin:0 auto;
-		width:800px;
-		padding:10px;
-	}
-	#footer{
-		background-color:#ccc;
-		margin:0 auto;
-		width:800px;
-		padding:10px;
-	}
-	#attend_table{
-		margin:0 auto;
-		width:90%;
-	}
-	th, td{
-		height:30px;
-		font-size:large;
-	}
-	th{
-		background-color: orange;
-	}
-	td{
-		background-color: moccasin;
-	}
-	</style>
 
 	<script>
 	var ID_ATTEND_TABLE = "attend_table";
@@ -47,41 +20,47 @@
 	var TABLE_TMP;
 
 	$(document).ready(function(){
+    	var imgs = [
+    				"icons/attend.png",
+    				"icons/lecture.png",
+    				"icons/goout.png",
+    				"icons/absense.png"
+    			];
+    	    	var act_imgs = [
+    				"icons/attend_act.png",
+    				"icons/lecture_act.png",
+    				"icons/goout_act.png",
+    				"icons/absense_act.png"
+    			];
+
+		ImgStateRow.setColumn([101, 102], 103, 104, 105);
+		ImgStateRow.defaultColumn = 3;
+		ImgStateRow.setImgPaths(imgs);
+		ImgStateRow.setActiveImgPaths(act_imgs);
+		ImgStateRow.registButton = true;
+		ImgStateRow.registCallback = update;
+		ImgStateRow.imgWidth = 120;
+		ImgStateRow.imgHeight = 68;
+
 		update();
 		setInterval("update()", 10000);
 	});
 
 	function updateAttendTable(){
-		var table = $("<table></table>");
-		table.attr("id", "attend_table");
-		table.append(
-			Lmmutil.createLabelRow(["名前", "在室", "授業", "コンビニ", "退室"])
-		);
-		TABLE_TMP = table;
-		StateTable.setColumn([101, 102], 103, 104, 105);
-		StateTable.defaultColumn = 3
-		LmmManager.getMemberNameList({
-			callback: setMembersRow
-		});
-	}
+		ImgStateRow.appendToRow("ryo", "りょーくん");
+		ImgStateRow.appendToRow("shinya", "しんや");
+		ImgStateRow.appendToRow("kitaba", "きたば");
+		ImgStateRow.appendToRow("zoe", "ぞえ");
+		ImgStateRow.appendToRow("shimizu", "清水");
+		ImgStateRow.appendToRow("gida", "ギダ");
+		ImgStateRow.appendToRow("hayashi", "林修");
+		ImgStateRow.appendToRow("ue", "上山");
+		ImgStateRow.appendToRow("mitui", "三井");
+		ImgStateRow.appendToRow("uti", "うっちー");
+		ImgStateRow.appendToRow("kiti", "きーち");
+		ImgStateRow.appendToRow("aoki", "でこぽん");
 
-	function setMembersRow(list){
-		var table = TABLE_TMP;
-		var nrow;
-		for(var i=0; i<list.length; i++){
-			nrow = $("<tr></tr>");
-			table.append(nrow);
-			if( i == list.length-1 ){
-				StateTable.setStateRowElem(list[i], nrow, setMembersTable);
-			}else{
-				StateTable.setStateRowElem(list[i], nrow);
-			}
-		}
-	}
 
-	function setMembersTable(){
-		$("#" + ID_ATTEND_DIV).empty();
-		$("#" + ID_ATTEND_DIV).append(TABLE_TMP);
 	}
 
 	function update(){
@@ -103,7 +82,26 @@
 	<h2 class="cen">在室状況</h2>
 	<div id="attend_div"></div>
 
+	<table id="state_table">
+	<tr>
+	<th>名前</th><th>在室</th><th>授業</th><th>コンビニ</th><th>退室</th>
+	</tr>
+	<tr id="ryo"><td>りょーくん</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="shinya"><td>しにゃ</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="kitaba"><td>きたば</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="zoe"><td>メガネ</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="shimizu"><td>清水</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="gida"><td>ホモ〇ダ</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="hayashi"><td>林修</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="ue"><td>上山</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="mitui"><td>三井</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="uti"><td>うっちー</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="kiti"><td>きーち</td><td></td><td></td><td></td><td></td></tr>
+	<tr id="aoki"><td>でこぽん</td><td></td><td></td><td></td><td></td></tr>
+	</table>
+
 </div>
+
 
 <div id="footer">
 	<i>Marshmallow-warriors</i>

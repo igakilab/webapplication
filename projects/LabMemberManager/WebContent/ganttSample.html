@@ -37,14 +37,89 @@
 
   <script>
 		$(function() {
-			GanttManager.getGanttRecord("gantt", function(src){
-				var gantt_config = GanttManager.defaultProfile;
-				gantt_config.source = [GanttManager.convertSource(src)];
+			var gantt_config = GanttManager.defaultProfile;
+
+			gantt_config.scale = "hours";
+			gantt_config.itemsPerPage = 15;
+
+			GanttManager.getGanttRecord("りょーくん", function(src){
+				gantt_config.source[0] = GanttManager.convertSource(src);
 				$(".gantt").gantt(gantt_config);
 			});
-			
+
+			GanttManager.getGanttRecord("きたば", function(src){
+				gantt_config.source[1] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("しにゃ", function(src){
+				gantt_config.source[2] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("めがね", function(src){
+				gantt_config.source[3] = GanttManager.convertSource(src);
+				gantt_config.source[3].name = "ぞえ";
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("清水", function(src){
+				gantt_config.source[4] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("ギダ", function(src){
+				gantt_config.source[5] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("林修", function(src){
+				gantt_config.source[6] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("上山", function(src){
+				gantt_config.source[7] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("三井", function(src){
+				gantt_config.source[8] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("でこぽん", function(src){
+				gantt_config.source[9] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("きーち", function(src){
+				gantt_config.source[10] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("うっちー", function(src){
+				gantt_config.source[11] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("岸", function(src){
+				gantt_config.source[12] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("門", function(src){
+				gantt_config.source[13] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("角", function(src){
+				gantt_config.source[14] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
 
 		});
+
   </script>
 
     </body>
