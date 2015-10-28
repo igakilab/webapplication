@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8" content="">
+    <title>ガントチャートのサンプル</title>
+    <head>
+        <title>jQuery.Gantt</title>
+		<meta charset="utf-8">
+        <link href="css/style.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="dwr/engine.js"></script>
+	<script type="text/javascript" src="dwr/util.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery.serialize.js"></script>
+	<script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
+	    <script src="js/jquery.fn.gantt.min.js"></script>
+	    <script src="js/GanttManager.js" type="text/javascript"></script>
+
+		<style type="text/css">
+			body {
+				font-family: Helvetica, Arial, sans-serif;
+				font-size: 13px;
+				padding: 0 0 50px 0;
+			}
+			.contain {
+				width: 800px;
+				margin: 0 auto;
+			}
+		</style>
+    </head>
+    <body bgcolor="#e2e2e2">
+
+		<div class="contain">
+			<div class="gantt"></div>
+		</div>
+
+
+
+  <script>
+		$(function() {
+			GanttManager.getGanttRecord("gantt", function(src){
+				var gantt_config = GanttManager.defaultProfile;
+				gantt_config.source = [GanttManager.convertSource(src)];
+				$(".gantt").gantt(gantt_config);
+			});
+			
+
+		});
+  </script>
+
+    </body>
+</html>
