@@ -1,13 +1,19 @@
+
 <!DOCTYPE html>
 <html>
     <meta charset="utf-8" content="">
-    <title>ゼミ室在室ガントチャートグラフ</title>
+    <title>ガントチャート</title>
     <head>
-        <title>ゼミ室在室グラフ</title>
+        <title>jQuery.Gantt</title>
 		<meta charset="utf-8">
         <link href="css/style.css" type="text/css" rel="stylesheet">
-	    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js" type="text/javascript" ></script>
-	    <script src="js/jquery.fn.gantt.js"></script>
+	<script type="text/javascript" src="dwr/engine.js"></script>
+	<script type="text/javascript" src="dwr/util.js"></script>
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery.serialize.js"></script>
+	<script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
+	    <script src="js/jquery.fn.gantt.min.js"></script>
+	    <script src="js/GanttManager.js" type="text/javascript"></script>
 
 		<style type="text/css">
 			body {
@@ -19,19 +25,15 @@
 				width: 800px;
 				margin: 0 auto;
 			}
-	      /* Bootstrap 3.x re-reset */
-	      .fn-gantt *,
-	      .fn-gantt *:after,
-	      .fn-gantt *:before {
-	        -webkit-box-sizing: content-box;
-	           -moz-box-sizing: content-box;
-	                box-sizing: content-box;
-      }
 		</style>
     </head>
     <body bgcolor="#e2e2e2">
 
+	<h1 class="cen">ゼミ在室管理システム</h1>
+
+	<hr>
 		<div class="contain">
+			<h2>在室履歴</h2>
 			<div class="gantt"></div>
 		</div>
 
@@ -39,101 +41,89 @@
 
   <script>
 		$(function() {
-			"use strict";
-			$(".gantt").gantt({
-				source: [{
-					name: "設計",
-					desc: "外部",
-					values: [{
-						from: "/Date(1320192000000)/",
-						to: "/Date(1320392000000)/",
-						label: "外部",
-						customClass: "ganttRed"
-					}]
-				},{
-					name: " ",
-					desc: "内部",
-					values: [{
-						from: "/Date(1320392000000)/",
-						to: "/Date(1320592000000)/",
-						label: "内部",
-						customClass: "ganttRed"
-					}]
-				},{
-					name: "開発",
-					desc: "実装",
-					values: [{
-						from: "/Date(1320592000000)/",
-						to: "/Date(1320792000000)/",
-						label: "実装",
-						customClass: "ganttGreen"
-					}]
-				},{
-					name: " ",
-					desc: "単体テスト",
-					values: [{
-						from: "/Date(1320792000000)/",
-						to: "/Date(1320992000000)/",
-						label: "単体テスト",
-						customClass: "ganttBlue"
-					}]
-				},{
-					name: "テスト",
-					desc: "結合",
-					values: [{
-						from: "/Date(1320992000000)/",
-						to: "/Date(1321192000000)/",
-						label: "結合",
-						customClass: "ganttGreen"
-					}]
-				},{
-					name: " ",
-					desc: "システム",
-					values: [{
-						from: "/Date(1321192000000)/",
-						to: "/Date(1321392000000)/",
-						label: "システム",
-						customClass: "ganttBlue"
-					}]
-				},{
-					name: "リリース",
-					desc: "トレーニング",
-					values: [{
-						from: "/Date(1321392000000)/",
-						to: "/Date(1321692000000)/",
-						label: "トレーニング",
-						customClass: "ganttOrange"
-					}]
-				},{
-					name: " ",
-					desc: "本番",
-					values: [{
-						from: "/Date(1321692000000)/",
-						to: "/Date(1322401600000)/",
-						label: "本番",
-						customClass: "ganttOrange"
-					}]
-				}],
-				navigate: "scroll",
-				maxScale: "hours",
-				itemsPerPage: 10,
-				months : ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
-				dow : ["日", "月", "火", "水", "木", "金", "土"],
-				onItemClick: function(data) {
-					alert("進捗バーがクリックされました。");
-				},
-				onAddClick: function(dt, rowId) {
-					alert("空白部分がクリックされました。");
-				},
-				onRender: function() {
-					if (window.console && typeof console.log === "function") {
-						console.log("chart rendered");
-					}
-				}
+			var gantt_config = GanttManager.defaultProfile;
+
+			gantt_config.scale = "hours";
+			gantt_config.itemsPerPage = 15;
+
+			GanttManager.getGanttRecord("りょーくん", function(src){
+				gantt_config.source[0] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
 			});
-			prettyPrint();
+
+			GanttManager.getGanttRecord("きたば", function(src){
+				gantt_config.source[1] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("しにゃ", function(src){
+				gantt_config.source[2] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("めがね", function(src){
+				gantt_config.source[3] = GanttManager.convertSource(src);
+				gantt_config.source[3].name = "ぞえ";
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("清水", function(src){
+				gantt_config.source[4] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("ギダ", function(src){
+				gantt_config.source[5] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("林修", function(src){
+				gantt_config.source[6] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("上山", function(src){
+				gantt_config.source[7] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("三井", function(src){
+				gantt_config.source[8] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("でこぽん", function(src){
+				gantt_config.source[9] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("きーち", function(src){
+				gantt_config.source[10] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("うっちー", function(src){
+				gantt_config.source[11] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("岸", function(src){
+				gantt_config.source[12] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("門", function(src){
+				gantt_config.source[13] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
+
+			GanttManager.getGanttRecord("角", function(src){
+				gantt_config.source[14] = GanttManager.convertSource(src);
+				$(".gantt").gantt(gantt_config);
+			});
 
 		});
+
   </script>
 
     </body>
