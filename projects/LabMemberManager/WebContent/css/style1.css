@@ -33,3 +33,20 @@ td{
 #map{
 	text-align:center;
 }
+
+/*a.rbtn{
+font-size:2em;
+display:block;
+width:100px;
+padding-top:20px;
+padding-bottom:20px;
+text-align:center;
+border:2px solid;
+border-color:#aaaaaa #444444 #444444 #aaaaaa;
+background:#dcdcdc;
+}
+
+a.rbtn:hover{
+background:#c0c0c0;
+}
+*/

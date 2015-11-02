@@ -4,116 +4,34 @@
 	<meta charset="utf-8">
 	<title>井垣lab在室管理だぉ！</title>
 
-	<script type="text/javascript" src="dwr/engine.js"></script>
-	<script type="text/javascript" src="dwr/util.js"></script>
-	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="js/jquery.serialize.js"></script>
-	<script type="text/javascript" src="dwr/interface/LmmManager.js"></script>
-	<script type="text/javascript" src="js/Lmmifc.js"></script>
-	<script type="text/javascript" src="js/Lmmutil.js"></script>
-	<script type="text/javascript" src="js/stateTable.js"></script>
-	<style type="text/css">
-	.table2 th {
-		background-color: #cccccc;
-	}
-	</style>
-
-	<script>
-	function yt(){
-		Lmmifc.getMemberInfoList(function(info){
-			Lmmutil.addMemberInfoToTable($(".table2"), info);
-		});
-	}
-
-	function gozaru(){
-		var members = Lmmifc.getRegistedId();
-		for(var i = 0; i<members.length; i++){
-			Lmmutil.md(members[i],"table3");
-		}
-	}
-
-	function update(){
-		/*marshmallow*/
-		StateTable.setStateRow("りょーくん","ryo");
-		StateTable.setStateRow("しにゃ","shinya");
-		StateTable.setStateRow("きたば","kitaba");
-
-		/*mst*/
-		StateTable.setStateRow("林修","ueda");
-		StateTable.setStateRow("上山","ueyama");
-		StateTable.setStateRow("三井","mitui");
-
-		/*パッツアン*/
-		StateTable.setStateRow("ギダ","gida");
-		StateTable.setStateRow("めがね","kawazoe");
-		StateTable.setStateRow("清水","shimizu");
-
-		/*thallium*/
-		StateTable.setStateRow("でこぽん","でこぽん");
-		StateTable.setStateRow("きーち","きーち");
-		StateTable.setStateRow("うっちー","うっちー");
-
-	}
-
-
-	var gozagoza = function(){
-		alert("鼻毛真拳奥義\n「お・す・ぎ」とみせかけて「ピーコ」！！");
-	}
-	</script>
-
+	<link href="css/style2.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
-	<h3>在室管理しまっせ！</h3>
+<body id="page_container">
+	<div id="header">
+	<h1>在室管理しまっせ！</h1>
 	<i>Version: record-system</i>
+	</div>
 
 	<hr>
-	<a href="http://www.jra.go.jp">絶対押すな！</a>
-	<span id="osugi"></span>
-
-<!--  	<h2>ここから選べよ！</h2>
-	<br>
-	<br>
--->
-<!--
-	<select name="kanri">
-	<option value="in" selected>在室</option>
-	<option value="zyugyo" selected>授業</option>
-	<option value="shop" selected>コンビニ・買い物</option>
-	<option value="out" selected>帰宅</option>
-    </select>
-    <input type="submit" value="送信">
--->
+	<a href="http://www.jra.go.jp">絶対押すな！①</a>
+	<a href="http://www.amazon.co.jp/%E5%8F%97%E9%A8%93%E5%BF%85%E8%A6%81%E8%AB%96-%E4%BA%BA%E7%94%9F%E3%81%AE%E5%9F%BA%E7%A4%8E%E3%81%AF%E5%8F%97%E9%A8%93%E3%81%A7%E4%BD%9C%E3%82%8A%E5%BE%97%E3%82%8B-%E9%9B%86%E8%8B%B1%E7%A4%BE%E6%96%87%E5%BA%AB-%E6%9E%97-%E4%BF%AE/dp/4087453723/ref=sr_1_1?ie=UTF8&qid=1446018793&sr=8-1&keywords=%E6%9E%97%E4%BF%AE">絶対押すな！②</a>
 	<hr>
 
-	<button onclick="gozagoza()">趣があるなぁ</button>
-	<button onclick="update()">更新</button>
+		<br>
+		<a class="lbtn1"  href="gantt.html">ゼミ室在室ガントチャートグラフ</a>
+		<br>
+		<br>
+		<a class="lbtn2"  href="stateview.html">在室状況システム</a>
+		<br>
+		<br>
+		<a class="lbtn3"  href="map.html">ゼミマップ</a>
+		<br>
+		<br>
+		<a href="idview.html">.</a>
+		<a class="lbtn4"  href="raspiFaces.html">顔写真</a>
+		<br>
+		<br>
 
-	<table class="table2" border=1>
-	<col span="1" style="width:2cm;height:2cm">
-	<col span="6" style="width:2cm;height:2cm">
-	<tr><th>なまえ</th><th>在室</th><th>授業</th><th>コンビニ 買い物</th><th>帰宅</th></tr>
-	<tr id=ryo><td>りょーくん</td><td></td><td></td><td></td><td></td></tr>
-	<tr id=shinya><td>しにゃ</td><td></td><td></td><td></td><td></td></tr>
-	<tr id=kitaba><td>きたば</td><td></td><td></td><td></td><td></td></tr>
-    <tr id=ueda><td>林修</td><td></td><td></td><td></td><td></td></tr>
-    <tr id=ueyama><td>上山</td><td></td><td></td><td></td><td></td></tr>
-    <tr id=mitui><td>三井</td><td></td><td></td><td></td><td></td></tr>
-    <tr id=gida><td>ギダ</td><td></td><td></td><td></td><td></td></tr>
-    <tr id=kawazoe><td>めがね</td><td></td><td></td><td></td><td></td></tr>
-    <tr id=shimizu><td>清水</td><td></td><td></td><td></td><td></td></tr>
-    <tr id=でこぽん><td>でこぽん</td><td></td><td></td><td></td><td></td></tr>
-    <tr id=きーち><td>きーち</td><td></td><td></td><td></td><td></td></tr>
-    <tr id=うっちー><td>うっちー</td><td></td><td></td><td></td><td></td></tr>
-
-	</table>
-
-	<hr>
-
-	<table id="table3"class="table2" border=1>
-	<col span="1" style="width:2cm;height:2cm">
-	<col span="6" style="width:2cm;height:2cm">
-	<tr><th>なまえ</th><th>在室</th><th>授業</th><th>コンビニ 買い物</th><th>帰宅</th></tr>
-	</table>
 </body>
 </html>

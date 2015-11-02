@@ -1,0 +1,81 @@
+#page_container {
+	width: 800px;
+	margin: 0 auto;
+	background-color: floralwhite;
+}
+
+#header {
+	color: dimgray;
+}
+
+hr{
+	border: 1px solid;
+}
+
+a.lbtn1{
+font-size:2em;
+display:block;
+width:800px;
+padding-top:20px;
+padding-bottom:20px;
+text-align:center;
+border:2px solid;
+border-color:#aaaaaa #444444 #444444 #aaaaaa;
+background:#ffff00;
+}
+
+a.lbtn1:hover{
+background:#ffd700;
+}
+
+
+a.lbtn2{
+font-size:2em;
+display:block;
+width:800px;
+padding-top:20px;
+padding-bottom:20px;
+text-align:center;
+border:2px solid;
+border-color:#aaaaaa #444444 #444444 #aaaaaa;
+background:#7cfc00;
+}
+
+a.lbtn2:hover{
+background:#32cd32;
+}
+
+
+a.lbtn3{
+font-size:2em;
+display:block;
+width:800px;
+padding-top:20px;
+padding-bottom:20px;
+text-align:center;
+border:2px solid;
+border-color:#aaaaaa #444444 #444444 #aaaaaa;
+background:#ffb6c1;
+}
+
+a.lbtn3:hover{
+background:#ffc0cb;
+}
+
+a.lbtn4{
+font-size:2em;
+display:block;
+width:800px;
+padding-top:20px;
+padding-bottom:20px;
+text-align:center;
+border:2px solid;
+border-color:#aaaaaa #444444 #444444 #aaaaaa;
+background:#ba55d3;
+}
+
+a.lbtn4:hover{
+background:#6a5acd;
+}
+
+
