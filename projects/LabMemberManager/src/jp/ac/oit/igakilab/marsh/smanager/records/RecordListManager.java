@@ -12,7 +12,7 @@ import jp.ac.oit.igakilab.marsh.util.DebugLog;
 
 public class RecordListManager {
 //スタティック変数
-	public static String CSV_DIR = "records/";
+	public static String CSV_DIR = "LabMemberManager/records/";
 	public static int BUFFER_LENGTH = 200;
 
 //スタティックメソッド
