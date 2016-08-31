@@ -27,7 +27,7 @@ public class MemberStateManager {
 	public static StateList DEFAULT_SLIST= CommonStateSet.LIST;
 
 	/*設定ファイル*/
-	public static String CONFIG_DIR = "config/";
+	public static String CONFIG_DIR = "LabMemberManager/config/";
 	public static String CONF_MEMBER_FILE = CONFIG_DIR + "members.xml";
 
 
