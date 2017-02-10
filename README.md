@@ -56,6 +56,11 @@ C:\ -- pleiades4.5 -- eclipse -- ...
 1. ルート・ディレクトリーの選択の「参照」をクリックし、webapplictionリポジトリの「Projects」フォルダを選択する。
 1. プロジェクト一覧より「LabMemberManager」プロジェクトのみにチェックを入れ、「完了」をクリックする。
 
+### raspicamのセットアップ  
+
+1. gooogledrive内の研究室マニュアルと http://www.akakagemaru.info/port/windows10-ipaddress.html を参考に、tomcatを動作させるマシンのIPアドレスを固定する。  
+1. https://github.com/igakilab/raspicam のREADME.md通りにraspberry piを設定し、raspicamをセットアップする。  
+
 ### ビルドとアプリケーションの実行
 
 1. eclipseのパッケージエクスプローラより、「LabMemberManager」プロジェクト直下の「build.xml」を右クリックする。
